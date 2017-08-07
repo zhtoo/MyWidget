@@ -43,28 +43,29 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
      */
     private void initItemData() {
         //外层数据
-        parentList = new String[]{"客户信息表", "客户需求表", "上传借款信息表照片"};
+        parentList = new String[]{"我会的语言", "开发语言", "开发工具"};
 
         List<String> childrenList1 = new ArrayList<>();
         List<String> childrenList2 = new ArrayList<>();
         List<String> childrenList3 = new ArrayList<>();
 
         //里层条目独居
-        childrenList1.add("个人信息");
-        childrenList1.add("个人配偶信息");
-        childrenList1.add("共同借款人信息/保证人信息");
-        childrenList1.add("配偶信息");
-        childrenList1.add("紧急联系人信息");
-        childrenList1.add("签字及日期");
+        childrenList1.add("java");
+        childrenList1.add("kotlin");
+        childrenList1.add("JavaScript");
+        childrenList1.add("c++");
 
-        childrenList2.add("您的借款需求");
-        childrenList2.add("*您的房产信息1");
-        childrenList2.add("您的房产信息2");
-        childrenList2.add("*您的车辆信息1");
-        childrenList2.add("您的车辆信息2");
-        childrenList2.add("申请人签字及日期");
+        childrenList2.add("java");
+        childrenList2.add("c#");
+        childrenList2.add("c++");
+        childrenList2.add("c");
+        childrenList2.add("JavaScript");
+        childrenList2.add("PHP");
+        childrenList2.add("Python");
+        childrenList2.add("VB");
 
-        childrenList3.add("我就是占位子的");
+        childrenList3.add("Android Studio");
+
 
         dataset.put(parentList[0], childrenList1);
         dataset.put(parentList[1], childrenList2);
