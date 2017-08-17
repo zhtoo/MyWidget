@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<!-- saved from url=(0126)http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&utm_content=note&utm_medium=pc_all_hots&utm_source=recommendation -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="1.前言 上回咱们说到ViewRootImpl.performTraversals()这个方法，从这里开始，会进入真正的View的绘制流程。第一次看的同学先去隔壁我奶奶都能懂的UI绘制流程（上）！汲取预备知识，剩下的同学系好安全带，发车啦！ 2.Measure 2.1MeasureSpec 我们从performTraversals()开始参观，发现一上来就有个叫childWidthMeasu...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/14736226">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="我奶奶都能懂的UI绘制流程（下）！" property="twitter:title">
+  <meta content="1.前言 上回咱们说到ViewRootImpl.performTraversals()这个方法，从这里开始，会进入真正的View的绘制流程。第一次看的同学先去隔壁我奶奶都能懂的UI绘制流程（上）！汲取预备知识，剩下的同学系好安全带，发车啦！ 2.Measure 2.1MeasureSpec 我们从performTraversals()开始参观，发现一上来就有个叫childWidthMeasureSpec的玩意儿 从名字上可以猜测，这是用来在测量时确定测量方式的。啥意思？在Android中，控件的大小有三种选择方式，match_parent，wrap_content以及具体的值。想一想，你..." property="twitter:description">
+  <meta content="http://www.jianshu.com/p/112eab224239" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="我奶奶都能懂的UI绘制流程（下）！">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://www.jianshu.com/p/112eab224239">
+  <meta property="og:description" content="1.前言 上回咱们说到ViewRootImpl.performTraversals()这个方法，从这里开始，会进入真正的View的绘制流程。第一次看的同学先去隔壁我奶奶都能懂的UI绘制流程（上）...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/14736226">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/14736226">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>我奶奶都能懂的UI绘制流程（下）！ - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="RXlNJAGCv2peRnW5dOnmyQpm8cRJtTXsCUSw2ZyoWUqnm/Q4+itl36hx/8SsEqRnoCdVA6zxHNI6g8f2J+r1uQ==">
+
+  <link rel="stylesheet" media="all" href="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/web-82f578aaf312ee8088a8.css">
+  
+  <link rel="stylesheet" media="all" href="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/entry-1292778a24e19c27eb4e.css">
+
+  <link href="http://cdn2.jianshu.io/assets/favicons/favicon-783beb88ed621ceab614de960376ac0c.ico" rel="icon">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/57-47624b2e2161e8eb144462c85db0a5ff.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/72-c00cde7cf98fc49e50cbb3ee1dcd5804.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/76-e8af0bdeaf1ba31e303b1fde8b5e66c4.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/114-f4c78569bbf1977e8382a5fd90c9237a.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/120-cf10c3711dba269522743729efe66bbc.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/152-7bd60457b5f3ecbf1343f0e6241be4f8.png" sizes="152x152">
+<link rel="stylesheet" href="blob:http://www.jianshu.com/ca273622-89e8-4206-9c3c-a6a5ff60febd"></head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="http://www.jianshu.com/"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/logo-58fd04f6f0de908401aa561cda6a0688.png" alt="Logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="http://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" href="http://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" href="http://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="">
+              <a href="http://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="">
+              <a class="app-download-btn" href="http://www.jianshu.com/apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="http://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div class="post">
+    <div class="article">
+        <h1 class="title">我奶奶都能懂的UI绘制流程（下）！</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="http://www.jianshu.com/u/dc60226397d1">
+            <img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/011d3fb3-d8e0-403b-938f-9dc82941c518.jpg" alt="144">
+</a>          <div class="info">
+            <span class="tag">作者</span>
+            <span class="name"><a href="http://www.jianshu.com/u/dc60226397d1">吴愣</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time">2017.07.25 14:56</span>
+              <span class="wordage">字数 2838</span>
+            <span class="views-count">阅读 607</span><span class="comments-count">评论 3</span><span class="likes-count">喜欢 13</span><span class="rewards-count ">赞赏 2</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+        <!-- -->
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <h2><strong>1.前言</strong></h2>
+<p>上回咱们说到<code>ViewRootImpl.performTraversals()</code>这个方法，从这里开始，会进入真正的View的绘制流程。第一次看的同学先去隔壁<a href="http://www.jianshu.com/p/0bd672626c8d" target="_blank">我奶奶都能懂的UI绘制流程（上）！</a>汲取预备知识，剩下的同学系好安全带，发车啦！</p>
+<h2><strong>2.Measure</strong></h2>
+<h3><strong>2.1MeasureSpec</strong></h3>
+<p>我们从<code>performTraversals()</code>开始参观，发现一上来就有个叫<code>childWidthMeasureSpec</code>的玩意儿</p>
+<pre class="hljs undefined"><code>int childWidthMeasureSpec = getRootMeasureSpec(mWidth, lp.width);
+int childHeightMeasureSpec = getRootMeasureSpec(mHeight, lp.height);   
+// Ask host how big it wants to be
+performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);</code></pre>
+<p>从名字上可以猜测，这是用来在测量时确定测量方式的。啥意思？在Android中，控件的大小有三种选择方式，match_parent，wrap_content以及具体的值。想一想，你叫系统wrap_content，它哪知道该怎么wrap_content，content有多大？父布局给它的空间又有多大？</p>
+<p>所以这时候就需要MeasureSpec出场了。</p>
+<p>在Measure流程中，系统将View的LayoutParams根据父容器所施加的规则转换成对应的MeasureSpec，在onMeasure中根据这个MeasureSpec来确定view的测量宽高。</p>
+<p>下面来具体看看这个类</p>
+<pre class="hljs undefined"><code> public static class MeasureSpec {
+        private static final int MODE_SHIFT = 30;
+        private static final int MODE_MASK  = 0x3 &lt;&lt; MODE_SHIFT;
+
+        /** @hide */
+        @IntDef({UNSPECIFIED, EXACTLY, AT_MOST})
+        @Retention(RetentionPolicy.SOURCE)
+        public @interface MeasureSpecMode {}
+
+        /**
+         * Measure specification mode: The parent has not imposed any constraint
+         * on the child. It can be whatever size it wants.
+         */
+        public static final int UNSPECIFIED = 0 &lt;&lt; MODE_SHIFT;
+
+        /**
+         * Measure specification mode: The parent has determined an exact size
+         * for the child. The child is going to be given those bounds regardless
+         * of how big it wants to be.
+         */
+        public static final int EXACTLY     = 1 &lt;&lt; MODE_SHIFT;
+
+        /**
+         * Measure specification mode: The child can be as large as it wants up
+         * to the specified size.
+         */
+        public static final int AT_MOST     = 2 &lt;&lt; MODE_SHIFT;
+        ...</code></pre>
+<p>MeasureSpec是一个32位的int型数值，高2位表示mode，低30位表示size。</p>
+<p>可以很清晰的看到，MeasureSpec有以下三种类型</p>
+<pre class="hljs undefined"><code>1.EXACTLY ：父容器已经测量出所需要的精确大小，这也是childview的最终大小
+——match_parent，精确值
+
+2.ATMOST : child view最终的大小不能超过父容器的给的大小
+——wrap_content 
+
+3.UNSPECIFIED: 不确定，源码内部使用
+——一般在ScrollView，ListView</code></pre>
+<p>但是开头的<code>MODE_MASK  = 0x3 &lt;&lt; MODE_SHIFT</code>又是什么鬼？</p>
+<p>这就涉及到与或非操作了，这玩意儿不是给人看的，这句话没毛病，他们是给计算机看、以及程序员看的，程序员真的不是人。</p>
+<p>从或("|")操作开始，在这里是用来将mode与size结合起来。</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/4131410-d4e8a7d500f443cf.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-d4e8a7d500f443cf.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">位运算或.png</div>
+</div>
+<p>接着看与("&amp;")，<code>MODE_MASK</code>的作用就类似于网络中的掩码，是用来将内容过滤出来的，此处是用来获取mode。</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/4131410-9b5e1419967eee70.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-9b5e1419967eee70.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">位运算与.png</div>
+</div>
+<p>最后看与非("~&amp;")，跟上面的与操作类似也是过滤内容，这里是用来将size过滤出来</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/4131410-998425a9f3cdeabb.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-998425a9f3cdeabb.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">位运算与非.png</div>
+</div>
+<p>到这里还是懵逼的道友，建议你们去学习下计算机组成原理相关的知识，在这里推荐下<code>《程序是怎样跑起来的》(日)矢泽久雄著</code>，感觉很棒。大家放心阅读，我没有淘宝链接。</p>
+<h3><strong>2.2.getRootMeasureSpec</strong></h3>
+<p>现在来看看<code>int childWidthMeasureSpec = getRootMeasureSpec(mWidth, lp.width)</code>，我们需要注意第二个参数，找到他的起源：</p>
+<pre class="hljs undefined"><code> WindowManager.LayoutParams lp = mWindowAttributes;</code></pre>
+<pre class="hljs undefined"><code>final WindowManager.LayoutParams mWindowAttributes = new WindowManager.LayoutParams();</code></pre>
+<pre class="hljs undefined"><code>public LayoutParams() {
+            super(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            ...
+        }</code></pre>
+<p> 从上面的代码可以看到，lp会在初始化时调用父类的构造函数，其默认值是<code>LayoutParams.MATCH_PARENT</code>。现在回到<code>getRootMeasureSpec(mWidth, lp.width)</code>中，查阅这个方法完整的代码</p>
+<pre class="hljs undefined"><code>private static int getRootMeasureSpec(int windowSize, int rootDimension) {
+        int measureSpec;
+        switch (rootDimension) {
+
+        case ViewGroup.LayoutParams.MATCH_PARENT:
+            // Window can't resize. Force root view to be windowSize.
+            measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.EXACTLY);
+            break;
+        case ViewGroup.LayoutParams.WRAP_CONTENT:
+            // Window can resize. Set max size for root view.
+            measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.AT_MOST);
+            break;
+        default:
+            // Window wants to be an exact size. Force root view to be that size.
+            measureSpec = MeasureSpec.makeMeasureSpec(rootDimension, MeasureSpec.EXACTLY);
+            break;
+        }
+        return measureSpec;
+    }</code></pre>
+<p>可以看到，子View的MeasureSpec是由父View的LayoutParams决定的，这里一共有三种类型，验证了之前对MeasureSpec的总结。</p>
+<p>而此时我们传进来的参数为<code>LayoutParams.MATCH_PARENT</code>，因此返回的<code>childWidthMeasureSpec</code>就是<code>MeasureSpec.EXACTLY</code>。</p>
+<h3><strong>2.3.View.measure()</strong></h3>
+<p>准备好了参数，下面就来看看<code>performMeasure(childWidthMeasureSpec, childHeightMeasureSpec)</code>，该方法会调用<code>mView.measure(childWidthMeasureSpec, childHeightMeasureSpec)</code>，这个mView就是decorview，因此最终会调用view的<code>measure()</code>方法。</p>
+<pre class="hljs undefined"><code>public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
+        boolean optical = isLayoutModeOptical(this);
+        if (optical != isLayoutModeOptical(mParent)) {
+            Insets insets = getOpticalInsets();
+            int oWidth  = insets.left + insets.right;
+            int oHeight = insets.top  + insets.bottom;
+            widthMeasureSpec  = MeasureSpec.adjust(widthMeasureSpec,  optical ? -oWidth  : oWidth);
+            heightMeasureSpec = MeasureSpec.adjust(heightMeasureSpec, optical ? -oHeight : oHeight);
+        }
+
+        ...
+        if (mMeasureCache == null) mMeasureCache = new LongSparseLongArray(2);
+
+        ...
+
+        if (forceLayout || needsLayout) {
+            ...
+            if (cacheIndex &lt; 0 || sIgnoreMeasureCache) {
+                // measure ourselves, this should set the measured dimension flag back
+                onMeasure(widthMeasureSpec, heightMeasureSpec);
+                mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;
+            } else {
+                long value = mMeasureCache.valueAt(cacheIndex);
+                // Casting a long to int drops the high 32 bits, no mask needed
+                setMeasuredDimensionRaw((int) (value &gt;&gt; 32), (int) value);
+                mPrivateFlags3 |= PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;
+            }
+
+             ...
+        }
+
+        mOldWidthMeasureSpec = widthMeasureSpec;
+        mOldHeightMeasureSpec = heightMeasureSpec;
+
+        mMeasureCache.put(key, ((long) mMeasuredWidth) &lt;&lt; 32 |
+                (long) mMeasuredHeight &amp; 0xffffffffL); // suppress sign extension
+    }</code></pre>
+<p>这个方法比较长，我们从上到下慢慢看。</p>
+<p>首先看<code>optical</code>，这个就是光阴效果，在测量时，阴影也是要占空间的 。</p>
+<p>接着看<code>mMeasureCache</code>，这是用来处理测量缓存的。结合后面的代码可以看到，测量前会先尝试着从<code>mMeasureCache</code>取出缓存，测量后又会将测量结果放置到缓存中。</p>
+<p>最后<code>onMeasure(widthMeasureSpec, heightMeasureSpec)</code>是重点。在整个<code>measure()</code>方法中，我们并没有看到具体的测量代码，因为不同的View其测量方法也是不同的，需要由子类自己去决定。</p>
+<p>这是一个典型的模板方法模式（设计模式之一，以后将Android架构的时候填坑），其中<code>measure()</code>是模板，由于所有控件最终都是继承自View的，因此只需要在View中实现<code>measure()</code>就可以了；而<code>onMeasure()</code>则需要由子View自定义，因此子View会重写<code>onMeasure()</code>方法。</p>
+<h3><strong>2.4.View.onMeasure()</strong></h3>
+<p>在阅读decorview的<code>onMeasure()</code>之前，我们先来看看View的<code>onMeasure()</code>方法</p>
+<pre class="hljs undefined"><code> protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),
+                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));
+    }</code></pre>
+<p>很简单,只是调用了<code>setMeasuredDimension</code></p>
+<pre class="hljs undefined"><code>protected final void setMeasuredDimension(int measuredWidth, int measuredHeight) {
+        boolean optical = isLayoutModeOptical(this);
+        if (optical != isLayoutModeOptical(mParent)) {
+            Insets insets = getOpticalInsets();
+            int opticalWidth  = insets.left + insets.right;
+            int opticalHeight = insets.top  + insets.bottom;
+
+            measuredWidth  += optical ? opticalWidth  : -opticalWidth;
+            measuredHeight += optical ? opticalHeight : -opticalHeight;
+        }
+        setMeasuredDimensionRaw(measuredWidth, measuredHeight);
+    }</code></pre>
+<p>可以看到这里也对光阴效果进行了处理，最后调用<code>setMeasuredDimensionRaw()</code></p>
+<pre class="hljs undefined"><code>private void setMeasuredDimensionRaw(int measuredWidth, int measuredHeight) {
+        mMeasuredWidth = measuredWidth;
+        mMeasuredHeight = measuredHeight;
+
+        mPrivateFlags |= PFLAG_MEASURED_DIMENSION_SET;
+    }</code></pre>
+<p>在这里，我们对<code>mMeasuredWidth</code>以及<code>mMeasuredHeight</code>进行赋值。</p>
+<p>有没有想起来什么？以前大家会在onCreate()方法中通过<code>getMeasuredXXX()</code>来获取控件的宽高，结果失败了，为什么？以<code>getMeasuredHeight()</code>为例</p>
+<pre class="hljs undefined"><code>public final int getMeasuredHeight() {
+        return mMeasuredHeight &amp; MEASURED_SIZE_MASK;
+    }</code></pre>
+<p>这里会返回<code>mMeasuredHeight</code> ，而<code>mMeasuredHeight</code>是在<code>onResume()</code>中通过ViewRootImpl进行一系列复杂的调用最终在View的<code>setMeasuredDimensionRaw()</code>中被赋值，所以在<code>onCreate()</code>中自然是获取不到的。</p>
+<p>回到上面的方法中，在默认的情况下，这个<code>measuredWidth</code>和<code>measuredHeight</code>又是哪来的呢？我们来看看<code>getSuggestedMinimumWidth()</code>做了什么</p>
+<pre class="hljs undefined"><code>  protected int getSuggestedMinimumWidth() {
+        return (mBackground == null) ? mMinWidth : max(mMinWidth, mBackground.getMinimumWidth());
+    }</code></pre>
+<p>这个<code>mMinWidth</code>得记住它，在自定义控件时是很关键的一个数值。一般都需要为其赋值，可以通过代码与XML两种方式。</p>
+<h3><strong>2.5.FrameLayout.onMeasure()</strong></h3>
+<p>说了一大堆废话，现在我们回去看看DecorView的<code>onMeasure()</code>方法。</p>
+<p>遗憾的是，这里面也没做具体的测量行为，反而是调用了<code>super.onMeasure(widthMeasureSpec, heightMeasureSpec)</code>，也就是FrameLayout的<code>onMeasure()</code>。</p>
+<pre class="hljs undefined"><code>@Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int count = getChildCount();
+        ...
+        for (int i = 0; i &lt; count; i++) {
+            final View child = getChildAt(i);
+            if (mMeasureAllChildren || child.getVisibility() != GONE) {
+                measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
+                final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+                maxWidth = Math.max(maxWidth,
+                        child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);
+                maxHeight = Math.max(maxHeight,
+                        child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);
+                childState = combineMeasuredStates(childState, child.getMeasuredState());
+                ...
+                }
+            }
+        }
+        ...
+}</code></pre>
+<p>循环前获取了子View的数量，接着开始对每一个子View进行测量以获取其测量宽高。主要就是通过<code>measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0)</code>方法。</p>
+<pre class="hljs undefined"><code>protected void measureChildWithMargins(View child,
+            int parentWidthMeasureSpec, int widthUsed,
+            int parentHeightMeasureSpec, int heightUsed) {
+        final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin
+                        + widthUsed, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin
+                        + heightUsed, lp.height);
+
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }</code></pre>
+<p>是不是又有点熟悉？对啦，开始测量时，<code>performTraversals()</code>也是这样做的。</p>
+<p>首先获取<code>childWidthMeasureSpec</code>以及<code>childHeightMeasureSpec</code>，然后通过<code>child.measure(childWidthMeasureSpec, childHeightMeasureSpec)</code>完成测量。很明显这是一个迭代的过程。</p>
+<p>不同的是，<code>performTraversals()</code>获取到的是根节点的MeasureSpec，而这里要获取的是子View的MeasureSpec，因此要考虑的父View与本身两个因素.</p>
+<h4><strong>2.5.1.MeasureSpec九兄弟</strong></h4>
+<p>我们来看看<code>getChildMeasureSpec()</code>，一共有3*3=9种情况。文中我只介绍其中3种的代码</p>
+<pre class="hljs undefined"><code>  public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
+        int specMode = MeasureSpec.getMode(spec);
+        int specSize = MeasureSpec.getSize(spec);
+
+        int size = Math.max(0, specSize - padding);
+
+        int resultSize = 0;
+        int resultMode = 0;
+
+        switch (specMode) {
+        // Parent has imposed an exact size on us
+        case MeasureSpec.EXACTLY:
+            if (childDimension &gt;= 0) {
+                resultSize = childDimension;
+                resultMode = MeasureSpec.EXACTLY;
+            } else if (childDimension == LayoutParams.MATCH_PARENT) {
+                // Child wants to be our size. So be it.
+                resultSize = size;
+                resultMode = MeasureSpec.EXACTLY;
+            } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+                // Child wants to determine its own size. It can't be
+                // bigger than us.
+                resultSize = size;
+                resultMode = MeasureSpec.AT_MOST;
+            }
+            break;
+
+        ...
+        }
+        //noinspection ResourceType
+        return MeasureSpec.makeMeasureSpec(resultSize, resultMode);
+    }</code></pre>
+<p>代码结构很清楚，首先判断<code>父View</code>的MeasureSpec，如果是<code>MeasureSpec.EXACTLY</code>，则开始判断<code>子View</code>的<code>childDimension</code>。</p>
+<p>1.如果是具体的&gt;0点值，就直接将这个值赋给子View，并将类型设置为MeasureSpec.EXACTLY；<br>2.如果是LayoutParams.MATCH_PARENT，则将值设置为父容器的大小，类型为MeasureSpec.EXACTLY；<br>3.如果是LayoutParams.WRAP_CONTENT，则将值设置为父容器的大小，类型为 MeasureSpec.AT_MOST；</p>
+<p>剩下的6种情况也是类似的，代码就不展示了，直接上总结的图片</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/4131410-8ad4cf79b2139535.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-8ad4cf79b2139535.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">getChildMeasureSpec方法分析.png</div>
+</div>
+<p>这张表不用刻意去记，先想一想，你会发现确实是这么一回事儿。</p>
+<h3><strong>2.6 Measure总结</strong></h3>
+<p>子View的测量在<code>measureChildWithMargins()</code>中也终于搞定，说了这么多，UI绘制的第一步measure终于差不多了，我们来总结下吧。<br>1、View的测量<br><code>onMeasure</code>方法里面调用<code>setMeasuredDimension()</code>确定当前View的大小<br>2.、ViewGroup的测量<br>2.1、遍历测量Child，可以通过下面三个方法来遍历测量：<code>ChildmeasureChildWithMargins</code>、<code>measureChild</code>、<code>measureChildren</code><br>2.2、<code>setMeasuredDimension</code> 确定当前ViewGroup的大小</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/4131410-94bbc423707df331.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-94bbc423707df331.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">View树的源码measure流程图.png</div>
+</div>
+<h2><strong>3.Layout</strong></h2>
+<p>前面花了那么大的篇幅介绍Measure过程，现在回过头再来看Layout就会比较简单，因为他们的套路都是一样的。</p>
+<p>从<code>performLayout()</code>开始，直接调用<code>layout()</code>方法，简洁明了</p>
+<pre class="hljs undefined"><code>final View host = mView;
+...
+host.layout(0, 0, host.getMeasuredWidth(), host.getMeasuredHeight());</code></pre>
+<p>其中host就是我们的decorview，来看看最关键的<code>layout()</code>方法</p>
+<pre class="hljs undefined"><code>public void layout(int l, int t, int r, int b) {
+        if ((mPrivateFlags3 &amp; PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT) != 0) {
+            onMeasure(mOldWidthMeasureSpec, mOldHeightMeasureSpec);
+            mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;
+        }
+
+        int oldL = mLeft;
+        int oldT = mTop;
+        int oldB = mBottom;
+        int oldR = mRight;
+
+        boolean changed = isLayoutModeOptical(mParent) ?
+                setOpticalFrame(l, t, r, b) : setFrame(l, t, r, b);
+
+        if (changed || (mPrivateFlags &amp; PFLAG_LAYOUT_REQUIRED) == PFLAG_LAYOUT_REQUIRED) {
+            onLayout(changed, l, t, r, b);
+
+      ...
+    }</code></pre>
+<p>一开始，先要根据flag判断是否需要再次measure。</p>
+<p>接着，将左上右下的位置依次赋值给oldL、oldT、oldR、oldB</p>
+<p>继续，<code>boolean changed</code>的作用和<code>measure</code>中cache相似，是用来减少布局操作的。这儿是个三目运算符，根据有无光影调用不同的方法，我们以<code>setFrame(l, t, r, b)</code>为例</p>
+<pre class="hljs undefined"><code>  protected boolean setFrame(int left, int top, int right, int bottom) {
+        boolean changed = false;
+        if (mLeft != left || mRight != right || mTop != top || mBottom != bottom) {
+            changed = true;
+            ...
+            int oldHeight = mBottom - mTop;
+            int newWidth = right - left;
+            int newHeight = bottom - top;
+            boolean sizeChanged = (newWidth != oldWidth) || (newHeight != oldHeight);
+
+            // Invalidate our old position
+            invalidate(sizeChanged);
+
+            mLeft = left;
+            mTop = top;
+            mRight = right;
+            mBottom = bottom;
+            mRenderNode.setLeftTopRightBottom(mLeft, mTop, mRight, mBottom);
+            ...
+            if (sizeChanged) {
+                sizeChange(newWidth, newHeight, oldWidth, oldHeight);
+            }
+          ...
+        }
+        return changed;
+    }</code></pre>
+<p>怎么样，是不是相当的通俗易懂？就是十分常见的缓存策略。</p>
+<p>最后，<code>layout()</code>负责调用<code>onLayout(changed, l, t, r, b)</code>，用志玲姐姐的话来说，“这是一个空箱子”</p>
+<pre class="hljs undefined"><code> protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    }</code></pre>
+<p>再去看看ViewGroup的onLayout()，更绝了，是个抽象方法。也就是说，每一个View的<code>onLayout()</code>都需要自己去实现。想想也是这个道理，自己想成为什么样的人，不是自己说了算吗？<br>在这里，为了观影体验，我们以FrameLayout为例，看看他的<code>onLayout()</code>做了什么</p>
+<pre class="hljs undefined"><code>@Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        layoutChildren(left, top, right, bottom, false /* no force left gravity */);
+    }</code></pre>
+<p>一上来就是为子View布局</p>
+<pre class="hljs undefined"><code>void layoutChildren(int left, int top, int right, int bottom, boolean forceLeftGravity) {
+        final int count = getChildCount();
+        ...
+        for (int i = 0; i &lt; count; i++) {
+            final View child = getChildAt(i);
+            if (child.getVisibility() != GONE) {
+                final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+
+                final int width = child.getMeasuredWidth();
+                final int height = child.getMeasuredHeight();
+
+                int childLeft;
+                int childTop;
+
+                int gravity = lp.gravity;
+                if (gravity == -1) {
+                    gravity = DEFAULT_CHILD_GRAVITY;
+                }
+               ...
+                child.layout(childLeft, childTop, childLeft + width, childTop + height);
+            }
+        }
+    }</code></pre>
+<p><code>layoutChildren()</code>本身也很简单明了，获取子控件数量，然后循环，依次获取宽高，判断各种情况，并调用子控件的布局方法。</p>
+<p>没错就是这么简单，Layout也吹完了。</p>
+<h2><strong>4.Draw</strong></h2>
+<p>有了Measure和Layout的基础，Draw理解起来就更加简单了。<br>按照国际惯例，我们从<code>ViewRootImpl.performDraw()</code>看起</p>
+<pre class="hljs undefined"><code>private void performDraw() {
+ ...
+draw(fullRedrawNeeded);
+...</code></pre>
+<p><code>ViewRootImpl.draw()</code>又会调用<code>ViewRootImpl.drawSoftware()</code>，然后调用<code>mView.draw(canvas)</code>。我们知道mView就是DecorView，而这个方法最终就会走进到<code>View.draw()</code>方法中。</p>
+<pre class="hljs undefined"><code>public void draw(Canvas canvas) {
+        ...
+        /*
+         * Draw traversal performs several drawing steps which must be executed
+         * in the appropriate order:
+         *
+         *      1. Draw the background
+         *      2. If necessary, save the canvas' layers to prepare for fading
+         *      3. Draw view's content
+         *      4. Draw children
+         *      5. If necessary, draw the fading edges and restore layers
+         *      6. Draw decorations (scrollbars for instance)
+         */</code></pre>
+<p>太贴心了，这些注释已经说明了一切。</p>
+<p>挑重点的说，先看第一步，绘制背景。</p>
+<pre class="hljs undefined"><code> // Step 1, draw the background, if needed
+        int saveCount;
+
+        if (!dirtyOpaque) {
+            drawBackground(canvas);
+        }</code></pre>
+<p>这里有一个叫<code>dirtyOpaque</code>的标志。在自定义ViewGroup时，一般是不会调用onDraw方法的，除非设置了background。仔细想想这也是理所当然的，我没有背景，有什么好画的。这也是产生过度绘制的原因之一。</p>
+<p>稍微拓展一下，为什么说LinearLayout比RelativeLayout绘制快？其实他们在measure和layout上所花的时间是差不多的，区别就在于draw，RelativeLayout要从左右、上下两个方向绘制，而LinearLayout只需要绘制一次。</p>
+<p>第三步绘制内容也是同理，一般ViewGroup本身都不会有内容，有的只是childView。</p>
+<pre class="hljs undefined"><code> // Step 3, draw the content
+            if (!dirtyOpaque) onDraw(canvas);</code></pre>
+<p>最后看下绘制子View，这是个空方法，留给后人继承。</p>
+<pre class="hljs undefined"><code>/**
+     * Called by draw to draw the child views. This may be overridden
+     * by derived classes to gain control just before its children are drawn
+     * (but after its own view has been drawn).
+     * @param canvas the canvas on which to draw the view
+     */
+    protected void dispatchDraw(Canvas canvas) {
+
+    }</code></pre>
+<p>我们一般不会和他打招呼，draw更多的是应用在自定义View中，也就是说只要重写<code>onDraw()</code>方法即可。</p>
+<p>到此为止，Draw也说完了，整个UI绘制结束！</p>
+<h2><strong>5.实践是检验真理的唯一标准</strong></h2>
+<p>说完原理，我们来看一个应用。</p>
+<h3><strong>5.1 ScrollView与ListView不兼容问题</strong></h3>
+<p>众所周知，在ScrollView中嵌套ListView时，ListView只会显示第一行，这是为什么呢？让我们一起走进<code>ListView.onMeasure()</code>的内心世界</p>
+<pre class="hljs undefined"><code>if (heightMode == MeasureSpec.UNSPECIFIED) {
+            heightSize = mListPadding.top + mListPadding.bottom + childHeight +
+                    getVerticalFadingEdgeLength() * 2;
+        }</code></pre>
+<p>这是啥？在heightMode 为<code>MeasureSpec.UNSPECIFIED</code>时，ListView的高度竟然就只测量第一个childView的高度！</p>
+<p>再来看看ScrollView，他重写了<code>measureChildWithMargins()</code>，有这么一句话</p>
+<pre class="hljs undefined"><code>final int childHeightMeasureSpec = MeasureSpec.makeSafeMeasureSpec(
+                Math.max(0, MeasureSpec.getSize(parentHeightMeasureSpec) - usedTotal),
+                MeasureSpec.UNSPECIFIED);</code></pre>
+<p>搜滴寺内！ScrollView会将子View的<code>HeightMeasureSpec</code>设置为<code>MeasureSpec.UNSPECIFIED</code>，于是ListView到了这里就懵逼了。</p>
+<p>至于解决方法的话，重写ListView或者ScrollView都可以，是不是感觉思路很清晰？</p>
+<h2><strong>6.总结</strong></h2>
+<p>真的连你奶奶都可以懂的！</p>
+<p>完结撒花~</p>
+
+        </div>
+        <!--  -->
+
+        <div class="show-foot">
+          <a class="notebook" href="http://www.jianshu.com/nb/14349584">
+            <i class="iconfont ic-search-notebook"></i> <span>Android高级UI</span>
+</a>          <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+            © 著作权归作者所有
+          </div>
+          <div class="modal-wrap" data-report-note="">
+            <a id="report-modal">举报文章</a>
+          </div>
+        </div>
+    </div>
+
+    <!-- 文章底部作者信息 -->
+      <div class="follow-detail">
+        <div class="info">
+          <a class="avatar" href="http://www.jianshu.com/u/dc60226397d1">
+            <img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/011d3fb3-d8e0-403b-938f-9dc82941c518.jpg" alt="144">
+</a>          <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+          <a class="title" href="http://www.jianshu.com/u/dc60226397d1">吴愣</a>
+            <i class="iconfont ic-man"></i>
+        <p>写了 23266 字，被 90 人关注，获得了 185 个喜欢</p></div>
+          <div class="signature">骑马倚斜桥，满楼红袖招</div>
+      </div>
+
+      <div class="support-author"></div>
+
+    <div class="meta-bottom">
+      <div class="like"><div class="btn like-group"><div class="btn-like"><a href="http://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-like-button"><i class="iconfont ic-like"></i>喜欢</a></div> <div class="modal-wrap"><a>13</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;http://cwb.assets.jianshu.io/notes/images/14736226/weibo/image_fce674989a7f.jpg&#39;, &#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（下）！》（ 分享自 @简书 ）&#39;,&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+          <a class="share-circle" data-toggle="tooltip" href="http://cwb.assets.jianshu.io/notes/images/14736226/weibo/image_fce674989a7f.jpg" target="_blank" data-original-title="下载长微博图片">
+            <i class="iconfont ic-picture"></i>
+          </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（下）！》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（下）！》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;我奶奶都能懂的UI绘制流程（下）！&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+    <div id="vue_comment"></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="display: none;"><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39;&gt;
+                &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;http://cwb.assets.jianshu.io/notes/images/14736226/weibo/image_fce674989a7f.jpg&#39;, &#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（下）！》（ 分享自 @简书 ）&#39;,&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;http://cwb.assets.jianshu.io/notes/images/14736226/weibo/image_fce674989a7f.jpg&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-picture&quot;&gt;&lt;/i&gt;&lt;span&gt;下载长微博图片&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（下）！》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（下）！》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;http://www.jianshu.com/p/112eab224239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;我奶奶都能懂的UI绘制流程（下）！&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="http://www.jianshu.com/c/d1591c322c89?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/android.graphics.Bitmap_15f127c2.jpeg"><div class="name">Android开发</div></a><a href="http://www.jianshu.com/c/3fde3b545a35?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/android.graphics.Bitmap_3d178cba.jpeg"><div class="name">Android知识</div></a><a href="http://www.jianshu.com/c/58b4c20abf2f?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/android.graphics.Bitmap_1329dce8.jpeg"><div class="name">Android...</div></a><a href="http://www.jianshu.com/c/NEt52a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/computer_guy.jpg"><div class="name">程序员</div></a><a href="http://www.jianshu.com/c/bDHhpK?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/首页投稿.png"><div class="name">首页投稿</div></a><a href="http://www.jianshu.com/c/036e5041a90a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/android.graphics.Bitmap_5522afc.jpeg"><div class="name">Android</div></a><a href="http://www.jianshu.com/c/e3e7d9e32134?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/1500740677.jpg"><div class="name">自定义views </div></a> <a class="show-more">
+        展开更多
+        <i class="iconfont ic-show"></i></a></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="14736226"></div>
+</div>
+
+    <script src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/push.js.下载"></script><script src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/hm.js.下载"></script><script async="" src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/analytics.js.下载"></script><script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"uuid":"f3eedfd8-94e0-44a1-9a9e-ceb43ec1b2df"},"note":{"id":14736226,"slug":"112eab224239","user_id":4131410,"notebook_id":14349584,"commentable":true,"likes_count":13,"views_count":607,"public_wordage":2838,"comments_count":3,"total_rewards_count":2,"is_author":false,"author":{"nickname":"吴愣","total_wordage":23266,"followers_count":90,"total_likes_count":185}}}</script>
+    
+    <script src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/babel-polyfill-0935db243d86a29bc890.js.下载"></script>
+    <script src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/web-base-9c4ae61f9277531477b4.js.下载"></script>
+<script src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/web-82f578aaf312ee8088a8.js.下载"></script>
+    
+    <script src="./我奶奶都能懂的UI绘制流程（下）！ - 简书_files/entry-1292778a24e19c27eb4e.js.下载"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-35169517-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>

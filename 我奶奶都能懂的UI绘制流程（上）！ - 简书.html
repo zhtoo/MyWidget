@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<!-- saved from url=(0126)http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&utm_content=note&utm_medium=pc_all_hots&utm_source=recommendation -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="1.前言 从今天开始，慢慢整理Android高级UI的知识，涉及到各种酷炫狂拽吊炸天的特效。 之前写过一篇Window一本满足算是这个专题的预备知识，本文就基于这篇文章，继续往下探索UI的绘制流程。按照国际惯例，我们开始源码的分析，毕竟只有把原理给搞清楚了，才能进行各种天马行空的创作。 2.setContentView 在关于Window的学习中，我们知道每个Activity都有自己的一个W...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/14541847">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="我奶奶都能懂的UI绘制流程（上）！" property="twitter:title">
+  <meta content="1.前言 从今天开始，慢慢整理Android高级UI的知识，涉及到各种酷炫狂拽吊炸天的特效。 之前写过一篇Window一本满足算是这个专题的预备知识，本文就基于这篇文章，继续往下探索UI的绘制流程。按照国际惯例，我们开始源码的分析，毕竟只有把原理给搞清楚了，才能进行各种天马行空的创作。 2.setContentView 在关于Window的学习中，我们知道每个Activity都有自己的一个Window负责界面的显示。PhoneWindow是抽象Window唯一的实现类。调用Activity的setContentView()实际上是调用了PhoneWindow的setContentView..." property="twitter:description">
+  <meta content="http://www.jianshu.com/p/0bd672626c8d" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="我奶奶都能懂的UI绘制流程（上）！">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://www.jianshu.com/p/0bd672626c8d">
+  <meta property="og:description" content="1.前言 从今天开始，慢慢整理Android高级UI的知识，涉及到各种酷炫狂拽吊炸天的特效。 之前写过一篇Window一本满足算是这个专题的预备知识，本文就基于这篇文章，继续往下探索UI的绘制流...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/14541847">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/14541847">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>我奶奶都能懂的UI绘制流程（上）！ - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="h8geCHHbm4wbFhkjZDI/8wA3Z0b3W8kwnlvjmlqHVMZlKqcUinJBOe0hk168yX1dqnbDgRIf4A6tnJS14cX4NQ==">
+
+  <link rel="stylesheet" media="all" href="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/web-82f578aaf312ee8088a8.css">
+  
+  <link rel="stylesheet" media="all" href="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/entry-1292778a24e19c27eb4e.css">
+
+  <link href="http://cdn2.jianshu.io/assets/favicons/favicon-783beb88ed621ceab614de960376ac0c.ico" rel="icon">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/57-47624b2e2161e8eb144462c85db0a5ff.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/72-c00cde7cf98fc49e50cbb3ee1dcd5804.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/76-e8af0bdeaf1ba31e303b1fde8b5e66c4.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/114-f4c78569bbf1977e8382a5fd90c9237a.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/120-cf10c3711dba269522743729efe66bbc.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/152-7bd60457b5f3ecbf1343f0e6241be4f8.png" sizes="152x152">
+<link rel="stylesheet" href="blob:http://www.jianshu.com/7bb1adeb-dbd7-43f5-b1af-d54fe303a4e7"></head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="http://www.jianshu.com/"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/logo-58fd04f6f0de908401aa561cda6a0688.png" alt="Logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="http://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" href="http://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" href="http://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="">
+              <a href="http://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="">
+              <a class="app-download-btn" href="http://www.jianshu.com/apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="http://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div class="post">
+    <div class="article">
+        <h1 class="title">我奶奶都能懂的UI绘制流程（上）！</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="http://www.jianshu.com/u/dc60226397d1">
+            <img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/011d3fb3-d8e0-403b-938f-9dc82941c518.jpg" alt="144">
+</a>          <div class="info">
+            <span class="tag">作者</span>
+            <span class="name"><a href="http://www.jianshu.com/u/dc60226397d1">吴愣</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2017.08.09 19:26">2017.07.19 14:20*</span>
+              <span class="wordage">字数 3215</span>
+            <span class="views-count">阅读 799</span><span class="comments-count">评论 16</span><span class="likes-count">喜欢 28</span><span class="rewards-count ">赞赏 2</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+        <!-- -->
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <h2><strong>1.前言</strong></h2>
+<p>从今天开始，慢慢整理Android高级UI的知识，涉及到各种酷炫狂拽吊炸天的特效。</p>
+<p>之前写过一篇<a href="http://www.jianshu.com/p/1d6b264174fb" target="_blank">Window一本满足</a>算是这个专题的预备知识，本文就基于这篇文章，继续往下探索UI的绘制流程。按照国际惯例，我们开始源码的分析，毕竟只有把原理给搞清楚了，才能进行各种天马行空的创作。</p>
+<h2><strong>2.setContentView</strong></h2>
+<p>在关于Window的学习中，我们知道每个Activity都有自己的一个Window负责界面的显示。PhoneWindow是抽象Window唯一的实现类。调用Activity的<code>setContentView()</code>实际上是调用了PhoneWindow的<code>setContentView()</code>：</p>
+<pre class="hljs undefined"><code>  public void setContentView(int layoutResID) {
+        if (mContentParent == null) {
+            installDecor();
+        } 
+      ...
+        if (hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
+            final Scene newScene = Scene.getSceneForLayout(mContentParent, layoutResID,
+                    getContext());
+            transitionTo(newScene);
+        } else {
+            mLayoutInflater.inflate(layoutResID, mContentParent);
+        }
+      ...
+    }
+</code></pre>
+<p>最开始的时候，判断mContentParent是否为空，为空则执行<code>installDecor()</code>，从名字上可以看出这个方法与DecorView的初始化有关。接下来通过<code>FEATURE_CONTENT_TRANSITIONS</code>判断是否需要执行过场动画，需要则执行，不需要则直接通过mLayoutInflater将XML资源加载到mContentParent中。</p>
+<p>关于mContentParent和mDecor的关系，直接看官方注释，我就不翻译了。</p>
+<pre class="hljs undefined"><code>    // This is the top-level view of the window, containing the window decor.
+    private DecorView mDecor;
+
+    // This is the view in which the window contents are placed. It is either
+    // mDecor itself, or a child of mDecor where the contents go.
+    private ViewGroup mContentParent;
+</code></pre>
+<pre class="hljs undefined"><code>if (mDecor == null) {
+            mDecor = generateDecor();
+            mDecor.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+         ...
+        }
+</code></pre>
+<p>接着来看看先前猜测的<code>installDecor()</code>方法到底做了些啥</p>
+<pre class="hljs undefined"><code> private void installDecor() {
+        if (mDecor == null) {
+            mDecor = generateDecor();
+            ...
+        }
+        if (mContentParent == null) {
+            mContentParent = generateLayout(mDecor);
+            ...
+</code></pre>
+<p>当mDecor为空时<code>generateDecor()</code>会直接新建一个DecorView对象并将其返回，注意，DecorView本质上就是一个FrameLayout。</p>
+<p>接着当mContentParent为空时，执行<code>generateLayout(mDecor)</code>并将返回值赋给mContentParent，这是一个重量级的方法，主要包含5块内容</p>
+<p>第一步，通过<code>getWindowStyle()</code>获取当前Window的TypedArray 。熟悉自定义控件的同学对TypedArray一定是相当熟悉的，他可以用来获取布局xml中的信息 。</p>
+<pre class="hljs undefined"><code>TypedArray a = getWindowStyle();
+</code></pre>
+<p>第二步，通过获取到的TypedArray对Feature状态位进行设置，比如判断当前Window是否为悬浮状态，是否全屏，是否显示ActionBar，是否透明等等</p>
+<pre class="hljs undefined"><code>        if (mIsFloating) {
+            setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            setFlags(0, flagsToUpdate);
+        } else {
+            setFlags(FLAG_LAYOUT_IN_SCREEN|FLAG_LAYOUT_INSET_DECOR, flagsToUpdate);
+        }
+
+        if (a.getBoolean(R.styleable.Window_windowNoTitle, false)) {
+            requestFeature(FEATURE_NO_TITLE);
+        } else if (a.getBoolean(R.styleable.Window_windowActionBar, false)) {
+            // Don't allow an action bar if there is no title.
+            requestFeature(FEATURE_ACTION_BAR);
+        }
+
+      ....省略剩下9999种判断...
+</code></pre>
+<p>第三步，通过设置好的Feature获取对应的layoutResource，这些layoutResource都是Android系统原先就提供好的。</p>
+<pre class="hljs undefined"><code>   if ((features &amp; (1 &lt;&lt; FEATURE_SWIPE_TO_DISMISS)) != 0) {
+            layoutResource = R.layout.screen_swipe_dismiss;
+        } else if ((features &amp; ((1 &lt;&lt; FEATURE_LEFT_ICON) | (1 &lt;&lt; FEATURE_RIGHT_ICON))) != 0) {
+            if (mIsFloating) {
+                TypedValue res = new TypedValue();
+                getContext().getTheme().resolveAttribute(
+                        R.attr.dialogTitleIconsDecorLayout, res, true);
+                layoutResource = res.resourceId;
+            } else {
+                layoutResource = R.layout.screen_title_icons;
+            }
+            // XXX Remove this once action bar supports these features.
+            removeFeature(FEATURE_ACTION_BAR);
+            // System.out.println("Title Icons!");
+ 
+           ....省略中间9999种判断...
+ 
+        } else {
+            // Embedded, so no decoration is needed.
+            layoutResource = R.layout.screen_simple;
+            // System.out.println("Simple!");
+        }
+</code></pre>
+<p>我们来看看最简单的<code>R.layout.screen_simple</code>布局：</p>
+<pre class="hljs undefined"><code>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"&gt;
+    &lt;ViewStub android:id="@+id/action_mode_bar_stub"
+              android:inflatedId="@+id/action_mode_bar"
+              android:layout="@layout/action_mode_bar"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:theme="?attr/actionBarTheme" /&gt;
+    &lt;FrameLayout
+         android:id="@android:id/content"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:foregroundInsidePadding="false"
+         android:foregroundGravity="fill_horizontal|top"
+         android:foreground="?android:attr/windowContentOverlay" /&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+<p><code>ViewStub</code>是用来延迟加载的一种组件，是用来动态显示bar的，而id为<code>content</code>的这个<code>FrameLayout</code>就是我们真正加载布局的地方了。一定要记住<code>android:id="@android:id/content"</code>，其他类型的布局或许样式不同，但真正加载用户布局的id始终都为<code>content</code>。</p>
+<p>第四步，将获取到的layoutResource进行渲染，添加到decor中。要注意，这个时候用户的布局还没有加载到content中，此时只是将原始的layoutResource加载到decor中</p>
+<pre class="hljs undefined"><code>        View in = mLayoutInflater.inflate(layo utResource, null);
+        decor.addView(in, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        mContentRoot = (ViewGroup) in;
+</code></pre>
+<p>第五步，获取layoutResource中id为<code>ID_ANDROID_CONTENT</code>的ViewGroup，并将其返回。这个ViewGroup就是真正加载用户布局的地方。</p>
+<pre class="hljs undefined"><code> public static final int ID_ANDROID_CONTENT = com.android.internal.R.id.content;
+</code></pre>
+<pre class="hljs undefined"><code> ViewGroup contentParent = (ViewGroup) findViewById(ID_ANDROID_CONTENT);
+ ...
+ return contentParent;
+</code></pre>
+<p>到此为止，<code>generateLayout(mDecor)</code>完成了自己的历史使命，mContentParent 成为了真正加载用户布局的FrameLayout。回到<code>setContentView()</code>方法中，现在容器已经准备好了，我们可以放心的开始加载用户布局。</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/4131410-3ef29e0fe280b38a.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-3ef29e0fe280b38a.png?imageMogr2/auto-orient/strip" alt="1_Activity加载UI-类图关系和视图结构.png" style="cursor: zoom-in;"><br><div class="image-caption">1_Activity加载UI-类图关系和视图结构.png</div>
+</div>
+<h2><strong>3.LayoutInflater</strong></h2>
+<p>在<code>setContentView()</code>的最后，用户布局开始进行加载</p>
+<pre class="hljs undefined"><code>mLayoutInflater.inflate(layoutResID, mContentParent);
+</code></pre>
+<p><code>inflate()</code>方法第一次重载后如下</p>
+<pre class="hljs undefined"><code>public View inflate(@LayoutRes int resource, @Nullable ViewGroup root) {
+        return inflate(resource, root, root != null);
+    }
+</code></pre>
+<p>注意第三个参数为<code>root != null</code>，由于我们将<code>mContentParent</code>作为root传入，所以此时第三个参数为<code>true</code></p>
+<p>下一次重载中，会获取一个XmlResourceParser用于解析用户传入的布局资源，之后将这个XmlPullParser 作为参数进行最后一次重载。这个方法内容比较多，我们一点一点看</p>
+<p>首先，根据XmlResourceParser获取到AttributeSet ，这个set中保存了xml布局中的配置信息。</p>
+<pre class="hljs undefined"><code> final AttributeSet attrs = Xml.asAttributeSet(parser);
+</code></pre>
+<p>接着，通过XML解析获取根节点，此时name就是根节点标签的名字。不熟悉XML解析的同学自行百度。（主要有PULL，SAX，DOM三种解析方式）</p>
+<pre class="hljs undefined"><code>                int type;
+                while ((type = parser.next()) != XmlPullParser.START_TAG &amp;&amp;
+                        type != XmlPullParser.END_DOCUMENT) {
+                    // Empty
+                }
+
+                if (type != XmlPullParser.START_TAG) {
+                    throw new InflateException(parser.getPositionDescription()
+                            + ": No start tag found!");
+                }
+
+                final String name = parser.getName();
+</code></pre>
+<p>获取到根节点的标签后，首先要判断是否为<code>TAG_MERGE</code>。如果是且root为空则抛出异常，否则进行合并渲染。</p>
+<p>这里稍微解释一下<code>TAG_MERGE</code>。在我们写布局的时候，会使用&lt;include/&gt;标签来引入某个布局，&lt;merge/&gt;标签的作用就体现在此，因为父布局已经存在一个ViewGroup了，所以使用&lt;merge/&gt;时，子布局可以不写最外层的ViewGroup。这样就做到了减少图层的效果。</p>
+<pre class="hljs undefined"><code>if (TAG_MERGE.equals(name)) {
+                    if (root == null || !attachToRoot) {
+                        throw new InflateException("&lt;merge /&gt; can be used only with a valid "
+                                + "ViewGroup root and attachToRoot=true");
+                    }
+
+                    rInflate(parser, root, inflaterContext, attrs, false);
+                } 
+</code></pre>
+<p>如果根节点标签不是<code>TAG_MERGE</code>，那么此时获取到的Tag就是xml中真正的根View。</p>
+<pre class="hljs undefined"><code>                   // Temp is the root view that was found in the xml
+                    final View temp = createViewFromTag(root, name, inflaterContext, attrs)
+
+                    ViewGroup.LayoutParams params = null;
+
+                    if (root != null) {
+                        if (DEBUG) {
+                            System.out.println("Creating params from root: " +
+                                    root);
+                        }
+                        // Create layout params that match root, if supplied
+                        params = root.generateLayoutParams(attrs);
+                        if (!attachToRoot) {
+                            // Set the layout params for temp if we are not
+                            // attaching. (If we are, we use addView, below)
+                            temp.setLayoutParams(params);
+                        }
+                    }
+
+</code></pre>
+<p>我们将其创建出来。此时View类已经实例化了，但是在xml设置的属性还没有添加进去。</p>
+<p>xml中的属性通过XmlResourceParser解析到attrs中，所以此时要通过<code>root.generateLayoutParams(attrs)</code>将attrs转化成LayoutParams 。还记得root是什么吗？在上文中，root就是id为<code>content</code>的那个FrameLayout。是加载用户布局的地方。</p>
+<p>我们获取到了LayoutParams，最后只要通过<code>temp.setLayoutParams(params)</code>将params属性设置到View中就OK了。继续往下看代码：</p>
+<pre class="hljs undefined"><code>                 // Inflate all children under temp against its context.
+                    rInflateChildren(parser, temp, attrs, true);
+                    ...
+                    // We are supposed to attach all the views we found (int temp)
+                    // to root. Do that now.
+                    if (root != null &amp;&amp; attachToRoot) {
+                        root.addView(temp, params);
+                    }
+</code></pre>
+<p>现在已经获得了用户布局中的根View以及它的属性，接下来就通过<code>rInflateChildren(parser, temp, attrs, true)</code>来渲染其子view，其会重载<code>rInflate()</code>，这个方法长度适中，为了大家能全方位的理解，就一口气展示出来</p>
+<pre class="hljs undefined"><code> void rInflate(XmlPullParser parser, View parent, Context context,
+            AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException {
+        ...
+        while (((type = parser.next()) != XmlPullParser.END_TAG ||
+                parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) {
+
+            if (type != XmlPullParser.START_TAG) {
+                continue;
+            }
+
+            final String name = parser.getName();
+            ...
+            else if (TAG_INCLUDE.equals(name)) {
+                if (parser.getDepth() == 0) {
+                    throw new InflateException("&lt;include /&gt; cannot be the root element");
+                }
+                parseInclude(parser, context, parent, attrs);
+            } else if (TAG_MERGE.equals(name)) {
+                throw new InflateException("&lt;merge /&gt; must be the root element");
+            } else {
+                final View view = createViewFromTag(parent, name, context, attrs);
+                final ViewGroup viewGroup = (ViewGroup) parent;
+                final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
+                rInflateChildren(parser, view, attrs, true);
+                viewGroup.addView(view, params);
+            }
+        }
+
+        if (finishInflate) {
+            parent.onFinishInflate();
+        }
+    }
+
+</code></pre>
+<p>可以看到，整个过程是处于while循环中，这也是xml解析的一种基本方式。</p>
+<p>首先还是通过XmlPullParser 获取到子布局的名称，接着开始判断子布局的类型。如果类型为<code>TAG_INCLUDE</code>并且深度为0，说明&lt;include /&gt;是根节点，抛出异常。如果发现类型为<code>TAG_MERGE</code>且深度不为0，说明&lt;merge /&gt;不是根节点，抛出异常。</p>
+<p>异常判断结束后，重复之前绘制根节点的操作，将子View与子View的子View都一一绘制并添加到他们的父View中。</p>
+<p>经过上面这些操作后，用户界面XML中的元素就全部解析并且封装了起来，最后就可以调用<code>root.addView(temp, params)</code>将这个封装完毕的View添加到root中。</p>
+<p>到此为止，<code>LayoutInflater.inflate()</code>方法完成了它的历史使命，我们用一张图来总结</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/4131410-a0f7a6a89a5509ac.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-a0f7a6a89a5509ac.png?imageMogr2/auto-orient/strip" alt="LayoutInflater.png" style="cursor: zoom-in;"><br><div class="image-caption">LayoutInflater.png</div>
+</div>
+<h2><strong>4.AppCompatActivity</strong></h2>
+<p>文章前面已经将Activity的<code>setContentView()</code>介绍完毕了，但是现在使用AndroidStudio开发时，咱们默认的Activity是谁？是AppCompatActivity，这是一个为了填补Google曾经挖下的各种坑而出现的超级无敌自适应Activity。下面，大家一起来看看AppCompatActivity的<code>setContentView()</code>是怎么操作的。</p>
+<pre class="hljs undefined"><code>@Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        getDelegate().setContentView(layoutResID);
+    }
+</code></pre>
+<p>这一上来就不一样啊。<br>
+<code>getDelegate()</code>是获取代理的方法，会通过<code>mDelegate = AppCompatDelegate.create(this, this)</code>来创建代理对象</p>
+<pre class="hljs undefined"><code>private static AppCompatDelegate create(Context context, Window window,
+            AppCompatCallback callback) {
+        final int sdk = Build.VERSION.SDK_INT;
+        if (BuildCompat.isAtLeastN()) {
+            return new AppCompatDelegateImplN(context, window, callback);
+        } else if (sdk &gt;= 23) {
+            return new AppCompatDelegateImplV23(context, window, callback);
+        } else if (sdk &gt;= 14) {
+            return new AppCompatDelegateImplV14(context, window, callback);
+        } else if (sdk &gt;= 11) {
+            return new AppCompatDelegateImplV11(context, window, callback);
+        } else {
+            return new AppCompatDelegateImplV9(context, window, callback);
+        }
+    }
+</code></pre>
+<p>可以看到，不同的版本会返回不同的代理对象，这些代理对象都继承自<code>AppCompatDelegateImplV9</code>，我们重点看这个类的<code>setContentView()</code>方法。</p>
+<pre class="hljs undefined"><code> @Override
+    public void setContentView(int resId) {
+        ensureSubDecor();
+        ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);
+        contentParent.removeAllViews();
+        LayoutInflater.from(mContext).inflate(resId, contentParent);
+        mOriginalWindowCallback.onContentChanged();
+    }
+</code></pre>
+<p>其他内容都和Activity中的差不多，就是第一行多了<code>ensureSubDecor()</code>，这个方法会调用<code>createSubDecor()</code>来创建一个ViewGroup对象，这是AppCompatActivity中十分关键的一个方法。</p>
+<p><code>createSubDecor()</code>和Activity中的<code>generateLayout(mDecor)</code>十分类似，因为比较重量级，具体的可以结合源码与文章前面对<code>generateLayout(mDecor)</code>的分析来看，在这里我们就分析几处关键的地方。</p>
+<p>首先，获取到TypedArray 对象。</p>
+<pre class="hljs undefined"><code> TypedArray a = mContext.obtainStyledAttributes(R.styleable.AppCompatTheme);
+</code></pre>
+<p>要注意，此处的主题是<code>R.styleable.AppCompatTheme</code>。系统需要通过这个主题来对一些View进行兼容性的改造。这也就是为什么在使用AppCompatActivity时，主题必须设置为AppCompat类型，否则就会抛出异常。</p>
+<p>接下来，获取DecorView</p>
+<pre class="hljs undefined"><code>// Now let's make sure that the Window has installed its decor by retrieving it
+        mWindow.getDecorView();
+</code></pre>
+<p><code>getDecorView()</code>会调用PhoneWindow的<code>installDecor()</code>，这个方法之前详细介绍过，很重要，忘记了就往前翻翻。</p>
+<p>继续下潜，有很长一段代码都是用来判断subDecor需要加载什么系统布局，这个过程和Activity中的类似，我们依然以simple布局为例</p>
+<pre class="hljs undefined"><code> subDecor = (ViewGroup) inflater.inflate(R.layout.abc_screen_simple, null);
+</code></pre>
+<pre class="hljs undefined"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;android.support.v7.widget.FitWindowsLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/action_bar_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"&gt;
+
+    &lt;android.support.v7.widget.ViewStubCompat
+        android:id="@+id/action_mode_bar_stub"
+        android:inflatedId="@+id/action_mode_bar"
+        android:layout="@layout/abc_action_mode_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+
+    &lt;include layout="@layout/abc_screen_content_include" /&gt;
+
+&lt;/android.support.v7.widget.FitWindowsLinearLayout&gt;
+</code></pre>
+<p>这些组件都是在v7包中用来做版本适配的，再来看看Include进来的这个布局</p>
+<pre class="hljs undefined"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;merge xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;android.support.v7.widget.ContentFrameLayout
+            android:id="@id/action_bar_activity_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="fill_horizontal|top"
+            android:foreground="?android:attr/windowContentOverlay" /&gt;
+&lt;/merge&gt;
+</code></pre>
+<p>这个ContentFrameLayout就相当于Activity中的FrameLayout，所以我们一定要把它的id记住，<code>action_bar_activity_content</code>,<code>action_bar_activity_content</code>,<code>action_bar_activity_content</code>,说三遍。</p>
+<p>终于，材料已经准备完毕，是时候来享受真正的大餐了。</p>
+<pre class="hljs undefined"><code>final ContentFrameLayout contentView = (ContentFrameLayout) subDecor.findViewById(
+                R.id.action_bar_activity_content);
+
+final ViewGroup windowContentView = (ViewGroup) mWindow.findViewById(android.R.id.content);
+</code></pre>
+<p><code>contentView</code> 是subDecor中id为<code>action_bar_activity_conten</code>t的ContentFrameLayout，<br>
+<code>windowContentView</code>是mWindow中id为<code>content</code>的FrameLayout。</p>
+<pre class="hljs undefined"><code>windowContentView.setId(View.NO_ID);
+contentView.setId(android.R.id.content);
+...
+// Now set the Window's content view with the decor
+mWindow.setContentView(subDecor);
+</code></pre>
+<p>将windowContentView的id设为<code>NO_ID</code>，再将contentView的id设为<code>content</code>。这个时候，<code>R.id.action_bar_activity_content</code>就完成了它的任务。</p>
+<p>最后，将<code>subDecor</code>添加到mWindow中，大功告成！</p>
+<p>是不是感觉茅塞顿开了？这招偷梁换柱简直漂亮！我们上一张图来感受此时下整体的结构。</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/4131410-0812d6ab24fc7592.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-0812d6ab24fc7592.png?imageMogr2/auto-orient/strip" alt="AppCompatActivity的View布局结构.png" style="cursor: zoom-in;"><br><div class="image-caption">AppCompatActivity的View布局结构.png</div>
+</div>
+<h2><strong>5.ViewRootImpl</strong></h2>
+<p>仔细回忆下之前的过程，在<code>setContentView()</code>方法中，界面布局的xml资源已经解析并生成了view，而view也添加到了window上，但此时view并没有绘制出来，对用户而言还是不可见的。</p>
+<p>接下来，我们就来学习View的绘制流程。在开始前，强烈建议大家先去复习下<a href="http://www.jianshu.com/p/1d6b264174fb" target="_blank">有关Window的爱恨情仇！</a>以及<a href="http://www.jianshu.com/p/2bed70245c76" target="_blank">Activity启动流程简直丧心病狂！</a>，不然等会懵逼的可能性会很大。</p>
+<p>故事要从<a href="http://www.jianshu.com/p/2bed70245c76" target="_blank">Activity启动流程简直丧心病狂！</a>的结尾开始，上回说到，在ActivityThread中调用了<code>handleLaunchActivity()</code>开始真正启动一个活动，今天咱们就来仔细分析下这个方法。</p>
+<pre class="hljs undefined"><code>Activity a = performLaunchActivity(r, customIntent);
+</code></pre>
+<p>首先，调用<code>performLaunchActivity()</code>实例化了Activity，这个方法主要做了三件事<br>
+第一，通过反射获取到Activity的实例</p>
+<pre class="hljs undefined"><code> ClassLoader cl = r.packageInfo.getClassLoader();
+ activity = mInstrumentation.newActivity(cl, component.getClassName(), r.intent);
+</code></pre>
+<p>第二，调用<code>Activity.attach()</code>初始化window</p>
+<pre class="hljs undefined"><code> activity.attach(appContext, this, getInstrumentation(), r.token,
+                        r.ident, app, r.intent, r.activityInfo, title, r.parent,
+                        r.embeddedID, r.lastNonConfigurationInstances, config,
+                        r.referrer, r.voiceInteractor);
+</code></pre>
+<pre class="hljs undefined"><code>final void attach(...){
+...
+mWindow = new PhoneWindow(this, window);
+...
+}
+</code></pre>
+<p>第三，通过mInstrumentation最终回调了Activity的onCreate方法</p>
+<pre class="hljs undefined"><code>mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState)
+</code></pre>
+<pre class="hljs undefined"><code> public void callActivityOnCreate(Activity activity, Bundle icicle,
+            PersistableBundle persistentState) {
+        ...
+        activity.performCreate(icicle, persistentState);
+        ...
+    }
+</code></pre>
+<pre class="hljs undefined"><code>final void performCreate(Bundle icicle) {
+       ...
+        onCreate(icicle);
+       ...
+    }
+</code></pre>
+<p>由于<code>setContentView()</code>是在<code>onCreate()</code>中执行的，所以现在我们就获取了view并添加到了window上，接下来要开始绘制了，很显然，留给我们进行绘制的只剩下<code>onResume</code>。</p>
+<p>现在回到<code>handleLaunchActivity()</code>方法中，继续往下看，果然这里会调用<code>handleResumeActivity()</code></p>
+<pre class="hljs undefined"><code> handleResumeActivity(r.token, false, r.isForward,
+                    !r.activity.mFinished &amp;&amp; !r.startsNotResumed);
+</code></pre>
+<p>进入这个方法，看看会发生什么。</p>
+<pre class="hljs undefined"><code>                r.window = r.activity.getWindow();
+                View decor = r.window.getDecorView();
+                decor.setVisibility(View.INVISIBLE);
+                ViewManager wm = a.getWindowManager();
+                ...
+                wm.addView(decor, l);
+</code></pre>
+<p>也就是说，在<code>handleResumeActivity()</code>中，我们获取到了DecorView以及WindowManager，并将decor添加到了wm中。</p>
+<p>下面这些内容在<a href="http://www.jianshu.com/p/1d6b264174fb" target="_blank">有关Window的爱恨情仇！</a>中有详细的介绍，这里简要的说一下</p>
+<p><code>WindowManager.addView()</code>的作用就是通过AIDL将window显示到屏幕上，再调用ViewRootImpl进行view的绘制</p>
+<p>在<code>addView()</code>中，会实例化ViewRootImpl对象并调用它的<code>setView()</code>方法</p>
+<pre class="hljs undefined"><code>root = new ViewRootImpl(view.getContext(), display);
+...
+root.setView(view, wparams, panelParentView); 
+</code></pre>
+<p><code>ViewRootImpl.setView()</code>主要做了三件事，第一是通过下面的代码将window添加到屏幕上</p>
+<pre class="hljs undefined"><code>res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,
+                            getHostVisibility(), mDisplay.getDisplayId(),
+                            mAttachInfo.mContentInsets, mAttachInfo.mStableInsets,
+                            mAttachInfo.mOutsets, mInputChannel);
+</code></pre>
+<p>第二是调用<code>requestLayout()</code>进行view的绘制<br>
+第三是调用<code>view.assignParent(this)</code>将decorView的parent设置为当前的ViewRootImpl</p>
+<p>事件一在<a href="http://www.jianshu.com/p/1d6b264174fb" target="_blank">有关Window的爱恨情仇！</a>介绍过了，过程比较复杂，请移步。</p>
+<p>今天我们主要介绍事件二、三。<br>
+首先看比较简单的事件三，这里就是直截了当的将ViewRootImpl设置为decorView的parent</p>
+<pre class="hljs undefined"><code> void assignParent(ViewParent parent) {
+        if (mParent == null) {
+            mParent = parent;
+        }
+         ...
+    }
+</code></pre>
+<p>这么做的意义是什么呢？大家知道，在View中调用<code>requestLayout()</code>会使得界面重绘，来看看这个方法</p>
+<pre class="hljs undefined"><code>public void requestLayout() {  
+      ...
+
+        if (mParent != null &amp;&amp; !mParent.isLayoutRequested()) {
+            mParent.requestLayout();
+        }
+      ...
+    }
+</code></pre>
+<p>原来如此，<code>View.requestLayout()</code>会不断回调其parent的<code>requestLayout()</code>方法，最后到达decorView时，就会调用ViewRootImpl的<code>requestLayout()</code>。</p>
+<p>也就是说，<code>ViewRootImpl.requestLayout()</code>是view绘制的起源，我们来事件二仔细感受一下</p>
+<pre class="hljs undefined"><code>@Override
+    public void requestLayout() {
+        if (!mHandlingLayoutInLayoutRequest) {
+            checkThread();
+            mLayoutRequested = true;
+            scheduleTraversals();
+        }
+    }
+</code></pre>
+<p>该方法会调用<code>scheduleTraversals()</code></p>
+<pre class="hljs undefined"><code> void scheduleTraversals() {
+       ...
+            mChoreographer.postCallback(
+                    Choreographer.CALLBACK_TRAVERSAL, mTraversalRunnable, null);
+       ...
+    }
+</code></pre>
+<p>接着在mChoreographer中执行mTraversalRunnable，这是一个Runnable 对象，唯一的作用就是调用<code>doTraversal()</code></p>
+<pre class="hljs undefined"><code> final class TraversalRunnable implements Runnable {
+        @Override
+        public void run() {
+            doTraversal();
+        }
+    }
+</code></pre>
+<p><code>doTraversal()</code>又会调用<code>performTraversals()</code>，这个方法那是相当长，一看就是有特殊癖好的变态工程师写的，我们主要看其中与UI绘制有关的部分。从前往后慢慢找，依次可以看到他们：</p>
+<pre class="hljs undefined"><code> // Ask host how big it wants to be
+performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);
+</code></pre>
+<pre class="hljs undefined"><code>performLayout(lp, desiredWindowWidth, desiredWindowHeight);
+</code></pre>
+<pre class="hljs undefined"><code>performDraw();
+</code></pre>
+<p>哇！终于看到这三兄弟了！大家一起来松口气，咱们今天就说到这，虽然还没开始View的绘制，但前面的准备工作都完成啦！最后方式一张流程图进行来梳理一下吧。</p>
+<div class="image-package">
+<img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/4131410-0b072b4bec71b899.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-0b072b4bec71b899.png?imageMogr2/auto-orient/strip" alt="DecorView添加至窗口的过程.png" style="cursor: zoom-in;"><br><div class="image-caption">DecorView添加至窗口的过程.png</div>
+</div>
+<h2><strong>6.总结</strong></h2>
+<p>什么？你说让我奶奶懂一个给你看看？</p>
+<p>哈哈，哈哈，哈哈哈……</p>
+<p>完结撒花~</p>
+
+        </div>
+        <!--  -->
+
+        <div class="show-foot">
+          <a class="notebook" href="http://www.jianshu.com/nb/14349584">
+            <i class="iconfont ic-search-notebook"></i> <span>Android高级UI</span>
+</a>          <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+            © 著作权归作者所有
+          </div>
+          <div class="modal-wrap" data-report-note="">
+            <a id="report-modal">举报文章</a>
+          </div>
+        </div>
+    </div>
+
+    <!-- 文章底部作者信息 -->
+      <div class="follow-detail">
+        <div class="info">
+          <a class="avatar" href="http://www.jianshu.com/u/dc60226397d1">
+            <img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/011d3fb3-d8e0-403b-938f-9dc82941c518.jpg" alt="144">
+</a>          <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+          <a class="title" href="http://www.jianshu.com/u/dc60226397d1">吴愣</a>
+            <i class="iconfont ic-man"></i>
+        <p>写了 23266 字，被 90 人关注，获得了 185 个喜欢</p></div>
+          <div class="signature">骑马倚斜桥，满楼红袖招</div>
+      </div>
+
+      <div class="support-author"><p>如果觉得我的文章对您有用，请随意赞赏。您的支持将鼓励我继续创作！</p> <div class="btn btn-pay">赞赏支持</div> <div class="supporter"><ul class="support-list"><li><a target="_blank" href="http://www.jianshu.com/u/bdd3492775af" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/15-a7ac401939dd4df837e3bbf82abaa2a8.jpg"></a></li><li><a target="_blank" href="http://www.jianshu.com/u/341db77e2e63" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/2-9636b13945b9ccf345bc98d0d81074eb.jpg"></a></li></ul> <!----></div> <!----> <!----></div>
+
+    <div class="meta-bottom">
+      <div class="like"><div class="btn like-group"><div class="btn-like"><a href="http://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-like-button"><i class="iconfont ic-like"></i>喜欢</a></div> <div class="modal-wrap"><a>28</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;http://cwb.assets.jianshu.io/notes/images/14541847/weibo/image_1d8d24f11203.jpg&#39;, &#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（上）！》（ 分享自 @简书 ）&#39;,&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+          <a class="share-circle" data-toggle="tooltip" href="http://cwb.assets.jianshu.io/notes/images/14541847/weibo/image_1d8d24f11203.jpg" target="_blank" data-original-title="下载长微博图片">
+            <i class="iconfont ic-picture"></i>
+          </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（上）！》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（上）！》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;我奶奶都能懂的UI绘制流程（上）！&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+    <div><div id="comment-list" class="comment-list"><div><form class="new-comment"><a class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/avatar_default-78d4d1f68984cd6d4379508dd94b4210.png"></a> <div class="sign-container"><a href="http://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-comment-form" class="btn btn-sign">登录</a> <span>后发表评论</span></div></form></div> <div id="normal-comment-list" class="normal-comment-list"><div><div><div class="top"><span>16条评论</span> <a class="author-only">只看作者</a> <a class="close-btn" style="display: none;">关闭评论</a> <div class="pull-right"><a class="active">按喜欢排序</a><a class="">按时间正序</a><a class="">按时间倒序</a></div></div></div> <!----> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="comment-13023240" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/87b97b5b7ac9" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/d94507beba95"></a> <div class="info"><a href="http://www.jianshu.com/u/87b97b5b7ac9" target="_blank" class="name">菲利柯斯</a> <!----> <div class="meta"><span>3楼 · 2017.07.19 23:21</span></div></div></div> <div class="comment-wrap"><p>你这个标题成功的吸引了。</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>1人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13006266" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/1dc5520f7e6f" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/7372048d5eda.jpeg"></a> <div class="info"><a href="http://www.jianshu.com/u/1dc5520f7e6f" target="_blank" class="name">博言克軒</a> <!----> <div class="meta"><span>2楼 · 2017.07.19 14:44</span></div></div></div> <div class="comment-wrap"><p>你奶奶真厉害<img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/+1.png" alt=":+1:" title=":+1:" class="emoji" width="20" height="20"> </p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13030756" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/1d59de7e049c" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/80d18992-f2e3-4e5c-b011-930c825ac82b.jpg"></a> <div class="info"><a href="http://www.jianshu.com/u/1d59de7e049c" target="_blank" class="name">云闲阁主</a> <!----> <div class="meta"><span>4楼 · 2017.07.20 09:14</span></div></div></div> <div class="comment-wrap"><p>😂被标题吸引进来的</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13041668" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/0b3605a5fa08" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/d02f3525-2019-498a-b2e8-59fb093863be.jpg"></a> <div class="info"><a href="http://www.jianshu.com/u/0b3605a5fa08" target="_blank" class="name">愚星</a> <!----> <div class="meta"><span>5楼 · 2017.07.20 14:55</span></div></div></div> <div class="comment-wrap"><p>你奶奶学过软件开发？</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-13043087" class="sub-comment"><p><a href="http://www.jianshu.com/u/dc60226397d1" target="_blank">吴愣</a>：
+          <span>祖传的手艺<img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/wink.png" alt=":wink:" title=":wink:" class="emoji" width="20" height="20"> </span></p> <div class="sub-tool-group"><span>2017.07.20 15:45</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-13061989" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/a960e724cea4" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/2c8597c7-b1fa-43bd-9dd1-04d64da7a64a"></a> <div class="info"><a href="http://www.jianshu.com/u/a960e724cea4" target="_blank" class="name">酒红枫</a> <!----> <div class="meta"><span>6楼 · 2017.07.21 00:42</span></div></div></div> <div class="comment-wrap"><p>我看完后觉得奶奶后面应该加个'的'</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-13071401" class="sub-comment"><p><a href="http://www.jianshu.com/u/dc60226397d1" target="_blank">吴愣</a>：
+          <span>有没有什么地方没讲清楚？</span></p> <div class="sub-tool-group"><span>2017.07.21 10:35</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-13110414" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/899482aa2779" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/9d96f64dda43.png"></a> <div class="info"><a href="http://www.jianshu.com/u/899482aa2779" target="_blank" class="name">Small_Cake</a> <!----> <div class="meta"><span>7楼 · 2017.07.22 11:39</span></div></div></div> <div class="comment-wrap"><p>你确定你奶奶真的懂这些！</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-13110624" class="sub-comment"><p><a href="http://www.jianshu.com/u/dc60226397d1" target="_blank">吴愣</a>：
+          <span> <a href="http://www.jianshu.com/users/899482aa2779" class="maleskine-author" target="_blank" data-user-slug="899482aa2779">@Small_Cake</a> 我们家族从大清王朝开始就从事android开发了</span></p> <div class="sub-tool-group"><span>2017.07.22 11:45</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-13113178" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/e7aab68810b1" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/96bb92b06bfa.jpg"></a> <div class="info"><a href="http://www.jianshu.com/u/e7aab68810b1" target="_blank" class="name">诸子百家谁的天下</a> <!----> <div class="meta"><span>8楼 · 2017.07.22 13:10</span></div></div></div> <div class="comment-wrap"><p>你奶奶真厉害：+1：</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13177107" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/2e4c9cb443fe" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/5a1e0cda667f"></a> <div class="info"><a href="http://www.jianshu.com/u/2e4c9cb443fe" target="_blank" class="name">android小子</a> <!----> <div class="meta"><span>9楼 · 2017.07.24 12:10</span></div></div></div> <div class="comment-wrap"><p>我真的只是被这个标题吸引进来的</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13220760" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/5b2ca938686e" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/7fb63f9d9f18"></a> <div class="info"><a href="http://www.jianshu.com/u/5b2ca938686e" target="_blank" class="name">大神带我飞</a> <!----> <div class="meta"><span>10楼 · 2017.07.25 16:41</span></div></div></div> <div class="comment-wrap"><p>震惊,七旬老太从没学过编程,竟然一眼就看懂复杂代码!</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13295321" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/9f2ea470bab5" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/668efef8bc9e"></a> <div class="info"><a href="http://www.jianshu.com/u/9f2ea470bab5" target="_blank" class="name">CoderTu</a> <!----> <div class="meta"><span>11楼 · 2017.07.27 17:15</span></div></div></div> <div class="comment-wrap"><p>哈哈，标题NB，评论也都是段子手，感觉博主写这篇文章也是扎心了，我在我的博客中链接了你的这篇文章可以吧</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-13295674" class="sub-comment"><p><a href="http://www.jianshu.com/u/dc60226397d1" target="_blank">吴愣</a>：
+          <span><a href="http://www.jianshu.com/users/9f2ea470bab5" class="maleskine-author" target="_blank" data-user-slug="9f2ea470bab5">@CoderTu</a> 链链链！</span></p> <div class="sub-tool-group"><span>2017.07.27 17:26</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-13826280" class="comment"><div><div class="author"><a href="http://www.jianshu.com/u/d245956d0304" target="_blank" class="avatar"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/7bf621232e5d"></a> <div class="info"><a href="http://www.jianshu.com/u/d245956d0304" target="_blank" class="name">我就是马云飞</a> <!----> <div class="meta"><span>12楼 · 2017.08.10 15:22</span></div></div></div> <div class="comment-wrap"><p>博主写的挺不错的，我想转到我的公众号可以么，注明原文链接。</p> <div class="tool-group"><a class=""><i class="iconfont ic-zan"></i> <span>赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-13826441" class="sub-comment"><p><a href="http://www.jianshu.com/u/dc60226397d1" target="_blank">吴愣</a>：
+          <span><a href="http://www.jianshu.com/users/d245956d0304" class="maleskine-author" target="_blank" data-user-slug="d245956d0304">@生存在1995初夏</a> 随意随意</span></p> <div class="sub-tool-group"><span>2017.08.10 15:27</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div></div></div> <!----> <div><!----></div></div></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style=""><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39;&gt;
+                &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;http://cwb.assets.jianshu.io/notes/images/14541847/weibo/image_1d8d24f11203.jpg&#39;, &#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（上）！》（ 分享自 @简书 ）&#39;,&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;http://cwb.assets.jianshu.io/notes/images/14541847/weibo/image_1d8d24f11203.jpg&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-picture&quot;&gt;&lt;/i&gt;&lt;span&gt;下载长微博图片&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（上）！》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 吴愣 的文章《我奶奶都能懂的UI绘制流程（上）！》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;http://www.jianshu.com/p/0bd672626c8d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;我奶奶都能懂的UI绘制流程（上）！&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="http://www.jianshu.com/c/3fde3b545a35?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/android.graphics.Bitmap_3d178cba.jpeg"><div class="name">Android知识</div></a><a href="http://www.jianshu.com/c/d1591c322c89?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/android.graphics.Bitmap_15f127c2.jpeg"><div class="name">Android开发</div></a><a href="http://www.jianshu.com/c/58b4c20abf2f?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/android.graphics.Bitmap_1329dce8.jpeg"><div class="name">Android...</div></a><a href="http://www.jianshu.com/c/bDHhpK?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/首页投稿.png"><div class="name">首页投稿</div></a><a href="http://www.jianshu.com/c/NEt52a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/computer_guy.jpg"><div class="name">程序员</div></a><a href="http://www.jianshu.com/c/89995286335f?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/QQ20170720-141447_2x.png"><div class="name">程序员首页投稿</div></a><a href="http://www.jianshu.com/c/909d412d63b0?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/android.graphics.Bitmap_754aa71.jpeg"><div class="name">我在爬虫小分队的见闻</div></a> <a class="show-more">
+        展开更多
+        <i class="iconfont ic-show"></i></a></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="14541847"></div>
+</div>
+
+    <script src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/push.js.下载"></script><script src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/hm.js.下载"></script><script async="" src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/analytics.js.下载"></script><script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"uuid":"088849aa-2f81-4cd2-b11d-159ad69e6582"},"note":{"id":14541847,"slug":"0bd672626c8d","user_id":4131410,"notebook_id":14349584,"commentable":true,"likes_count":28,"views_count":799,"public_wordage":3215,"comments_count":16,"total_rewards_count":2,"is_author":false,"author":{"nickname":"吴愣","total_wordage":23266,"followers_count":90,"total_likes_count":185}}}</script>
+    
+    <script src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/babel-polyfill-0935db243d86a29bc890.js.下载"></script>
+    <script src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/web-base-9c4ae61f9277531477b4.js.下载"></script>
+<script src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/web-82f578aaf312ee8088a8.js.下载"></script>
+    
+    <script src="./我奶奶都能懂的UI绘制流程（上）！ - 简书_files/entry-1292778a24e19c27eb4e.js.下载"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-35169517-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>

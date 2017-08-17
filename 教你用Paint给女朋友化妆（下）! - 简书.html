@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<!-- saved from url=(0112)http://www.jianshu.com/p/7188f78d637b?utm_campaign=haruki&utm_content=note&utm_medium=reader_share&utm_source=qq -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=http://www.jianshu.com/p/7188f78d637b?utm_campaign=haruki&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qq">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="1.前言 上篇介绍了Paint基础以及shader的使用，传送门在这里。剩下的高级应用就是xfermode以及滤镜效果。话不多说，咱们发车。 2. Xfermode简介 Xfermode这名字一听就各种酷炫拽爆吊炸天，而所谓Xfermode，其实就是将绘制的图形的像素和Canvas上对应位置的像素按照一定的规则进行混合，形成新的像素，再更新到Canvas中形成最终的图形。用人话说，就是把2张...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=http://www.jianshu.com/p/7188f78d637b?utm_campaign=haruki&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qq">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/15602677">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="教你用Paint给女朋友化妆（下）!" property="twitter:title">
+  <meta content="1.前言 上篇介绍了Paint基础以及shader的使用，传送门在这里。剩下的高级应用就是xfermode以及滤镜效果。话不多说，咱们发车。 2. Xfermode简介 Xfermode这名字一听就各种酷炫拽爆吊炸天，而所谓Xfermode，其实就是将绘制的图形的像素和Canvas上对应位置的像素按照一定的规则进行混合，形成新的像素，再更新到Canvas中形成最终的图形。用人话说，就是把2张图变成1张图，这里面一共就三个元素，图1、图2以及混合模式，是不是感觉很简单？ 我们先来看看Xfermode的类层次图，记住这个叫PorterDuffXfermode的类，Porter和Duff是两个..." property="twitter:description">
+  <meta content="http://www.jianshu.com/p/7188f78d637b" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="教你用Paint给女朋友化妆（下）!">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://www.jianshu.com/p/7188f78d637b">
+  <meta property="og:description" content="1.前言 上篇介绍了Paint基础以及shader的使用，传送门在这里。剩下的高级应用就是xfermode以及滤镜效果。话不多说，咱们发车。 2. Xfermode简介 Xfermode这名字一...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/15602677">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/15602677">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>教你用Paint给女朋友化妆（下）! - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="eRimQDQyPghSIsaN+Yp+0jJHkBNPBG8S1ZghA3zGlnaZ828/BPW5CPG49C6LVnGbn2b1OhEdnG0PLRbbfJM+/A==">
+
+  <link rel="stylesheet" media="all" href="./教你用Paint给女朋友化妆（下）! - 简书_files/web-fd09aa45672ec337d47b.css">
+  
+  <link rel="stylesheet" media="all" href="./教你用Paint给女朋友化妆（下）! - 简书_files/entry-1292778a24e19c27eb4e.css">
+
+  <link href="http://cdn2.jianshu.io/assets/favicons/favicon-783beb88ed621ceab614de960376ac0c.ico" rel="icon">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/57-47624b2e2161e8eb144462c85db0a5ff.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/72-c00cde7cf98fc49e50cbb3ee1dcd5804.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/76-e8af0bdeaf1ba31e303b1fde8b5e66c4.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/114-f4c78569bbf1977e8382a5fd90c9237a.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/120-cf10c3711dba269522743729efe66bbc.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/152-7bd60457b5f3ecbf1343f0e6241be4f8.png" sizes="152x152">
+<link rel="stylesheet" href="blob:http://www.jianshu.com/b8b72ca3-1276-4272-91a5-df84359312fa"></head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="http://www.jianshu.com/"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/logo-58fd04f6f0de908401aa561cda6a0688.png" alt="Logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="http://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" href="http://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" href="http://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="">
+              <a href="http://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="">
+              <a class="app-download-btn" href="http://www.jianshu.com/apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="http://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div class="post">
+    <div class="article">
+        <h1 class="title">教你用Paint给女朋友化妆（下）!</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="http://www.jianshu.com/u/dc60226397d1">
+            <img src="./教你用Paint给女朋友化妆（下）! - 简书_files/011d3fb3-d8e0-403b-938f-9dc82941c518.jpg" alt="144">
+</a>          <div class="info">
+            <span class="tag">作者</span>
+            <span class="name"><a href="http://www.jianshu.com/u/dc60226397d1">吴愣</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time">2017.08.15 14:45</span>
+              <span class="wordage">字数 3256</span>
+            <span class="views-count">阅读 193</span><span class="comments-count">评论 2</span><span class="likes-count">喜欢 23</span><span class="rewards-count ">赞赏 2</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+        <!-- -->
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <h2><strong>1.前言</strong></h2>
+<p>上篇介绍了Paint基础以及shader的使用，<a href="http://www.jianshu.com/p/dc041c24b420" target="_blank">传送门在这里</a>。剩下的高级应用就是xfermode以及滤镜效果。话不多说，咱们发车。</p>
+<h2><strong>2. Xfermode简介</strong></h2>
+<p>Xfermode这名字一听就各种酷炫拽爆吊炸天，而所谓Xfermode，其实就是<strong>将绘制的图形的像素和Canvas上对应位置的像素按照一定的规则进行混合，形成新的像素，再更新到Canvas中形成最终的图形</strong>。<br>
+用人话说，就是把2张图变成1张图，这里面一共就三个元素，图1、图2以及混合模式，是不是感觉很简单？</p>
+<p>我们先来看看Xfermode的类层次图，记住这个叫PorterDuffXfermode的类，Porter和Duff是两个大佬的名字，这个类就是他们整出来的。我们在使用时要时刻记住大佬们光辉的身影，下面还会接着遇到他们。</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-bd294b456323f844.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-bd294b456323f844.png?imageMogr2/auto-orient/strip" alt="xfermode类层次图.png" style="cursor: zoom-in;"><br><div class="image-caption">xfermode类层次图.png</div>
+</div>
+<p>接着来理解一下元素，图1图2 没什么好说的，重点在于混合模式</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-089f4cf4486b9620.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-089f4cf4486b9620.png?imageMogr2/auto-orient/strip" alt="Xfermode混合模式.png" style="cursor: zoom-in;"><br><div class="image-caption">Xfermode混合模式.png</div>
+</div>
+<p>看到图以后不要怂，其实也就4*4=16种嘛，还是有规律可寻的。我们知道，一个像素的颜色都是由四个分量组成，即ARGB，A表示的是Alpha值，RGB表示的是颜色。</p>
+<p><strong>S是原像素，用[Sa,Sc]表示，Sa表示的就是源像素的Alpha值，Sc表示源像素的颜色值；<br>
+D是目标像素，用[Da,Dc]表示，Da表示的就是目标像素的Alpha值，Dc表示目标像素的颜色值。</strong></p>
+<p>上图中，蓝色矩形表示的是原图片，黄色圆表示的是目标图片。下面我们进行具体的介绍。</p>
+<h2><strong>3. Xfermode混合模式</strong></h2>
+<h3><strong>3.1 SRC</strong></h3>
+<p>SRC[Sa, Sc]：在处理图片相交区域时，总是显示源图片。</p>
+<h4><strong>3.1.1 SRC_IN [Sa * Da, Sc * Da]</strong></h4>
+<p>处理图片相交区域时，受到目标图片的Alpha值影响<br>
+当我们的目标图片为空白像素的时候，源图片也会变成空白，简单的来说就是用目标图片的透明度来改变源图片的透明度和饱和度，当目标图片的透明度为0时，源图片就不会显示。</p>
+<h5><strong>3.1.1.1 圆形头像</strong></h5>
+<p>我们来看一个例子，还是圆形头像，由于代码比较短，直接全部展示出来</p>
+<pre class="hljs undefined"><code>public class RoundImageView extends View {
+    private Bitmap mSrcBitmap;
+    private Bitmap mDstBitmap;
+    private Paint mPaint;
+
+    public RoundImageView(Context context) {
+        super(context);
+        //有些xfermode不支持硬件加速，因此要关闭
+        setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+        mSrcBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.xyjy6);
+        mDstBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.shade);
+        mPaint=new Paint();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //先画目标图片
+        canvas.drawBitmap(mDstBitmap,0,0,mPaint);
+        //设置xfermode
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        //再画原图片
+        canvas.drawBitmap(mSrcBitmap,0,0,mPaint);
+        mPaint.setXfermode(null);
+    }
+}
+</code></pre>
+<p>代码很简单不多解释，SRC就是正常的矩形图片，现在来看看DST这张图片资源</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-b520716d462c8db7.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-b520716d462c8db7.png?imageMogr2/auto-orient/strip" alt="shade.png" style="cursor: zoom-in;"><br><div class="image-caption">shade.png</div>
+</div>
+<p>最后上效果图</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-ae8690f0924ef264.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-ae8690f0924ef264.png?imageMogr2/auto-orient/strip" alt="RoundImageView.png" style="cursor: zoom-in;"><br><div class="image-caption">RoundImageView.png</div>
+</div>
+<h5><strong>3.1.1.2 图像倒影</strong></h5>
+<p>不过瘾，再来一个例子，倒影图片，首先是通过Matrix生成倒影图片</p>
+<pre class="hljs undefined"><code>Matrix matrix = new Matrix();
+matrix.setScale(1F, -1F);
+ // 生成倒影图
+BmpRevert = Bitmap.createBitmap(BmpSRC,0,0,BmpSRC.getWidth(),BmpDST.getHeight(),matrix,true);
+</code></pre>
+<p>接着在<code>onDraw()</code>中进行xfermode操作</p>
+<pre class="hljs undefined"><code> @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //先画出原图
+        canvas.drawBitmap(BmpSRC,0,0,mBitPaint);
+        //再画出倒影
+        canvas.translate(0,BmpSRC.getHeight());
+        canvas.drawBitmap(BmpDST,0,0,mBitPaint);
+        mBitPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(BmpRevert,0,0,mBitPaint);
+        mBitPaint.setXfermode(null);
+    }
+</code></pre>
+<p>还是来看下DST图片资源，是一个从上到下逐渐变不透明的图片</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-ed52557d1d0d1a2a.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-ed52557d1d0d1a2a.png?imageMogr2/auto-orient/strip" alt="invert_shade.png" style="cursor: zoom-in;"><br><div class="image-caption">invert_shade.png</div>
+</div>
+<p>最后是效果图</p>
+<br>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-7dd258c5dbe87f03.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-7dd258c5dbe87f03.png?imageMogr2/auto-orient/strip" alt="inverted_view.png" style="cursor: zoom-in;"><br><div class="image-caption">inverted_view.png</div>
+</div>
+<h4><strong>3.1.2 SRC_OUT [Sa * (1 - Da), Sc * (1 - Da)]</strong></h4>
+<p>同SRC_IN类似，只是使用了(1 - Da)<br>
+用目标图片的透明度的补值来改变源图片的透明度和饱和度,当目标图片的透明度为不透明时，源图片就不会显示</p>
+<h5><strong>3.1.2.1 橡皮擦效果</strong></h5>
+<p>那么这位兄弟又能干什么呢？我们先来撸一个橡皮擦效果。<br>
+首先是构造方法，这里构造出来的DST就是一张和SRC大小相同的透明图片，由于DST是透明的，Da=0，所以SRC图片可以完整的显示出来</p>
+<pre class="hljs undefined"><code> public EraserView(Context context) {
+        super(context);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        mBitPaint = new Paint();
+        mBitPaint.setColor(Color.BLACK);
+        mBitPaint.setStyle(Paint.Style.STROKE);
+        mBitPaint.setStrokeWidth(45);
+        BmpSRC = BitmapFactory.decodeResource(getResources(), R.drawable.xyjy6,null);
+        BmpDST = Bitmap.createBitmap(BmpSRC.getWidth(), BmpSRC.getHeight(), Bitmap.Config.ARGB_8888);
+        mPath = new Path();
+    }
+</code></pre>
+<p>接着重写<code>onTouch()</code>方法，用来响应手势滑动。<code>Path.quadTo()</code>一般是用来绘制贝塞尔曲线的，之后我们单独拿出来讲，现在就将他理解为一种圆滑的曲线即可。</p>
+<pre class="hljs undefined"><code> public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                mPath.moveTo(event.getX(),event.getY());
+                mPreX = event.getX();
+                mPreY = event.getY();
+                return true;
+            case MotionEvent.ACTION_MOVE:
+                float endX = (mPreX+event.getX())/2;
+                float endY = (mPreY+event.getY())/2;
+                mPath.quadTo(mPreX,mPreY,endX,endY);
+                mPreX = event.getX();
+                mPreY =event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        postInvalidate();
+        return super.onTouchEvent(event);
+    }
+</code></pre>
+<p>然后重写绘制方法，首先，将手指轨迹画在透明的DST图片上，此时DST图片中手指滑动的部分的Da就变为了1，也就是说，此时SRC这部分的内容Sa就为0，从而实现了擦出效果。</p>
+<pre class="hljs undefined"><code> @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //先把手指轨迹画到目标Bitmap上
+        Canvas c = new Canvas(BmpDST);
+        c.drawPath(mPath,mBitPaint);
+        //然后把目标图像画到画布上
+        canvas.drawBitmap(BmpDST,0,0,mBitPaint);
+        //计算源图像区域
+        mBitPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        canvas.drawBitmap(BmpSRC,0,0,mBitPaint);
+        mBitPaint.setXfermode(null);
+    }
+</code></pre>
+<p>来看效果图</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-4c81df8eae62b46c.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-4c81df8eae62b46c.png?imageMogr2/auto-orient/strip" alt="eraser.png" style="cursor: zoom-in;"><br><div class="image-caption">eraser.png</div>
+</div>
+<h5><strong>3.1.2.2 刮刮卡</strong></h5>
+<p>下面再来个从戒赌吧学来的招式，刮刮卡效果<br>
+总体来说和上面的橡皮擦差不多，不过最底层多了一张戒赌的图片</p>
+<pre class="hljs undefined"><code>BmpText = BitmapFactory.decodeResource(getResources(), R.drawable.guaguaka_text1,null);
+</code></pre>
+<p>在绘制时要先将这张图绘制出来</p>
+<pre class="hljs undefined"><code>@Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.drawBitmap(BmpText,0,0,mBitPaint);
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
+  
+        //先把手指轨迹画到目标Bitmap上
+        Canvas c = new Canvas(BmpDST);
+        c.drawPath(mPath,mBitPaint);
+        //然后把目标图像画到画布上
+        canvas.drawBitmap(BmpDST,0,0,mBitPaint);
+        //计算源图像区域
+        mBitPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        canvas.drawBitmap(BmpSRC,0,0,mBitPaint);
+        mBitPaint.setXfermode(null);
+
+        canvas.restoreToCount(layerId);
+    }
+</code></pre>
+<p>值得注意的是图层的关系，要使用到<code>saveLayer</code>与<code>restoreToCount</code>方法，关于Canavas的使用，之后会详细介绍。<br>
+最后展示效果图</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-8b33470b47e78e0d.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-8b33470b47e78e0d.png?imageMogr2/auto-orient/strip" alt="guaguacard.png" style="cursor: zoom-in;"><br><div class="image-caption">guaguacard.png</div>
+</div>
+<h4><strong>3.1.3 SRC_ATOP [Da, Sc * Da + (1 - Sa) * Dc]</strong></h4>
+<p>当透明度为100%和0%时，SRC_IN 和 SRC_ATOP是通用的；当透明度不为上述的两个值时，SRC_ATOP  比 SRC_IN  源图像的饱和度会增加，变得更亮一些。</p>
+<p>SRC_ATOP与SRC_IN是亲兄弟，SRC_IN能实现的SRC_ATOP基本都能实现。这里就不再介绍了。</p>
+<h3><strong>3.2 DST</strong></h3>
+<h4><strong>3.2.1 DST_IN [Sa * Da, Sa * Dc]</strong></h4>
+<p>DST_IN与SRC_IN相反，在相交的时候以源图片的透明度来改变目标图片的透明度和饱和度，当源图片的透明度为0的时候，目标图片完全不显示。</p>
+<p>聪明的同学看到这里，就会发现DST_IN也能实现圆形图片和倒影效果，我们不多说，来看点新鲜的。</p>
+<h5><strong>3.2.1.1 心电图效果</strong></h5>
+<p>有了之前的基础，这儿就直接上代码来看吧，国际惯例，先上构造方法</p>
+<pre class="hljs undefined"><code> public HeartMap(Context context) {
+        super(context);
+        mPaint = new Paint();
+        mPaint.setColor(Color.RED);
+        BmpDST = BitmapFactory.decodeResource(getResources(), R.drawable.heartmap,null);
+        BmpSRC = Bitmap.createBitmap(BmpDST.getWidth(), BmpDST.getHeight(), Bitmap.Config.ARGB_8888);
+        mItemWaveLength = BmpDST.getWidth();
+        startAnim();
+    }
+</code></pre>
+<p>是不是发现DST与SRC反了一下？接着看看这个改变mItemWaveLength的属性动画</p>
+<pre class="hljs undefined"><code> public void startAnim(){
+        ValueAnimator animator = ValueAnimator.ofInt(0,mItemWaveLength);
+        animator.setDuration(6000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                dx = (int)animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+        animator.start();
+    }
+</code></pre>
+<p>绘制的套路和之前的橡皮擦、刮刮卡类似</p>
+<pre class="hljs undefined"><code> @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        Canvas c = new Canvas(BmpSRC);
+        //清空bitmap
+        c.drawColor(Color.RED, PorterDuff.Mode.CLEAR);
+        //画上矩形
+        c.drawRect(BmpDST.getWidth() - dx,0,BmpDST.getWidth(),BmpDST.getHeight(),mPaint);
+        //模式合成
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
+        canvas.drawBitmap(BmpDST,0,0,mPaint);
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        canvas.drawBitmap(BmpSRC,0,0,mPaint);
+        mPaint.setXfermode(null);
+        canvas.restoreToCount(layerId);
+    }
+</code></pre>
+<p>来看效果图，理论上是一张动图，大家继续脑补就行了</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-581a0293756ad118.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-581a0293756ad118.png?imageMogr2/auto-orient/strip" alt="心电图.png" style="cursor: zoom-in;"><br><div class="image-caption">心电图.png</div>
+</div>
+<h5><strong>3.2.1.2 波浪图</strong></h5>
+<p>以此类推，一些平时看上去高大上的动态效果，比如波浪图，只需要让美工准备一条完整的波浪，我们就可以通过xfermode+属性动画完美实现了。</p>
+<p>先看看这条完整的波浪</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-c84afc02ca198813.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-c84afc02ca198813.png?imageMogr2/auto-orient/strip" alt="wave_bg.png" style="cursor: zoom-in;"><br><div class="image-caption">wave_bg.png</div>
+</div><br>
+<p>构造方法如下</p>
+
+<pre class="hljs undefined"><code> public IrregularWaveView(Context context) {
+        super(context);
+        mPaint = new Paint();
+        BmpDST = BitmapFactory.decodeResource(getResources(), R.drawable.wave_bg,null);
+        BmpSRC = BitmapFactory.decodeResource(getResources(),R.drawable.circle_shape,null);
+        mItemWaveLength = BmpDST.getWidth();
+        startAnim();
+    }
+</code></pre>
+<p>动画效果与心电图一样，就不展示了，直接看绘制方法，套路还是一样的</p>
+<pre class="hljs undefined"><code> @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //先画上圆形
+        canvas.drawBitmap(BmpSRC,0,0,mPaint);
+        //再画上结果
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
+        canvas.drawBitmap(BmpDST,new Rect(dx,0,dx+BmpSRC.getWidth(),BmpSRC.getHeight()),new Rect(0,0,BmpSRC.getWidth(),BmpSRC.getHeight()),mPaint);
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        canvas.drawBitmap(BmpSRC,0,0,mPaint);
+        mPaint.setXfermode(null);
+        canvas.restoreToCount(layerId);
+    }
+</code></pre>
+<p>来看看效果图</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-e0ef09e5a0109d6f.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-e0ef09e5a0109d6f.png?imageMogr2/auto-orient/strip" alt="不规则波浪图形" style="cursor: zoom-in;"><br><div class="image-caption">不规则波浪图形</div>
+</div>
+<p>Xfermode就介绍到这里，剩下的类型大伙儿自己去看呗。</p>
+<h2><strong>4.滤镜</strong></h2>
+<p>终于来到最符合标题的部分了！给女朋友化妆，你想学的都在这里！</p>
+<p>为什么我要说上面这句话呢，第一是为了摆脱标题党这个标签，第二是要给大家大气，因为咱们得先把矩阵的知识给复习一遍！</p>
+<h3><strong>4.1矩阵</strong></h3>
+<h4><strong>4.1.1 矩阵基础</strong></h4>
+<p>既然是手把手，自然要从矩阵的定义开始</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-ef747ed9a50c70eb.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-ef747ed9a50c70eb.png?imageMogr2/auto-orient/strip" alt="矩阵定义.png" style="cursor: zoom-in;"><br><div class="image-caption">矩阵定义.png</div>
+</div>
+<p>接着看我们需要用到的矩阵乘法</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-46e1731d59c626f5.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-46e1731d59c626f5.png?imageMogr2/auto-orient/strip" alt="矩阵乘法.png" style="cursor: zoom-in;"><br><div class="image-caption">矩阵乘法.png</div>
+</div><br>
+<p>解释一波，将第一个矩阵A的第一行，与第二个矩阵B的第一列的数字分别相乘，得到的结果相加，最终的值做为结果矩阵的第(1,1)位置的值（即第一行，第一列）。<br>
+同样，A矩阵的第一行与B矩阵的第二列的数字分别相乘然后相加，结果做为结果矩阵第(1，2)位置的值（即第一行第二列）。<br>
+注意，矩阵A乘以矩阵B和矩阵B乘以矩阵A的结果是不一样的。</p>
+
+<h4><strong>4.1.2 颜色矩阵</strong></h4>
+<p>理解了上面的知识点后，就来看看我们的色彩信息的矩阵表示，首先是理论上的四阶表示法</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-d01f1f290e68a009.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-d01f1f290e68a009.png?imageMogr2/auto-orient/strip" alt="四阶表示" style="cursor: zoom-in;"><br><div class="image-caption">四阶表示</div>
+</div>
+<p>此时如果想将色彩（0，255，0，255）更改为半透明时，可以使用下面的的矩阵运算来表示：</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-a317f3aa7b47711c.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-a317f3aa7b47711c.png?imageMogr2/auto-orient/strip" alt="矩阵透明变换" style="cursor: zoom-in;"><br><div class="image-caption">矩阵透明变换</div>
+</div>
+<p>但是，真实情况下我们所使用的都是五阶矩阵，为什么呢？考虑下面这个变换：<br>
+1、红色分量值更改为原来的2倍；<br>
+2、绿色分量增加100；<br>
+则使用4阶矩阵的乘法无法实现，所以，应该在四阶色彩变换矩阵上增加一个“哑元坐标”，来实现所列的矩阵运算:</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-56c4f39f59996630.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-56c4f39f59996630.png?imageMogr2/auto-orient/strip" alt="五阶矩阵变换.png" style="cursor: zoom-in;"><br><div class="image-caption">五阶矩阵变换.png</div>
+</div>
+<h3><strong>4.2 Alpha滤镜</strong></h3>
+<p>滤镜滤镜，从字面上看就是对镜头的过滤。那么它要过滤些什么东西呢？我们知道，当颜色值为32位的int值时，可以用ARGB来表示 ，其中A表示Alpha值，RGB表示颜色值。滤镜也就是用来针对ARGB的 。</p>
+<p>我们从Alpha滤镜开始说起，Android中有一个叫MaskFilter的类，这玩意儿就是用来对Alpha进行过滤的，来看看他的层级</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-6b7f4ed77df90a11.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-6b7f4ed77df90a11.png?imageMogr2/auto-orient/strip" alt="MaskFilter类层级.png" style="cursor: zoom-in;"><br><div class="image-caption">MaskFilter类层级.png</div>
+</div>
+<p>可见MaskFilter有两个子类，其中BlurMaskFilter用来绘制模糊阴影，EmbossMaskFilter用来实现浮雕效果</p>
+<h4><strong>4.2.1 BlurMaskFilter</strong></h4>
+<p>首先介绍BlurMaskFilter。在使用时，要设置它的类型，如下</p>
+<pre class="hljs undefined"><code>NORMOL -- 整个图像都被模糊掉
+SOLID -- 图像边界外产生一层与Paint颜色一致阴影效果，不影响图像的本身
+OUTER -- 图像边界外产生一层阴影，并且将图像变成透明效果
+INNER -- 在图像内部边沿产生模糊效果
+</code></pre>
+<p>上一个demo，代码相当简单</p>
+<pre class="hljs undefined"><code> @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+        mPaint.setMaskFilter(new BlurMaskFilter(50, BlurMaskFilter.Blur.NORMAL));
+        canvas.drawBitmap(mBitmap,100,100,mPaint);
+    }
+</code></pre>
+<p>其中类型为<code>BlurMaskFilter.Blur.NORMAL</code>，来看看效果图</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-1307adc73b71aa46.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-1307adc73b71aa46.png?imageMogr2/auto-orient/strip" alt="BlurMaskFilter_normal.png" style="cursor: zoom-in;"><br><div class="image-caption">BlurMaskFilter_normal.png</div>
+</div>
+<p>BlurMaskFilter是大佬封装好的类，底层的原理就是对透明度进行过滤。剩下3个类型大家自己去玩玩吧。说不定你女朋友对其中某种特别青睐呢？</p>
+<h4><strong>4.2.2 EmbossMaskFilter</strong></h4>
+<p>EmbossMaskFilter就没有什么类型了，不过它的参数比较复杂，需要解释一波</p>
+<pre class="hljs undefined"><code>* @param direction  指定光源的位置，长度为xxx的数组标量[x,y,z]
+* @param ambient    环境光的因子 （0~1），越接近0，环境光越暗
+* @param specular   镜面反射系数 越接近0，镜面反射越强
+* @param blurRadius 模糊半径 值越大，模糊效果越明显
+</code></pre>
+<p>每个字都认识，连起来就不晓得再说什么鬼了。由于数学不太好，我也不知道这兄弟有什么用。使用的代码与之前一样，这些参数可以瞎填。</p>
+<pre class="hljs undefined"><code>  mPaint.setMaskFilter(new EmbossMaskFilter(new float[]{1,1,1},0.3f,60,80));
+</code></pre>
+<p>效果图上可以略微看到一个类似相框的作用。</p>
+<br>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-f9249bd2daf6bf20.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-f9249bd2daf6bf20.png?imageMogr2/auto-orient/strip" alt="EmbossMaskFilter.png" style="cursor: zoom-in;"><br><div class="image-caption">EmbossMaskFilter.png</div>
+</div>
+<h3><strong>4.3 Color滤镜</strong></h3>
+<p>压轴戏终于登场啦，颜色滤镜涉及到前面所说的矩阵，我们要做的就是DIY各种各样的矩阵来对图片进行特效处理。</p>
+<p>在使用时，还是通过paint来设置矩阵。</p>
+<pre class="hljs undefined"><code>mPaint.setColorFilter(getColorMatrix());
+</code></pre>
+<h4><strong>4.3.1 平移运算</strong></h4>
+<p><code>getColorMatrix()</code>用来返回各种不同的矩阵。咱们先来个平移运算当开胃菜，实现一个原谅妆</p>
+<pre class="hljs undefined"><code> private ColorFilter getColorMatrix() {
+          ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                1, 0,0,0,0,
+                0,1,0,0,100,
+                0,0,1,0,0,
+                0,0,0,1,0,
+        });
+        return new ColorMatrixColorFilter(colorMatrix);
+    }
+</code></pre>
+<p>原谅妆的原理是平移运算，通过加法改变颜色的值，效果如下</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-1cde3a3eac0aa9a8.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-1cde3a3eac0aa9a8.png?imageMogr2/auto-orient/strip" alt="原谅妆.png" style="cursor: zoom-in;"><br><div class="image-caption">原谅妆.png</div>
+</div>
+<h4><strong>4.3.2 反相效果</strong></h4>
+<p>反向可以实现照片底片的效果，矩阵如下</p>
+<pre class="hljs undefined"><code> ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                -1, 0,0,0,255,
+                0,-1,0,0,255,
+                0,0,-1,0,255,
+                0,0,0,1,0,
+        });
+</code></pre>
+<p>效果图很有意思</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-ea861851c4fc9f27.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-ea861851c4fc9f27.png?imageMogr2/auto-orient/strip" alt="底片妆.png" style="cursor: zoom-in;"><br><div class="image-caption">底片妆.png</div>
+</div>
+<h4><strong>4.3.3 缩放运算</strong></h4>
+<p>下面这个矩阵牛逼了，磨脸美白全靠它，可以完美实现颜色增强的效果。</p>
+<p>其原理就是乘法运算，如下</p>
+<pre class="hljs undefined"><code> ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                1.2f, 0,0,0,0,
+                0,1.2f,0,0,0,
+                0,0,1.2f,0,0,
+                0,0,0,1.2f,0,
+        });
+</code></pre>
+<p>效果图是人见人爱的，大家可以往上翻翻看看和原图的对比</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-1cbbccaf59dfc5ef.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-1cbbccaf59dfc5ef.png?imageMogr2/auto-orient/strip" alt="美白妆.png" style="cursor: zoom-in;"><br><div class="image-caption">美白妆.png</div>
+</div>
+<h4><strong>4.3.3 黑白照片</strong></h4>
+<p>黑白照片的去色原理是这样的：只要把R G B 三通道的色彩信息设置成一样，那么图像就会变成灰色，同时为了保证图像亮度不变，同一个通道里的R+G+B =1</p>
+<p>不要问为什么，我哪知道为什么。至于如何组合，前辈们早已得出了较好的结论：</p>
+<pre class="hljs undefined"><code> ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                0.213f, 0.715f,0.072f,0,0,
+                0.213f, 0.715f,0.072f,0,0,
+                0.213f, 0.715f,0.072f,0,0,
+                0,0,0,1,0,
+        });
+</code></pre>
+<p>这个妆不太吉利</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-aa15e22b092c78fc.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-aa15e22b092c78fc.png?imageMogr2/auto-orient/strip" alt="黑白妆.png" style="cursor: zoom-in;"><br><div class="image-caption">黑白妆.png</div>
+</div>
+<h4><strong>4.3.4 发色效果</strong></h4>
+<p>所谓发色效果，就是将颜色进行交换，这个也很好实现，比如红绿交换</p>
+<pre class="hljs undefined"><code> ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                0,1,0,0,0,
+                1,0,0,0,0,
+                0,0,1,0,0,
+                0,0,0,1,0,
+        });
+</code></pre>
+<p>看看这绿唇多么性感</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-7247cfc8e3ac77a1.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-7247cfc8e3ac77a1.png?imageMogr2/auto-orient/strip" alt="交换妆.png" style="cursor: zoom-in;"><br><div class="image-caption">交换妆.png</div>
+</div>
+<h4><strong>4.3.5 复古效果</strong></h4>
+<p>下面这个顾名思义，给人一种老旧照片的冲击，至于原理么，也是前辈是辛勤探索的结果</p>
+<pre class="hljs undefined"><code>  ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                1/2f,1/2f,1/2f,0,0,
+                1/3f, 1/3f,1/3f,0,0,
+                1/4f,1/4f,1/4f,0,0,
+                0,0,0,1,0,
+        });
+</code></pre>
+<p>有木有盗墓笔记西沙的感觉？</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-9a8736e6bf9f8b44.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-9a8736e6bf9f8b44.png?imageMogr2/auto-orient/strip" alt="复古妆.png" style="cursor: zoom-in;"><br><div class="image-caption">复古妆.png</div>
+</div>
+<h4><strong>4.3.6 颜色通道</strong></h4>
+<p>颜色通道就和当年做物理实验的滤波器一样，只允许特定的颜色展示出来，比如这里我们就只允许红色通过</p>
+<pre class="hljs undefined"><code>  ColorMatrix colorMatrix = new ColorMatrix(new float[]{
+                1, 0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,1,0,
+        });
+</code></pre>
+<p>效果图很革命</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-81f89c9ff53b654b.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-81f89c9ff53b654b.png?imageMogr2/auto-orient/strip" alt="通道妆.png" style="cursor: zoom-in;"><br><div class="image-caption">通道妆.png</div>
+</div>
+<h4><strong>4.3.7 其他</strong></h4>
+<p>除了手动定义矩阵以外，我们还可以通过一些Google封装好的方法来实现更复杂的效果。<br>
+ColorMatrix拥有<code>setScale()</code>、<code>setSaturation()</code>、<code>setRotate()</code>、<code>setConcat()</code>等神奇的方法；而ColorFilter还拥有三种实现类。他们都可以尽情的让你去调教。</p>
+<div class="image-package">
+<img src="./教你用Paint给女朋友化妆（下）! - 简书_files/4131410-48f0370e29695916.png" data-original-src="http://upload-images.jianshu.io/upload_images/4131410-48f0370e29695916.png?imageMogr2/auto-orient/strip" alt="ColorFilter类层级.png" style="cursor: zoom-in;"><br><div class="image-caption">ColorFilter类层级.png</div>
+</div>
+<p>不过在此我就不再深入了，再下去就是图像、数学那块的内容，术业有专攻啊。</p>
+<h2><strong>5.总结</strong></h2>
+<p>至此，Paint的用法都介绍完毕了！我们在学习高级UI的道路上又前进了一大步。</p>
+<p>相信大家的收获一定不少，很多人都掌握了几手给女朋友化妆的绝技。</p>
+<p>但是首先……</p>
+<p>完结撒花~</p>
+
+        </div>
+        <!--  -->
+
+        <div class="show-foot">
+          <a class="notebook" href="http://www.jianshu.com/nb/14349584">
+            <i class="iconfont ic-search-notebook"></i> <span>Android高级UI</span>
+</a>          <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+            © 著作权归作者所有
+          </div>
+          <div class="modal-wrap" data-report-note="">
+            <a id="report-modal">举报文章</a>
+          </div>
+        </div>
+    </div>
+
+    <!-- 文章底部作者信息 -->
+      <div class="follow-detail">
+        <div class="info">
+          <a class="avatar" href="http://www.jianshu.com/u/dc60226397d1">
+            <img src="./教你用Paint给女朋友化妆（下）! - 简书_files/011d3fb3-d8e0-403b-938f-9dc82941c518.jpg" alt="144">
+</a>          <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+          <a class="title" href="http://www.jianshu.com/u/dc60226397d1">吴愣</a>
+            <i class="iconfont ic-man"></i>
+        <p>写了 23266 字，被 90 人关注，获得了 184 个喜欢</p></div>
+          <div class="signature">骑马倚斜桥，满楼红袖招</div>
+      </div>
+
+      <div class="support-author"></div>
+
+    <div class="meta-bottom">
+      <div class="like"><div class="btn like-group"><div class="btn-like"><a href="http://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-like-button"><i class="iconfont ic-like"></i>喜欢</a></div> <div class="modal-wrap"><a>23</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;http://cwb.assets.jianshu.io/notes/images/15602677/weibo/image_509be7ac730a.jpg&#39;, &#39;推荐 吴愣 的文章《教你用Paint给女朋友化妆（下）!》（ 分享自 @简书 ）&#39;,&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+          <a class="share-circle" data-toggle="tooltip" href="http://cwb.assets.jianshu.io/notes/images/15602677/weibo/image_509be7ac730a.jpg" target="_blank" data-original-title="下载长微博图片">
+            <i class="iconfont ic-picture"></i>
+          </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 吴愣 的文章《教你用Paint给女朋友化妆（下）!》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 吴愣 的文章《教你用Paint给女朋友化妆（下）!》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;教你用Paint给女朋友化妆（下）!&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+    <div id="vue_comment"></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style=""><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39;&gt;
+                &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;http://cwb.assets.jianshu.io/notes/images/15602677/weibo/image_509be7ac730a.jpg&#39;, &#39;推荐 吴愣 的文章《教你用Paint给女朋友化妆（下）!》（ 分享自 @简书 ）&#39;,&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;http://cwb.assets.jianshu.io/notes/images/15602677/weibo/image_509be7ac730a.jpg&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-picture&quot;&gt;&lt;/i&gt;&lt;span&gt;下载长微博图片&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 吴愣 的文章《教你用Paint给女朋友化妆（下）!》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 吴愣 的文章《教你用Paint给女朋友化妆（下）!》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;http://www.jianshu.com/p/7188f78d637b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;教你用Paint给女朋友化妆（下）!&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="http://www.jianshu.com/c/58b4c20abf2f?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/android.graphics.Bitmap_1329dce8.jpeg"><div class="name">Android...</div></a><a href="http://www.jianshu.com/c/5139d555c94d?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/1416528891_3612.png"><div class="name">Android...</div></a><a href="http://www.jianshu.com/c/0dc880a2c73c?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/ff55916a6a0c2db84ebb1ffdcef539dd.png"><div class="name">Android开发</div></a><a href="http://www.jianshu.com/c/NEt52a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/computer_guy.jpg"><div class="name">程序员</div></a><a href="http://www.jianshu.com/c/89995286335f?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/QQ20170720-141447_2x.png"><div class="name">程序员首页投稿</div></a><a href="http://www.jianshu.com/c/bDHhpK?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/首页投稿.png"><div class="name">首页投稿</div></a><a href="http://www.jianshu.com/c/3fde3b545a35?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./教你用Paint给女朋友化妆（下）! - 简书_files/android.graphics.Bitmap_3d178cba.jpeg"><div class="name">Android知识</div></a> <a class="show-more">
+        展开更多
+        <i class="iconfont ic-show"></i></a></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="15602677"></div>
+</div>
+
+    <script src="./教你用Paint给女朋友化妆（下）! - 简书_files/push.js.下载"></script><script src="./教你用Paint给女朋友化妆（下）! - 简书_files/hm.js.下载"></script><script async="" src="./教你用Paint给女朋友化妆（下）! - 简书_files/analytics.js.下载"></script><script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"uuid":"fa88cec1-c79f-4053-ae47-d7bbbfdffac7"},"note":{"id":15602677,"slug":"7188f78d637b","user_id":4131410,"notebook_id":14349584,"commentable":true,"likes_count":23,"views_count":193,"public_wordage":3256,"comments_count":2,"total_rewards_count":2,"is_author":false,"author":{"nickname":"吴愣","total_wordage":23266,"followers_count":90,"total_likes_count":184}}}</script>
+    
+    <script src="./教你用Paint给女朋友化妆（下）! - 简书_files/babel-polyfill-0935db243d86a29bc890.js.下载"></script>
+    <script src="./教你用Paint给女朋友化妆（下）! - 简书_files/web-base-7e9134df367b2376c6c2.js.下载"></script>
+<script src="./教你用Paint给女朋友化妆（下）! - 简书_files/web-fd09aa45672ec337d47b.js.下载"></script>
+    
+    <script src="./教你用Paint给女朋友化妆（下）! - 简书_files/entry-1292778a24e19c27eb4e.js.下载"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-35169517-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>
