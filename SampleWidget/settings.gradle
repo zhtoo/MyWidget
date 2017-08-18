@@ -1,1 +1,1 @@
-include ':app', ':expandablelistview'
+include ':app', ':expandablelistview', ':bitmapshader'

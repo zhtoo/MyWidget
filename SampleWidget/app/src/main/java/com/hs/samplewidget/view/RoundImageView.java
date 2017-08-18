@@ -7,6 +7,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.CornerPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -23,14 +24,13 @@ import android.widget.ImageView;
 
 import com.hs.samplewidget.R;
 
-
 /**
  * Created by zhanghaitao on 2017/5/28.
  */
 
-public class CircleImageView extends ImageView {
+public class RoundImageView extends ImageView {
 
-    private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
+    private static final ScaleType SCALE_TYPE = ScaleType.CENTER;
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
@@ -44,53 +44,55 @@ public class CircleImageView extends ImageView {
     private final RectF mBorderRect = new RectF();
 
     private final Matrix mShaderMatrix = new Matrix();
+
     private final Paint mBitmapPaint = new Paint();
     private final Paint mBorderPaint = new Paint();
     private final Paint mFillPaint = new Paint();
-
+    //可以通过xml的属性来设置
     private int mBorderColor = DEFAULT_BORDER_COLOR;
     private int mBorderWidth = DEFAULT_BORDER_WIDTH;
     private int mFillColor = DEFAULT_FILL_COLOR;
-
+    private boolean mBorderOverlay;
+    //需要加载的图片
     private Bitmap mBitmap;
+    //图片图形
     private BitmapShader mBitmapShader;
     private int mBitmapWidth;
+
+
     private int mBitmapHeight;
 
-    private float mDrawableRadius;
-    private float mBorderRadius;
-
     private ColorFilter mColorFilter;
-
     private boolean mReady;
     private boolean mSetupPending;
-    private boolean mBorderOverlay;
+    //圆角半径
+    private int cornerRadius =30;
 
-    public CircleImageView(Context context) {
+    public RoundImageView(Context context) {
         super(context);
 
         init();
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public RoundImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public RoundImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyle, 0);
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH);
-        mBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR);
-        mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY);
-        mFillColor = a.getColor(R.styleable.CircleImageView_civ_fill_color, DEFAULT_FILL_COLOR);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.RoundImageView_riv_border_width, DEFAULT_BORDER_WIDTH);
+        mBorderColor = a.getColor(R.styleable.RoundImageView_riv_border_color, DEFAULT_BORDER_COLOR);
+        mBorderOverlay = a.getBoolean(R.styleable.RoundImageView_riv_border_overlay, DEFAULT_BORDER_OVERLAY);
+        mFillColor = a.getColor(R.styleable.RoundImageView_riv_fill_color, DEFAULT_FILL_COLOR);
         a.recycle();
         init();
     }
 
     private void init() {
-        super.setScaleType(SCALE_TYPE);
+      super.setScaleType(SCALE_TYPE);
         mReady = true;
 
         if (mSetupPending) {
@@ -103,12 +105,12 @@ public class CircleImageView extends ImageView {
     public ScaleType getScaleType() {
         return SCALE_TYPE;
     }
-
     @Override
     public void setScaleType(ScaleType scaleType) {
-        if (scaleType != SCALE_TYPE) {
+        super.setScaleType(SCALE_TYPE);
+       /* if (scaleType != SCALE_TYPE) {
             throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
-        }
+        }*/
     }
 
     @Override
@@ -123,14 +125,24 @@ public class CircleImageView extends ImageView {
         if (mBitmap == null) {
             return;
         }
-
+        RectF rect = new RectF(0, 0, getWidth(), getHeight());
+      //  RectF rectBorder = new RectF(0, 0, mBitmapWidth, mBitmapHeight);
         if (mFillColor != Color.TRANSPARENT) {
-            canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mFillPaint);
+            canvas.drawRoundRect(rect,
+                    cornerRadius, //x轴的半径
+                    cornerRadius, //y轴的半径
+                    mFillPaint);
         }
-
-        canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mBitmapPaint);
+        canvas.drawRoundRect(rect,
+                cornerRadius, //x轴的半径
+                cornerRadius, //y轴的半径
+                mBitmapPaint);
+        //画边线
         if (mBorderWidth != 0) {
-            canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mBorderRadius, mBorderPaint);
+            canvas.drawRoundRect(rect,
+                    cornerRadius, //x轴的半径
+                    cornerRadius, //y轴的半径
+                    mBorderPaint);
         }
     }
 
@@ -289,10 +301,13 @@ public class CircleImageView extends ImageView {
         mBitmapPaint.setAntiAlias(true);
         mBitmapPaint.setShader(mBitmapShader);
 
+
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setColor(mBorderColor);
         mBorderPaint.setStrokeWidth(mBorderWidth);
+        mBorderPaint.setStrokeCap(Paint.Cap.ROUND);// 圆形线帽
+        mBorderPaint.setStrokeJoin(Paint.Join.ROUND);//圆弧
 
         mFillPaint.setStyle(Paint.Style.FILL);
         mFillPaint.setAntiAlias(true);
@@ -302,13 +317,11 @@ public class CircleImageView extends ImageView {
         mBitmapWidth = mBitmap.getWidth();
 
         mBorderRect.set(0, 0, getWidth(), getHeight());
-        mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f);
 
         mDrawableRect.set(mBorderRect);
         if (!mBorderOverlay) {
             mDrawableRect.inset(mBorderWidth, mBorderWidth);
         }
-        mDrawableRadius = Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f);
 
         updateShaderMatrix();
         invalidate();
