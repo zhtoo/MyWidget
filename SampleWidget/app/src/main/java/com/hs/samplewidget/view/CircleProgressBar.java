@@ -22,7 +22,7 @@ public class CircleProgressBar extends View {
 
     private int mProgressBackgroundColor;
     private int mProgressColor;
-    private float mProgressMax =100;
+    private float mProgressMax = 100;
     private float mCircleWidth;
     private float mTextSize;
     private int mTextColor;
@@ -37,7 +37,7 @@ public class CircleProgressBar extends View {
     public CircleProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         initCofig(context, attrs);
-           }
+    }
 
     private void initCofig(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar);
@@ -66,14 +66,14 @@ public class CircleProgressBar extends View {
          */
         int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-        int widthSpecSize=MeasureSpec.getSize(widthMeasureSpec);
-        int heightSpecSize=MeasureSpec.getSize(heightMeasureSpec);
-        if(widthSpecMode==MeasureSpec.AT_MOST&&heightSpecMode==MeasureSpec.AT_MOST){
-            setMeasuredDimension(300,300);
-        }else if(widthSpecMode==MeasureSpec.AT_MOST){
-            setMeasuredDimension(300,heightSpecSize);
-        }else if(heightSpecMode==MeasureSpec.AT_MOST){
-            setMeasuredDimension(widthSpecSize,300);
+        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+        if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(300, 300);
+        } else if (widthSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(300, heightSpecSize);
+        } else if (heightSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(widthSpecSize, 300);
         }
 
     }
@@ -88,10 +88,10 @@ public class CircleProgressBar extends View {
         super.onDraw(canvas);
 
 
-        int paddingLeft=getPaddingLeft();
-        int paddingRight=getPaddingRight();
-        int paddingTop=getPaddingTop();
-        int paddingBottom=getPaddingBottom();
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
 
 
         //画圆环
@@ -109,7 +109,7 @@ public class CircleProgressBar extends View {
         mPaint.setColor(mTextColor);
         mPaint.setStrokeWidth(0);
         mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-        int percent = (int) (mProgress / mProgressMax* 100) ;
+        int percent = (int) (mProgress / mProgressMax * 100);
         String percentStr = percent + "%";
         Paint.FontMetricsInt fm = mPaint.getFontMetricsInt();
         canvas.drawText(percentStr,
@@ -117,25 +117,25 @@ public class CircleProgressBar extends View {
                 center + (fm.bottom - fm.top) / 2 - fm.bottom,
                 mPaint);
         //画圆弧
-        mPaint =new Paint();
+        mPaint = new Paint();
         mPaint.setColor(mProgressColor);
         mPaint.setStrokeWidth(mCircleWidth);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setAntiAlias(true);
-        RectF oval=new RectF(center-radius,center-radius,center+radius,center+radius);
-        canvas.drawArc(oval,270, -mProgress /mProgressMax*360,false, mPaint);
+        RectF oval = new RectF(center - radius, center - radius, center + radius, center + radius);
+        canvas.drawArc(oval, 270, -mProgress / mProgressMax * 360, false, mPaint);
         invalidate();
     }
 
-    public void setProgress(int progress){
-        if(progress<0){
+    public void setProgress(int progress) {
+        if (progress < 0) {
             throw new IllegalArgumentException("进度不能小于0！");
         }
-        if(progress>mProgressMax){
-            mProgress= (int) mProgressMax;
+        if (progress > mProgressMax) {
+            mProgress = (int) mProgressMax;
         }
-        if(progress<mProgressMax){
-            mProgress=progress;
+        if (progress < mProgressMax) {
+            mProgress = progress;
             //不知道应用层在哪个线程调用
             postInvalidate();
         }
@@ -143,13 +143,12 @@ public class CircleProgressBar extends View {
     }
 
 
-
     /**
      * 为进度设置动画
      */
     private void setAnimation() {
         progressAnimator = ValueAnimator.ofFloat(0, mProgress);
-        progressAnimator.setDuration(1000);
+        progressAnimator.setDuration(2000);
         progressAnimator.setTarget(mProgress);
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -161,10 +160,6 @@ public class CircleProgressBar extends View {
         });
         progressAnimator.start();
     }
-
-
-
-
 
 
 }
