@@ -26,5 +26,15 @@
     </declare-styleable>
 
 
+    <declare-styleable name="DownloadView">
+        <attr name="progress_color" format="color"/>
+        <attr name="progress_background_color" format="color"/>
+        <attr name="progress_max" format="float"/>
+        <attr name="circle_width" format="dimension"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="text_color" format="color"/>
+    </declare-styleable>
+
+
 
 </resources>
