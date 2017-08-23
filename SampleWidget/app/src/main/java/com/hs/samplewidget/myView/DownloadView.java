@@ -12,7 +12,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -57,9 +56,9 @@ public class DownloadView extends View {
     private Paint mLaunchBallPaint;
 
     //水波纹
-    private static final float STRETCH_FACTOR_A = 15;   //幅度
+    private static final float STRETCH_FACTOR_A = 10;   //幅度
     private static final int OFFSET_Y = 0;              //y的偏移量
-    private static final int TRANSLATE_X_SPEED = 5; //水波移动速度
+    private static final int TRANSLATE_X_SPEED = 1; //水波移动速度
     private float mCycleFactorW;    //周期
     private float[] mYPositions;    //Y的坐标点
     private float[] mResetYPositions;   //改变后Y的坐标点
@@ -234,7 +233,17 @@ public class DownloadView extends View {
                 invalidate();
             }
         } else {
-            drawArrow(canvas, center);
+            //画箭头
+            Path mArrowPath = new Path();
+            mArrowPath.moveTo(center * 0.5f, center);
+            mArrowPath.lineTo(center, center * 1.5f);
+            mArrowPath.lineTo(center * 1.5f, center);
+            mPaint.setStrokeJoin(Paint.Join.ROUND);
+            canvas.drawPath(mArrowPath, mPaint);
+            //画箭尾
+            canvas.drawLine(center, center * 0.5f,
+                    center, center * 1.5f, mPaint);
+
         }
     }
 
@@ -325,11 +334,33 @@ public class DownloadView extends View {
     }
 
     /**
+     * 初始化进度
+     */
+    public void initProgress() {
+        //开启下载前的动画
+        drawType = 0;
+        mProgress = 0;
+        if (arrowAnimator != null) {
+            arrowAnimator.cancel();
+            arrowAnimator = null;
+        }
+        if (launchAnimator != null) {
+            launchAnimator.cancel();
+            launchAnimator = null;
+        }
+        if (progressAnimator != null) {
+            progressAnimator.cancel();
+            progressAnimator = null;
+        }
+        postInvalidate();
+    }
+
+    /**
      * 箭头动画
      */
     private void setArrowAnimation() {
         arrowAnimator = ValueAnimator.ofFloat(mTotalWidth * 0.75f, mTotalWidth * 0.5f);
-        arrowAnimator.setDuration(500);
+        arrowAnimator.setDuration(250);
         arrowAnimator.setTarget(arrowCoordinate);
         arrowAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -337,6 +368,7 @@ public class DownloadView extends View {
                 arrowCoordinate = (float) animation.getAnimatedValue();
                 if (arrowCoordinate == mTotalWidth * 0.5f) {
                     drawType = START_LAUNCH;
+                    arrowAnimator = null;
                 }
             }
         });
@@ -348,14 +380,15 @@ public class DownloadView extends View {
      */
     private void setLaunchAnimation() {
         launchAnimator = ValueAnimator.ofFloat(mTotalWidth * 0.5f - mCircleWidth, mCircleWidth / 2);
-        launchAnimator.setDuration(500);
-        // launchAnimator.setTarget(launchCoordinate);
+        launchAnimator.setDuration(250);
+        launchAnimator.setTarget(launchCoordinate);
         launchAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 launchCoordinate = (float) animation.getAnimatedValue();
                 if (launchCoordinate == mCircleWidth / 2) {
                     drawType = START_PROGRESS;
+                    launchAnimator = null;
                 }
             }
         });
@@ -367,7 +400,7 @@ public class DownloadView extends View {
      */
     private void startProgressAnimation() {
         progressAnimator = ValueAnimator.ofFloat(0, mProgress);
-        progressAnimator.setDuration(200);
+        progressAnimator.setDuration(500);
         progressAnimator.setTarget(mProgress);
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -376,6 +409,7 @@ public class DownloadView extends View {
                 mProgress = (float) animation.getAnimatedValue();
                 if (mProgress >= mProgressMax) {
                     progressAnimator.cancel();
+                    progressAnimator = null;
                 }
             }
         });

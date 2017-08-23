@@ -16,7 +16,15 @@
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"/>
 -->
-    <com.hs.samplewidget.myView.DownloadView
+  <com.hs.samplewidget.myView.CountDownView
+      android:id="@+id/my_countdown"
+      android:layout_width="80dp"
+      android:layout_height="20dp"
+      app:time="1000000000000000"/>
+
+
+
+  <com.hs.samplewidget.myView.DownloadView
         android:id="@+id/my_circleprogress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +36,18 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="下载"/>
+
+  <Button
+      android:id="@+id/my_stop"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="暂停"/>
+
+  <Button
+      android:id="@+id/my_reset"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="重置"/>
 
     <!--RadarView
     app:riv_border_width = "1dp"
