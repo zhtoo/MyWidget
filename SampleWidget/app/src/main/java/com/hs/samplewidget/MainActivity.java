@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 download = true;
                 mProgress = 15;
                 setProgresss();*/
-                mCountDownView.setTime("10000000000");
+                mCountDownView.setTime("1");
             }
         });
 

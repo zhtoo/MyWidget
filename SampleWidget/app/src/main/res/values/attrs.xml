@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--
+    注意：在attrs文件中，attr标签中的name不能相同
+
+
+
+    -->
     <declare-styleable name="CircleProgressBar">
         <attr name="progressColor" format="color"/>
         <attr name="progressBackgroundColor" format="color"/>

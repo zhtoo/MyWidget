@@ -20,7 +20,7 @@
       android:id="@+id/my_countdown"
       android:layout_width="80dp"
       android:layout_height="20dp"
-      app:time="1000000000000000"/>
+      app:time="1000000"/>
 
 
 

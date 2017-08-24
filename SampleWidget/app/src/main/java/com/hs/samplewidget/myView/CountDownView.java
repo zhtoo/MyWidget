@@ -7,16 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.hs.samplewidget.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * HH:MM:SS
@@ -32,8 +30,26 @@ public class CountDownView extends View {
     private long mTime;
     private Context context;
     private Paint mTextPaint;
-    private ValueAnimator mAnimator;
-    private float mCurrentTime;
+
+    private String time;
+    private long oldTime;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            long newTime = System.currentTimeMillis();
+            if (mTime > 0) {
+                //时间自减
+                mTime--;
+                //重绘，在此会重新调用onDraw（）
+                postInvalidate();
+                Log.d("onDraw", "间隔" + (System.currentTimeMillis() - oldTime));
+                oldTime = newTime;
+                mHandler.sendEmptyMessageDelayed(MAG_WHAT, DELAY_TIME);
+            }
+        }
+    };
+    private int MAG_WHAT = 66;
+    private long DELAY_TIME = 1000;
 
     public CountDownView(Context context) {
         this(context, null);
@@ -49,10 +65,10 @@ public class CountDownView extends View {
         this.context = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CountDownView);
 
-        String stringTime = typedArray.getString(R.styleable.CountDownView_time);
-        String number = getNumber(stringTime);
+        time = typedArray.getString(R.styleable.CountDownView_time);
+        String number = getNumber(time);
         Long aLong = Long.parseLong(number);
-        mTime = aLong == null ?1000000:aLong;
+        mTime = aLong == null ? 1000000 : aLong;
 
         startRun = typedArray.getBoolean(R.styleable.CountDownView_start, false);
         mTextSize = typedArray.getDimension(R.styleable.CountDownView_size, 40);
@@ -69,8 +85,8 @@ public class CountDownView extends View {
         mTextPaint.setStrokeWidth(0);
         mTextPaint.setTypeface(Typeface.DEFAULT);
 
-        mCurrentTime = mTime;
-
+        oldTime = System.currentTimeMillis();
+        mHandler.sendEmptyMessageDelayed(MAG_WHAT, DELAY_TIME);
     }
 
     @Override
@@ -83,7 +99,7 @@ public class CountDownView extends View {
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
         if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
             //默认wrap_content为300px
-            setMeasuredDimension(200,60);
+            setMeasuredDimension(200, 60);
         } else if (widthSpecMode == MeasureSpec.AT_MOST) {
             setMeasuredDimension(80, heightSpecSize);
         } else if (heightSpecMode == MeasureSpec.AT_MOST) {
@@ -94,22 +110,37 @@ public class CountDownView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        long startTime = System.currentTimeMillis();
+
         int center = getWidth() / 2;
         String time = getTimeShort(mTime);
         canvas.drawText(time,//待绘制的文字
                 center - getFontWidth(mTextPaint, time) / 2,
                 getFontHeight(mTextPaint),
                 mTextPaint);
-        if(mTime >0){
-            mTime -= 1000;
+       /*
+       //这种方法会有十几毫秒的偏差,使用 mHandler.sendEmptyMessageDelayed()的误差在几毫秒内。
+       //待解决问题：
+       //run()方法会在100ms内重新执行
+       //解决方向--->
+       //TimerTask开启的线程与UI线程并列
+       //可能原因：TimerTask中的run()方法，也被UI线程调用,所以导致在较短时间内执行两次
+       if (mTime > 0) {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    postInvalidate();
+                    long newTime = System.currentTimeMillis();
+                    if (newTime - oldTime > 500) {
+                        Log.d("onDraw", "间隔" + (System.currentTimeMillis() - oldTime));
+                        oldTime = newTime;
+                        mTime -= 1;
+                        postInvalidate();
+                    }
                 }
-            }, 1000);
+            }, 1000);//延迟1s
         }
+        */
     }
 
     /**
@@ -118,18 +149,25 @@ public class CountDownView extends View {
      * @param time
      */
     public void setTime(String time) {
-        //进度值不能小于0
-
+        //时间不能小于0
         Long aLong = Long.parseLong(getNumber(time));
         if (aLong < 0) {
-            throw new IllegalArgumentException("进度不能小于0！");
-        } else  {
+            throw new IllegalArgumentException("时间不能小于0！");
+        } else {
+            //清空消息
+            mHandler.removeMessages(MAG_WHAT);
+            //将时间重新复制
             this.mTime = aLong;
+            //重绘
+            postInvalidate();
+            //发送延迟消息
+            mHandler.sendEmptyMessageDelayed(MAG_WHAT, DELAY_TIME);
         }
-        postInvalidate();
     }
 
-
+    public String getTime() {
+        return time;
+    }
 
     /**
      * 获取时间 小时:分;秒 HH:mm:ss
@@ -137,13 +175,14 @@ public class CountDownView extends View {
      * @return
      */
     public static String getTimeShort(long time) {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        Date currentTime = new Date(time);
-        String dateString = formatter.format(currentTime);
-        return dateString;
+        long hourTime = time / 3600;
+        long minuteTime = (time % 3600) / 60;
+        long secondTime = time % 60;
+        String hour = hourTime < 10 ? ("0" + hourTime) : String.valueOf(hourTime);
+        String minute = minuteTime < 10 ? ("0" + minuteTime) : String.valueOf(minuteTime);
+        String second = secondTime < 10 ? ("0" + secondTime) : String.valueOf(secondTime);
+        return hour + ":" + minute + ":" + second;
     }
-
-
 
     /**
      * 返回指定的文字宽度
@@ -171,19 +210,17 @@ public class CountDownView extends View {
      * @return
      */
     private static String getNumber(String str) {
-
         String str2 = "0";
         if (!TextUtils.isEmpty(str)) {
             str = str.trim();
             str2 = "";
             for (int i = 0; i < str.length(); i++) {
-                if ((str.charAt(i) >= 48 && str.charAt(i) <= 57)||str.charAt(i) == '.') {
+                if ((str.charAt(i) >= 48 && str.charAt(i) <= 57) || str.charAt(i) == '.') {
                     str2 += str.charAt(i);
                 }
             }
         }
-        return  TextUtils.isEmpty(str2)?"0":str2.trim();
+        return TextUtils.isEmpty(str2) ? "0" : str2.trim();
     }
-
 
 }
