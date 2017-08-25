@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  //模拟下载过程
+                //模拟下载过程
                 reset = true;
                 download = true;
-                mProgress = 15;
-                setProgresss();*/
-                mCountDownView.setTime("1");
+                mProgress = (int) (Math.random() * 60 + 1d);
+                setProgresss();
+               // mCountDownView.setTime("1");
             }
         });
 
