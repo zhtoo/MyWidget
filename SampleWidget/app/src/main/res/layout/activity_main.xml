@@ -53,7 +53,7 @@
       android:textColor="@drawable/text_bg_selector"
       android:text="重置"/>
 
-    <!--RadarView
+    <!--RadarView ：雷达扫描效果
     app:riv_border_width = "1dp"
         app:riv_border_overlay="true"
         app:riv_fill_color="@android:color/white"
@@ -61,6 +61,6 @@
     -->
 
     <!--android:text="LinearGradient霓虹灯文字,这个自定义View要继承TextVie
-        w,text必须要有文字，这里可以用来做歌词的播放效果"-->
+        w,text必须要有文字，这里可以用来做歌词的播放效果。"-->
 
 </LinearLayout>
