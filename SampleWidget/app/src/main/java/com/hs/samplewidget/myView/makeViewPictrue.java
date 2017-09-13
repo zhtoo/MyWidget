@@ -1,6 +1,7 @@
 package com.hs.samplewidget.myView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -31,6 +33,7 @@ public class makeViewPictrue extends AppCompatActivity implements View.OnClickLi
 
     private RelativeLayout myView;
     private Button button;
+    private int RequestCode = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +45,26 @@ public class makeViewPictrue extends AppCompatActivity implements View.OnClickLi
         //定义一个变量 记录当前权限的状态
         int checkSlfePermission =
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
         //当前么有相应的权限
         if (checkSlfePermission == PackageManager.PERMISSION_DENIED) {
             //申请权限 （弹出一个申请权限的对话框）
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RequestCode);
         } else
             //申请到了权限
             if (checkSlfePermission == PackageManager.PERMISSION_GRANTED) {
 
             }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (RequestCode == requestCode) {
+            Log.d("我好烦", "" + resultCode);
+        } else {
+            Log.d("我好烦", "" + resultCode);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -63,9 +74,7 @@ public class makeViewPictrue extends AppCompatActivity implements View.OnClickLi
      */
     private void saveMypic(Bitmap bitmap) {
         //非空判断
-        if (bitmap == null) {
-            return;
-        }
+        if (bitmap == null) return;
         // 保存图片
         try {
             File file = new File(Environment.getExternalStorageDirectory(),
@@ -85,10 +94,13 @@ public class makeViewPictrue extends AppCompatActivity implements View.OnClickLi
         //View是你需要绘画的View
         int width = view.getWidth();
         int height = view.getHeight();
+        //创建bitmap对象，设置宽高、和编码类型
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        //创建canvas对象，将bitmap传入。
         Canvas canvas = new Canvas(bitmap);
         //如果不设置canvas画布为白色，则生成透明
         canvas.drawColor(Color.WHITE);
+        //将View绘画到canvas中
         view.draw(canvas);
         return bitmap;
     }

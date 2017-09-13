@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">豆宝宝管理</string>
+
+    <!--菜单条目-->
+    <string name="risk_control">风控审批</string>
+    <string name="general_manager">总经理审批</string>
+    <string name="invalid_list">无效列表</string>
+
+    <!--标题-->
+    <string name="read_data">资料查看</string>
+
+    <!--资料查看（导航条目）-->
+    <string name="detail_particulars">详情</string>
+    <string name="detail_pictrue">照片</string>
+    <string name="detail_video">视频</string>
+    <string name="detail_reference">参考</string>
+
+
+</resources>

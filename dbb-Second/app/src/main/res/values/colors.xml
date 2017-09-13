@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color1">#3333CCCC</color>
+    <color name="color2">#33663300</color>
+    <color name="white">#fff</color>
+
+    <!--主页背景色-->
+    <!--<color name="backgroundGrey">#f2f2f2f2</color>-->
+
+    <!--分割线以及填写名称框线条-->
+    <color name="lineBackground">#CCCCCC</color>
+
+    <color name="im_font_color_text_hint">#abb1b6</color>
+
+    <!--小面积使用，用于突出需要强调和突出数字，按钮，以及标识
+        金额钱数，右箭头，审批按钮-->
+    <color name="textOrange">#EE5600</color>
+    <!--用于重要级文字信息，内容标题信息,按钮，以及标识。
+        如列表信息重要文字，大板块标题，标题栏返回箭头，
+        审批按钮图标，及无效列表右箭头-->
+    <color name="textAggravating">#333333</color>
+
+    <color name="AFAS">#F9F9F9</color>
+    <color name="DASD">#EEEEEE</color>
+    <color name="ADSAD">#999999</color>
+    <color name="SADSAD">#FF0000</color>
+
+
+</resources>
