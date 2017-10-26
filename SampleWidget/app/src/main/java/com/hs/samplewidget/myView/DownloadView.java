@@ -22,6 +22,7 @@ import com.hs.samplewidget.R;
  * <p>
  * 作者：zhanghaitao on 2017/8/15 09:42
  * 邮箱：820159571@qq.com
+ * @DES: 这是吹牛逼的产物，开发时长8h。
  * <p>
  * 补充知识：
  * postInvalidate();//在非UI线程中使用
@@ -42,7 +43,7 @@ public class DownloadView extends View {
     private float mCircleWidth;    //圆环的宽度
     private float mTextSize;    //文字大小
     private int mTextColor;    //文字颜色
-    private float mProgress = 80;    //当前进度，只要不小于0，随便改
+    private float mProgress = 30; //当前进度，只要不小于0，随便改
 
     //动画对象
     private ValueAnimator arrowAnimator;
@@ -146,7 +147,7 @@ public class DownloadView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         /*
         重写onMeasure()是为了解决wrap_content的问题。
-        如果没有加上这一段，那么使用wrap_content与match_parent就没有区别。
+        如果没有加上这一段代码，那么使用wrap_content与match_parent就没有区别。
          */
         int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
