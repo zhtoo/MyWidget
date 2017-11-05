@@ -1,96 +1,57 @@
 package com.hs.samplewidget;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.hs.samplewidget.myView.CountDownView;
-import com.hs.samplewidget.myView.DownloadView;
+import com.hs.samplewidget.activity.DemoActivity;
+import com.hs.samplewidget.activity.DownloadAvtivity;
+import com.hs.samplewidget.activity.MakeViewPictrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * http://blog.csdn.net/lmj623565791/article/details/41967509
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyAdapter.onItemClickListener {
     public static final String TAG = "MainActivity";
 
-    private DownloadView progress;
-    private int mProgress;
-    private Button mButton;
-    private long startTime;
-
-    private Handler handler = new Handler();
-    private Button mReset;
-    private boolean reset;
-    private Runnable r;
-    private Button mStop;
-    private boolean download;
-    private CountDownView mCountDownView;
-
+    private RecyclerView mRecyclerView;
+    private List<String> list =new ArrayList<>();
+    private List<Class> activitys =new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mCountDownView = (CountDownView) findViewById(R.id.my_countdown);
-        progress = (DownloadView) findViewById(R.id.my_circleprogress);
-        mButton = (Button) findViewById(R.id.my_button);
-        mStop = (Button) findViewById(R.id.my_stop);
-        mReset = (Button) findViewById(R.id.my_reset);
-        r = new Runnable() {
-            @Override
-            public void run() {
-                progress.setProgress(mProgress);//设置当前进度
-                if (mProgress < 100) {
-                    mProgress++;
-                    setProgresss();
-                }
-            }
-        };
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //模拟下载过程
-                reset = true;
-                download = true;
-                mProgress = (int) (Math.random() * 60 + 1d);
-                setProgresss();
-               // mCountDownView.setTime("1");
-            }
-        });
+        mRecyclerView = findViewById(R.id.main_recyclerview);
+        initData();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(new MyAdapter(this,list));
+        //添加分割线
+        mRecyclerView.addItemDecoration(new MyItemDecoration(this, MyItemDecoration.VERTICAL_LIST));
+        MyAdapter adapter =(MyAdapter) mRecyclerView.getAdapter();
+        adapter.setOnItemClickListener(this);
+    }
 
-        mReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reset = false;
-                handler.removeCallbacks(r);
-                progress.initProgress();
-            }
-        });
-
-        mStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(download){
-                    handler.removeCallbacks(r);
-                    mStop.setText("开始");
-                    progress.setProgress(mProgress);
-                    download = false;
-                }else {
-                    reset = true;
-                    download = true;
-                    mStop.setText("暂停");
-                    setProgresss();
-                }
-            }
-        });
+    private void initData() {
+        list.add("自己练习的demo");
+        activitys.add(DemoActivity.class);
+        list.add("下载动画View");
+        activitys.add(DownloadAvtivity.class);
+        list.add("将View保存为图片");
+        activitys.add(MakeViewPictrue.class);
 
     }
 
-    private void setProgresss() {
-        if (reset) {
-            handler.postDelayed(r, (int) (Math.random() * 100 + 50d));//随机选择延迟时间，范围50-150ms
-        }
+
+    @Override
+    public void onItemClick(int postion) {
+        Intent intent = new Intent();
+        intent.setClass(this,activitys.get(postion));
+        startActivity(intent);
     }
 }

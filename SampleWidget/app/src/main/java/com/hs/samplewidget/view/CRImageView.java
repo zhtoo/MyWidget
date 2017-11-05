@@ -68,7 +68,6 @@ public class CRImageView extends ImageView {
 
     public CRImageView(Context context) {
         super(context);
-
         init();
     }
 

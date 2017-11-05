@@ -1,6 +1,5 @@
 package com.hs.samplewidget.myView;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -20,6 +19,7 @@ import com.hs.samplewidget.R;
  * HH:MM:SS
  * 作者：zhanghaitao on 2017/8/23 16:59
  * 邮箱：820159571@qq.com
+ * @des:倒计时的控件
  */
 
 public class CountDownView extends View {

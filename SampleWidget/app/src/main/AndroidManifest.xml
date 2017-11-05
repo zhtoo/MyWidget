@@ -18,6 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.DemoActivity"/>
+        <activity android:name=".activity.DownloadAvtivity"/>
+        <activity android:name=".activity.MakeViewPictrue"/>
+
+
     </application>
 
 </manifest>

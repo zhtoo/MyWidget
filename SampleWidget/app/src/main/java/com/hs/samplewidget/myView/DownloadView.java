@@ -142,28 +142,7 @@ public class DownloadView extends View {
         mDrawFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        /*
-        重写onMeasure()是为了解决wrap_content的问题。
-        如果没有加上这一段代码，那么使用wrap_content与match_parent就没有区别。
-         */
-        int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-        if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
-            //默认wrap_content为300px
-            setMeasuredDimension(300, 300);
-        } else if (widthSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(300, heightSpecSize);
-        } else if (heightSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(widthSpecSize, 300);
-        }
-        arrowCoordinate = getWidth() * 0.75f;
-        launchCoordinate = getWidth() * 0.5f - mCircleWidth;
-    }
+   c
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

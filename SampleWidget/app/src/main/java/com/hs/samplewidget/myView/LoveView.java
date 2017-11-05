@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 作者：zhanghaitao on 2017/8/23 16:59
  * 邮箱：820159571@qq.com
- * 练手的demo
+ * 练手的demo，爱心View
  */
 
 public class LoveView extends View {
