@@ -48,5 +48,16 @@
         <attr name="color" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="HstogramView">
+        <attr name="startColor" format="color"/>
+        <attr name="endColor" format="color"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="normalBarChartColor" format="color"/>
+        <attr name="spacing" format="dimension"/>
+        <attr name="allTextSize" format="dimension"/>
+        <attr name="allTextColor" format="color"/>
+        <attr name="equal" format="integer"/>
+    </declare-styleable>
+
 
 </resources>

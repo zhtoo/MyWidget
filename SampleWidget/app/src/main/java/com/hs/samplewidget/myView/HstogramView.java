@@ -1,6 +1,7 @@
 package com.hs.samplewidget.myView;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -12,10 +13,11 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.hs.samplewidget.DensityUtils;
+import com.hs.samplewidget.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ import java.util.List;
 public class HstogramView extends View {
 
     private static final String TAG = "HstogramView";
+    private Context context;
     private int wrap_content = 800;
 
     private Paint xy_axisPaint;
@@ -48,9 +51,10 @@ public class HstogramView extends View {
     //默认Y轴5等分
     private int Equal = 5;
     //渐变颜色选择
-    private int[] colors = {Color.argb(255, 23, 163, 219), Color.argb(255, 23, 140, 219)};
+    //private int[] colors = {Color.argb(255, 23, 163, 219), Color.argb(255, 23, 140, 219)};
+    private int[] colors = {Color.argb(255, 242, 169, 100), Color.argb(255, 239, 128, 0)};
     //视图间距默认40
-    private int Spacing = 40;
+    private float Spacing = 40;
 
 
     //---------------------可以自定义的属性end-------------------------------------------------------
@@ -68,6 +72,10 @@ public class HstogramView extends View {
     private int viewHeight;
 
     private float columnWidth;
+    private int y_axisValuePaintColor;
+    private int barChartsPaintColor;
+    private float mTextSise;
+    private int mTextColor;
 
 
     public HstogramView(Context context) {
@@ -80,7 +88,22 @@ public class HstogramView extends View {
 
     public HstogramView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initCofig(context, attrs);
         initPaint(context);
+    }
+
+    private void initCofig(Context context, AttributeSet attrs) {
+        this.context = context;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.HstogramView);
+        colors[0] = typedArray.getColor(R.styleable.HstogramView_startColor, Color.argb(255, 23, 163, 219));
+        colors[1] = typedArray.getColor(R.styleable.HstogramView_endColor, Color.argb(255, 23, 140, 219));
+        y_axisValuePaintColor = typedArray.getColor(R.styleable.HstogramView_lineColor, colors[1]);
+        barChartsPaintColor = typedArray.getColor(R.styleable.HstogramView_normalBarChartColor, Color.GRAY);
+        Spacing = typedArray.getDimension(R.styleable.HstogramView_spacing, 30);
+        mTextSise = typedArray.getDimension(R.styleable.HstogramView_allTextSize, 24);
+        mTextColor = typedArray.getColor(R.styleable.HstogramView_allTextColor, Color.BLACK);
+        Equal = typedArray.getInteger(R.styleable.HstogramView_equal, 5);
+        typedArray.recycle();
     }
 
     private void initPaint(Context context) {
@@ -96,21 +119,21 @@ public class HstogramView extends View {
         y_axisValuePaint = new Paint();
         y_axisValuePaint.setAntiAlias(true);
         y_axisValuePaint.setStrokeWidth(5);
-        y_axisValuePaint.setColor(Color.argb(255, 23, 140, 219));
+        y_axisValuePaint.setColor(y_axisValuePaintColor);
         y_axisValuePaint.setStyle(Paint.Style.STROKE);//描边
         y_axisValuePaint.setStrokeCap(Paint.Cap.ROUND);// 圆形线帽
 
         //3、画文字+数值显示
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setColor(Color.BLACK);
-        mTextPaint.setTextSize(DensityUtils.sp2px(context, 9));//字体大小
+        mTextPaint.setColor(mTextColor);
+        mTextPaint.setTextSize(mTextSise);//字体大小
         mTextPaint.setTypeface(Typeface.DEFAULT);
 
         //4、画默认的柱形图
         barChartsPaint = new Paint();
         barChartsPaint.setAntiAlias(true);//防锯齿
-        barChartsPaint.setColor(Color.GRAY);
+        barChartsPaint.setColor(barChartsPaintColor);
         barChartsPaint.setStyle(Paint.Style.FILL_AND_STROKE);//充满并且描边
         barChartsPaint.setStrokeCap(Paint.Cap.ROUND);
 
@@ -121,7 +144,6 @@ public class HstogramView extends View {
         barChartsClickPaint.setColor(Color.GREEN);
         barChartsClickPaint.setStyle(Paint.Style.FILL_AND_STROKE);//充满并且描边
         barChartsClickPaint.setStrokeCap(Paint.Cap.ROUND);
-
     }
 
     @Override
@@ -134,6 +156,7 @@ public class HstogramView extends View {
         viewHeight = height;
         //设置宽高
         setMeasuredDimension(width, height);
+        Log.e(TAG, "onMeasure");
     }
 
     /**
@@ -172,11 +195,16 @@ public class HstogramView extends View {
         }
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        Log.e(TAG, "onLayout");
+        super.onLayout(changed, left, top, right, bottom);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        Log.e(TAG, "onDraw");
         /**计算最大的值*/
         if (maxY == -1) {
             int maxValue = 0;
@@ -206,15 +234,15 @@ public class HstogramView extends View {
 
 
         //画轴线
-        canvas.drawLine(columnWidth-Spacing, 0, columnWidth-Spacing, heightY, xy_axisPaint);//y
-        canvas.drawLine(columnWidth-Spacing, heightY, viewWidth, heightY, xy_axisPaint);//x
+        canvas.drawLine(columnWidth - Spacing, 0, columnWidth - Spacing, heightY, xy_axisPaint);//y
+        canvas.drawLine(columnWidth - Spacing, heightY, viewWidth, heightY, xy_axisPaint);//x
 
         //画刻度
         for (int i = 0; i < (Equal + 1); i++) {
             float mValueWeith = getFontWidth(mTextPaint, String.valueOf(maxY - dY * i));
             float X = 0;
             if (maxTextWeith - mValueWeith >= 0) {
-                X = columnWidth-Spacing - mValueWeith - 10;
+                X = columnWidth - Spacing - mValueWeith - 10;
             }
             if (i == 0) {
                 canvas.drawText(String.valueOf(maxY - dY * i), X, maxTextHeight / 2 + 10, mTextPaint);
@@ -227,7 +255,7 @@ public class HstogramView extends View {
         //画数值的虚线
         if (clickItemPosion != -1) {
             Path path = new Path();
-            path.moveTo(columnWidth-Spacing + 5, heightY - values[clickItemPosion] * unitLengthY);
+            path.moveTo(columnWidth - Spacing + 5, heightY - values[clickItemPosion] * unitLengthY);
             path.lineTo(viewWidth, heightY - values[clickItemPosion] * unitLengthY);
             //绘制虚线效果
             PathEffect effects = new DashPathEffect(new float[]{1, 2, 4, 8}, 1);
@@ -282,12 +310,12 @@ public class HstogramView extends View {
             float centerWidth = (pointRange.minX + pointRange.maxX) / 2;
             if ((pointRange.minY - 5) < maxTextHeight) {
                 canvas.drawText(String.valueOf(values[clickItemPosion]),
-                        centerWidth - valueTextWidth/2,
+                        centerWidth - valueTextWidth / 2,
                         pointRange.minY + maxTextHeight * 3 / 4,
                         mTextPaint);
             } else {
                 canvas.drawText(String.valueOf(values[clickItemPosion]),
-                        centerWidth - valueTextWidth/2,
+                        centerWidth - valueTextWidth / 2,
                         pointRange.minY - 5,
                         mTextPaint);
             }
