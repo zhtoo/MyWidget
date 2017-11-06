@@ -22,6 +22,7 @@
         <activity android:name=".activity.DemoActivity"/>
         <activity android:name=".activity.DownloadAvtivity"/>
         <activity android:name=".activity.MakeViewPictrue"/>
+        <activity android:name=".activity.HstogramActivity"/>
 
 
     </application>

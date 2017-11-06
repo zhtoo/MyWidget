@@ -22,6 +22,7 @@ import com.hs.samplewidget.R;
  * <p>
  * 作者：zhanghaitao on 2017/8/15 09:42
  * 邮箱：820159571@qq.com
+ *
  * @DES: 这是吹牛逼的产物，开发时长8h。
  * <p>
  * 补充知识：
@@ -109,6 +110,27 @@ public class DownloadView extends View {
         typedArray.recycle();
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+        if ((widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) ||
+                (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.UNSPECIFIED) ||
+                (widthSpecMode == MeasureSpec.UNSPECIFIED && heightSpecMode == MeasureSpec.AT_MOST) ||
+                (widthSpecMode == MeasureSpec.UNSPECIFIED && heightSpecMode == MeasureSpec.UNSPECIFIED)) {
+            //默认wrap_content为400px
+            setMeasuredDimension(400, 400);
+        } else if (widthSpecMode == MeasureSpec.AT_MOST||widthSpecMode == MeasureSpec.UNSPECIFIED) {
+            setMeasuredDimension(400, heightSpecSize);
+        } else if (heightSpecMode == MeasureSpec.AT_MOST||heightSpecMode == MeasureSpec.UNSPECIFIED) {
+            setMeasuredDimension(widthSpecSize, 400);
+        }
+    }
+
     private void init() {
         //圆环画笔
         mRingPaint = new Paint();
@@ -142,7 +164,6 @@ public class DownloadView extends View {
         mDrawFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     }
 
-   c
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

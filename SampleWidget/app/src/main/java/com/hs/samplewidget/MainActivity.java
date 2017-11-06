@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.hs.samplewidget.activity.DemoActivity;
 import com.hs.samplewidget.activity.DownloadAvtivity;
+import com.hs.samplewidget.activity.HstogramActivity;
 import com.hs.samplewidget.activity.MakeViewPictrue;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = findViewById(R.id.main_recyclerview);
+        mRecyclerView =(RecyclerView) findViewById(R.id.main_recyclerview);
         initData();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(new MyAdapter(this,list));
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
         activitys.add(DownloadAvtivity.class);
         list.add("将View保存为图片");
         activitys.add(MakeViewPictrue.class);
+        list.add("绘画柱状图");
+        activitys.add(HstogramActivity.class);
 
     }
 

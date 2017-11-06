@@ -6,34 +6,47 @@
               android:gravity="center"
               android:layout_height="match_parent">
 
-    <com.hs.samplewidget.myView.DownloadView
-        android:id="@+id/download_view"
-        android:background="#990000ff"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:progress_color="#ffffff"
-        app:text_color="#ffffff"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/download_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/text_bg_selector"
-        android:text="下载"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:weightSum="1">
 
-    <Button
-        android:id="@+id/stop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/text_bg_selector"
-        android:text="暂停"/>
+            <com.hs.samplewidget.myView.DownloadView
+                android:id="@+id/download_view"
+                android:background="#990000ff"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:progress_color="#ffffff"
+                app:text_color="#ffffff"
+                />
 
-    <Button
-        android:id="@+id/reset_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/text_bg_selector"
-        android:text="重置"/>
+            <Button
+                android:id="@+id/download_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/text_bg_selector"
+                android:text="下载"/>
 
+            <Button
+                android:id="@+id/stop_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/text_bg_selector"
+                android:text="暂停"/>
+
+            <Button
+                android:id="@+id/reset_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/text_bg_selector"
+                android:text="重置"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
