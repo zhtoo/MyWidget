@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.hs.samplewidget.DensityUtils;
 import com.hs.samplewidget.R;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class HstogramView extends View {
     private Paint mTextPaint;
     private Paint barChartsPaint;
     private Paint barChartsClickPaint;
+
 
     //需要由外面传进来的数据
     private String[] date = new String[]{"11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07"};
@@ -76,6 +78,14 @@ public class HstogramView extends View {
     private int barChartsPaintColor;
     private float mTextSise;
     private int mTextColor;
+    private float heightY;
+    private float weithX;
+    private float unitLengthY;
+    private int dY;
+    private float dHeight;
+    private float maxYValueWidth;
+    private float maxXValueHeight;
+    private float centerYtextPoint;
 
 
     public HstogramView(Context context) {
@@ -90,6 +100,7 @@ public class HstogramView extends View {
         super(context, attrs, defStyleAttr);
         initCofig(context, attrs);
         initPaint(context);
+
     }
 
     private void initCofig(Context context, AttributeSet attrs) {
@@ -146,6 +157,7 @@ public class HstogramView extends View {
         barChartsClickPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -156,7 +168,52 @@ public class HstogramView extends View {
         viewHeight = height;
         //设置宽高
         setMeasuredDimension(width, height);
-        Log.e(TAG, "onMeasure");
+        Log.e(TAG, "onMeasure就在这里做数据的初始化");
+
+        if (maxY == -1) {
+            int maxValue = 0;
+            for (int value : values) {
+                if (value > maxValue) {
+                    maxValue = value;
+                }
+            }
+            if ((maxValue % (Equal * 10)) == 0) {
+                maxY = maxValue;
+            } else {
+                maxY = ((maxValue / (Equal * 10)) + 1) * Equal * 10;
+            }
+        }
+
+        float maxYTextWidth = getFontWidth(mTextPaint, String.valueOf(maxY));
+        float maxXTextHeight = getFontHeight(mTextPaint);
+        maxYValueWidth = maxYTextWidth + DensityUtils.dp2px(context, 5);
+        maxXValueHeight = maxXTextHeight + DensityUtils.dp2px(context, 5);
+
+        columnWidth = (viewWidth - Spacing * (date.length + 1) - maxYValueWidth) / date.length;
+
+
+        //Y轴的高度
+        heightY = viewHeight - maxXValueHeight;
+        //X轴的宽度
+        weithX = viewWidth - maxYValueWidth;
+        unitLengthY = heightY / maxY;
+        dY = maxY / Equal;
+        dHeight = heightY / Equal;
+
+        centerYtextPoint = heightY + maxXTextHeight - 5;
+
+        for (int i = 0; i < values.length; i++) {
+            PointRange pointRange;
+            if (PointRangeList.size() < values.length) {
+                pointRange = new PointRange();
+                pointRange.minX = maxYValueWidth + (i * columnWidth + Spacing * (i + 1));
+                pointRange.maxX = maxYValueWidth + (columnWidth + Spacing) * (i + 1);
+                pointRange.minY = heightY - values[i] * unitLengthY;
+                pointRange.maxY = heightY - 2;
+                PointRangeList.add(pointRange);
+            }
+        }
+
     }
 
     /**
@@ -204,58 +261,28 @@ public class HstogramView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.e(TAG, "onDraw");
-        /**计算最大的值*/
-        if (maxY == -1) {
-            int maxValue = 0;
-            for (int value : values) {
-                if (value > maxValue) {
-                    maxValue = value;
-                }
-            }
-            if ((maxValue % (Equal * 10)) == 0) {
-                maxY = maxValue;
-            } else {
-                maxY = ((maxValue / (Equal * 10)) + 1) * Equal * 10;
-            }
-        }
-
-        columnWidth = viewWidth / (date.length + 1);
-
-        float maxTextWeith = getFontWidth(mTextPaint, date[0]);
-        float maxTextHeight = getFontHeight(mTextPaint);
-        //Y轴的高度
-        float heightY = viewHeight - maxTextHeight;
-        //X轴的宽度
-        float weithX = viewWidth - maxTextWeith;
-        float unitLengthY = heightY / maxY;
-        int dY = maxY / Equal;
-        float dHeight = heightY / Equal;
-
-
         //画轴线
-        canvas.drawLine(columnWidth - Spacing, 0, columnWidth - Spacing, heightY, xy_axisPaint);//y
-        canvas.drawLine(columnWidth - Spacing, heightY, viewWidth, heightY, xy_axisPaint);//x
+        canvas.drawLine(maxYValueWidth, 0, maxYValueWidth, heightY, xy_axisPaint);//y
+        canvas.drawLine(maxYValueWidth, heightY, viewWidth, heightY, xy_axisPaint);//x
 
         //画刻度
         for (int i = 0; i < (Equal + 1); i++) {
-            float mValueWeith = getFontWidth(mTextPaint, String.valueOf(maxY - dY * i));
+            float mValueWidth = getFontWidth(mTextPaint, String.valueOf(maxY - dY * i));
             float X = 0;
-            if (maxTextWeith - mValueWeith >= 0) {
-                X = columnWidth - Spacing - mValueWeith - 10;
+            if (maxYValueWidth - mValueWidth >= 0) {
+                X = maxYValueWidth - mValueWidth - 10;
             }
             if (i == 0) {
-                canvas.drawText(String.valueOf(maxY - dY * i), X, maxTextHeight / 2 + 10, mTextPaint);
+                canvas.drawText(String.valueOf(maxY - dY * i), X, maxXValueHeight / 2 +5, mTextPaint);
             } else {
-                canvas.drawText(String.valueOf(maxY - dY * i), X, dHeight * i + maxTextHeight / 4, mTextPaint);
+                canvas.drawText(String.valueOf(maxY - dY * i), X, dHeight * i + maxXValueHeight / 4, mTextPaint);
             }
         }
-
 
         //画数值的虚线
         if (clickItemPosion != -1) {
             Path path = new Path();
-            path.moveTo(columnWidth - Spacing + 5, heightY - values[clickItemPosion] * unitLengthY);
+            path.moveTo(maxYValueWidth + 5, heightY - values[clickItemPosion] * unitLengthY);
             path.lineTo(viewWidth, heightY - values[clickItemPosion] * unitLengthY);
             //绘制虚线效果
             PathEffect effects = new DashPathEffect(new float[]{1, 2, 4, 8}, 1);
@@ -265,22 +292,12 @@ public class HstogramView extends View {
 
         //画柱状图
         for (int i = 0; i < values.length; i++) {
-            PointRange pointRange;
-            if (PointRangeList.size() < values.length) {
-                pointRange = new PointRange();
-                pointRange.minX = columnWidth * (i + 1);
-                pointRange.maxX = columnWidth * (i + 2) - Spacing;
-                pointRange.minY = heightY - values[i] * unitLengthY;
-                pointRange.maxY = heightY - 2;
-                PointRangeList.add(pointRange);
-            } else {
-                pointRange = PointRangeList.get(i);
-            }
+            PointRange pointRange = PointRangeList.get(i);
             //画X轴的日期
             float textWidth = getFontWidth(mTextPaint, String.valueOf(date[i]));
             float centerPoint = (pointRange.minX + pointRange.maxX) / 2;
-            canvas.drawText(date[i], centerPoint - textWidth / 2, viewHeight - 5, mTextPaint);
-
+            canvas.drawText(date[i], centerPoint - textWidth / 2, centerYtextPoint, mTextPaint);
+            //绘画柱状图
             if (i == clickItemPosion) {
                 // 一个材质,打造出一个线性梯度沿著一条线。
                 Shader mShader = new LinearGradient(pointRange.minX, pointRange.minY,
@@ -308,10 +325,10 @@ public class HstogramView extends View {
             PointRange pointRange = PointRangeList.get(clickItemPosion);
             float valueTextWidth = getFontWidth(mTextPaint, String.valueOf(values[clickItemPosion]));
             float centerWidth = (pointRange.minX + pointRange.maxX) / 2;
-            if ((pointRange.minY - 5) < maxTextHeight) {
+            if ((pointRange.minY - 5) < maxXValueHeight) {
                 canvas.drawText(String.valueOf(values[clickItemPosion]),
                         centerWidth - valueTextWidth / 2,
-                        pointRange.minY + maxTextHeight * 3 / 4,
+                        pointRange.minY + maxXValueHeight * 2 / 4,
                         mTextPaint);
             } else {
                 canvas.drawText(String.valueOf(values[clickItemPosion]),
@@ -350,34 +367,33 @@ public class HstogramView extends View {
         return fm.descent - fm.ascent;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                Log.e(TAG, "ACTION_DOWN");
                 float downX = event.getX();
                 float downY = event.getY();
-                for (int i = 0; i < PointRangeList.size(); i++) {
-                    PointRange pointRange = PointRangeList.get(i);
-                    if (downX > pointRange.minX && downX < pointRange.maxX &&
-                            downY > pointRange.minY && downY < pointRange.maxY) {
-                        clickItemPosion = i;
-                        invalidate();
-                        return true;
+                clickItemPosion = -1;
+                if (downX > maxYValueWidth) {
+                    for (int i = 0; i < PointRangeList.size(); i++) {
+                        PointRange pointRange = PointRangeList.get(i);
+                        if (downX > pointRange.minX && downX < pointRange.maxX &&
+                                downY > pointRange.minY && downY < pointRange.maxY) {
+                            clickItemPosion = i;
+                        }
                     }
+                   // return true;//拦截事件
                 }
-                if (clickItemPosion != -1) {
-                    clickItemPosion = -1;
-                    invalidate();
-                }
-
                 break;
             case MotionEvent.ACTION_MOVE:
+                Log.e(TAG, "ACTION_MOVE");
                 float moveX = event.getX();
                 float moveY = event.getY();
+
                 break;
             case MotionEvent.ACTION_UP:
+                Log.e(TAG, "ACTION_UP");
                 float x = event.getX();
                 float y = event.getY();
                 for (int i = 0; i < PointRangeList.size(); i++) {
@@ -387,12 +403,14 @@ public class HstogramView extends View {
                         if (listener != null) {
                             listener.onItemClick(i);
                         }
-                        return true;
+                        return super.onTouchEvent(event);
                     }
                 }
                 break;
 
         }
+        //重绘
+        invalidate();
         return super.onTouchEvent(event);
     }
 
@@ -406,5 +424,23 @@ public class HstogramView extends View {
     public interface onItemClickListener {
         void onItemClick(int postion);
     }
+
+
+    public String[] getDate() {
+        return date;
+    }
+
+    public void setDate(String[] date) {
+        this.date = date;
+    }
+
+    public int[] getValues() {
+        return values;
+    }
+
+    public void setValues(int[] values) {
+        this.values = values;
+    }
+
 
 }

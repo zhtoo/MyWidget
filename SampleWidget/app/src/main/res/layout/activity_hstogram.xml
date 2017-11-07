@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:gravity="center">
+              android:background="@android:color/white"
+              android:gravity="center"
+              android:orientation="vertical">
 
     <com.hs.samplewidget.myView.HstogramView
         android:id="@+id/my_hstogram"
-        android:background="@android:color/white"
         android:layout_width="300dp"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        android:background="@android:color/white"
+        app:allTextSize="12sp"
+        />
+
+    <Spinner
+        android:id="@+id/mySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark"
+        android:entries="@array/languages"
+        android:spinnerMode="dropdown"/>
 
 
 </LinearLayout>

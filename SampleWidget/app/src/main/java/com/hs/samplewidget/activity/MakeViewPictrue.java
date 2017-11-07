@@ -48,7 +48,9 @@ public class MakeViewPictrue extends AppCompatActivity implements View.OnClickLi
         //当前么有相应的权限
         if (checkSlfePermission == PackageManager.PERMISSION_DENIED) {
             //申请权限 （弹出一个申请权限的对话框）
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RequestCode);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    RequestCode);
         } else
             //申请到了权限
             if (checkSlfePermission == PackageManager.PERMISSION_GRANTED) {
@@ -103,6 +105,7 @@ public class MakeViewPictrue extends AppCompatActivity implements View.OnClickLi
         //将View绘画到canvas中
         view.draw(canvas);
         return bitmap;
+
     }
 
     @Override

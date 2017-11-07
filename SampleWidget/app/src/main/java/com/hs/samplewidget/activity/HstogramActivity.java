@@ -25,9 +25,10 @@ public class HstogramActivity extends AppCompatActivity {
         view.setOnItemClickListener(new HstogramView.onItemClickListener() {
             @Override
             public void onItemClick(int postion) {
-              //  Toast.makeText(HstogramActivity.this, "点击了条目" + postion, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(HstogramActivity.this, "点击了条目" + postion, Toast.LENGTH_SHORT).show();
             }
         });
-
+        view.setDate(new String[]{"10-01", "10-02", "10-03", "10-04", "10-05", "10-06", "10-07"});
+        view.setValues(new int[]{10, 20, 30, 40, 99, 58,65});
     }
 }

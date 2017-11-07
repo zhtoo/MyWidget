@@ -43,9 +43,7 @@ public class LoveView extends View {
     private int minY=0;
     private int maxY=0;
 
-
     private boolean firstMeasure=false;
-
 
 
     public LoveView(Context context) {
