@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
-import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;

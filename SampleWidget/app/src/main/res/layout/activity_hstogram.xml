@@ -8,12 +8,12 @@
               android:orientation="vertical">
 
     <com.hs.samplewidget.myView.HstogramView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/my_hstogram"
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:background="@android:color/white"
-        app:allTextSize="12sp"
-        />
+        app:allTextSize="12sp"/>
 
     <Spinner
         android:id="@+id/mySpinner"

@@ -17,6 +17,7 @@ import com.hs.samplewidget.R;
 /**
  * 作者：zhanghaitao on 2017/8/17 11:14
  * 邮箱：820159571@qq.com
+
  */
 
 public class CircleImage extends View {
@@ -67,9 +68,9 @@ public class CircleImage extends View {
         bitmapShader.setLocalMatrix(matrix);
         paint.setShader(bitmapShader);
         //画正方形
-        // canvas.drawRect(0,0,width,height,paint);
+         //canvas.drawRect(0,0,width,height,paint);
         //画圆形
-        // canvas.drawCircle(height / 2, height / 2, height / 2, paint);
+         //canvas.drawCircle(height / 2, height/ 2, height / 2, paint);
         //画椭圆
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
         shapeDrawable.getPaint().setShader(bitmapShader);

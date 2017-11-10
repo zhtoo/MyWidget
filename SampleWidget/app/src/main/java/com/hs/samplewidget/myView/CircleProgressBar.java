@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -16,6 +16,7 @@ import com.hs.samplewidget.R;
 /**
  * 作者：zhanghaitao on 2017/8/17 10:40
  * 邮箱：820159571@qq.com
+ * 圆形进度条
  */
 
 public class CircleProgressBar extends View {

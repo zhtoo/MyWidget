@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -46,9 +46,9 @@ public class RadarView extends View {
     private float mRotate = 0;
     //扫描速度 = deltaAngle/DELAY_TIME （度/ms）
     //延迟时间
-    private long DELAY_TIME = 10;
+    private long DELAY_TIME = 5;
     //每次改变的角度
-    private float deltaAngle = 0.1f;
+    private float deltaAngle = 0.5f;
     //弧度
     private double radian = mRotate * Math.PI / 180;
 
@@ -122,6 +122,8 @@ public class RadarView extends View {
         canvas.drawLine(baseCos, baseSin, -baseCos, -baseSin, mRadarLinePaint);
         //绘制雷达基线 y轴
         canvas.drawLine(baseSin, -baseCos, -baseSin, baseCos, mRadarLinePaint);
+
+       // LinearGradientTest( canvas);
     }
 
     /**

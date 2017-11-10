@@ -12,6 +12,7 @@ import android.view.View;
 /**
  * 作者：zhanghaitao on 2017/8/17 14:28
  * 邮箱：820159571@qq.com
+ * 渐变色
  */
 
 public class LinearGradientView extends View {
@@ -68,7 +69,10 @@ public class LinearGradientView extends View {
      * tile
      */
     private void LinearGradientTest(Canvas canvas) {
-        LinearGradient linearGradient = new LinearGradient(0, 0, 1080, 100, mColors, null, Shader.TileMode.CLAMP);
+        LinearGradient linearGradient = new LinearGradient(
+                0, 0, 1080, 100,
+                mColors, null,
+                Shader.TileMode.CLAMP);
         paint.setShader(linearGradient);
         canvas.drawRect(0, 0, 1080, 100, paint);
     }

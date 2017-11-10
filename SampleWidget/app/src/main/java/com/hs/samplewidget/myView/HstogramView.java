@@ -160,7 +160,6 @@ public class HstogramView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         /**在这里可以设置+获取控件的宽高*/
         int width = measureWidth(widthMeasureSpec);
         int height = measureHeight(heightMeasureSpec);
@@ -168,6 +167,7 @@ public class HstogramView extends View {
         viewHeight = height;
         //设置宽高
         setMeasuredDimension(width, height);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         Log.e(TAG, "onMeasure就在这里做数据的初始化");
 
         if (maxY == -1) {
@@ -371,7 +371,7 @@ public class HstogramView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.e(TAG, "ACTION_DOWN");
+              //  Log.e(TAG, "ACTION_DOWN");
                 float downX = event.getX();
                 float downY = event.getY();
                 clickItemPosion = -1;
@@ -387,13 +387,13 @@ public class HstogramView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.e(TAG, "ACTION_MOVE");
+               // Log.e(TAG, "ACTION_MOVE");
                 float moveX = event.getX();
                 float moveY = event.getY();
 
                 break;
             case MotionEvent.ACTION_UP:
-                Log.e(TAG, "ACTION_UP");
+               // Log.e(TAG, "ACTION_UP");
                 float x = event.getX();
                 float y = event.getY();
                 for (int i = 0; i < PointRangeList.size(); i++) {

@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,9 +32,9 @@ public class ZoomImageView extends View {
     private Paint paint;
 
     //放大倍数
-    private int FACTOR = 2;
+    private int FACTOR = 2;//建议是两倍，过大会很卡
     //圆的半径
-    private int RADIUS = 50;
+    private int RADIUS = 80;
     //图片的宽高
     private int width;
     private int height;
@@ -71,7 +71,7 @@ public class ZoomImageView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         //获取原图
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_test_circle);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic1);
 
         width = bitmap.getWidth();
         height = bitmap.getHeight();
@@ -111,7 +111,7 @@ public class ZoomImageView extends View {
                 //将放大的图片往相反的方向移动
                 mMatrix.setTranslate(RADIUS - x * FACTOR, RADIUS - y * FACTOR +300);
                 mBitmapShader.setLocalMatrix(mMatrix);
-                //手指触摸点为圆心
+                //手指触摸点为圆心----考虑到时及的使用效果，显示区域应该在触摸点上方
                 mShapeDrawable.setBounds(x - RADIUS, y - RADIUS - 150, x + RADIUS, y + RADIUS - 150);
                 invalidate();
                 return true;

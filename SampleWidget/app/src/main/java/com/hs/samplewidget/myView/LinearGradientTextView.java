@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Shader;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 /**
  * 作者：zhanghaitao on 2017/8/17 14:38
  * 邮箱：820159571@qq.com
+ * 霓虹灯效果的tEXTvIEW
  */
 
 public class LinearGradientTextView extends TextView {
@@ -37,6 +39,11 @@ public class LinearGradientTextView extends TextView {
         mPoint = new Point();
         windowManager.getDefaultDisplay().getSize(mPoint);
         String text = getText().toString();
+
+        if(TextUtils.isEmpty(text)){
+            text = "adfa及非法的按时爱神的箭挥洒大比较多打扫房间萨哈迪斯ID金风科技铁框架内的if就爱上咖啡很费劲赛暗示法安居客几点开始";
+        }
+
         //拿到TextView的画笔
         mPaint = getPaint();
         mTextWidth = (int) mPaint.measureText(text);

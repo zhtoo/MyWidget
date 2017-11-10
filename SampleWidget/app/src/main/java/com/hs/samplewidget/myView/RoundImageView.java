@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,6 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.CornerPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -26,6 +25,7 @@ import com.hs.samplewidget.R;
 
 /**
  * Created by zhanghaitao on 2017/5/28.
+ * 基于CircleImageView修改的圆角矩形
  */
 
 public class RoundImageView extends ImageView {

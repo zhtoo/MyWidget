@@ -15,6 +15,8 @@ import com.hs.samplewidget.R;
 /**
  * 作者：zhanghaitao on 2017/8/18 15:00
  * 邮箱：820159571@qq.com
+ * 了解一下原理即可，功能不可用于实际
+ * 需要自己进行修改
  */
 
 public class RoundView extends View {
@@ -64,6 +66,7 @@ public class RoundView extends View {
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         //再画原图片
         canvas.drawBitmap(mSrcBitmap,0,0,mPaint);
+
         mPaint.setXfermode(null);
     }
 

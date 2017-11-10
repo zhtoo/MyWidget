@@ -1,4 +1,4 @@
-package com.hs.samplewidget.view;
+package com.hs.samplewidget.myView;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -26,9 +26,10 @@ import com.hs.samplewidget.R;
 
 /**
  * Created by zhanghaitao on 2017/5/28.
+ * 圆形头像
  */
 
-public class CRImageView extends ImageView {
+public class CircleImageView extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -66,16 +67,17 @@ public class CRImageView extends ImageView {
     private boolean mSetupPending;
     private boolean mBorderOverlay;
 
-    public CRImageView(Context context) {
+    public CircleImageView(Context context) {
         super(context);
+
         init();
     }
 
-    public CRImageView(Context context, AttributeSet attrs) {
+    public CircleImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CRImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
@@ -126,6 +128,7 @@ public class CRImageView extends ImageView {
         if (mFillColor != Color.TRANSPARENT) {
             canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mFillPaint);
         }
+
         canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mBitmapPaint);
         if (mBorderWidth != 0) {
             canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mBorderRadius, mBorderPaint);

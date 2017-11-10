@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.hs.samplewidget.activity.DemoActivity;
 import com.hs.samplewidget.activity.DownloadAvtivity;
+import com.hs.samplewidget.activity.ViewPagerActivity;
 import com.hs.samplewidget.activity.HstogramActivity;
 import com.hs.samplewidget.activity.MakeViewPictrue;
 
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
         activitys.add(MakeViewPictrue.class);
         list.add("绘画柱状图");
         activitys.add(HstogramActivity.class);
-
+        list.add("ViewPager将两个View左右拖动");
+        activitys.add(ViewPagerActivity.class);
     }
-
 
     @Override
     public void onItemClick(int postion) {

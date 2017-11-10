@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/holo_orange_dark"
+              android:clipChildren="false"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.hs.samplewidget.myView.DragView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone">
+
+                <com.hs.samplewidget.myView.HstogramView
+                    android:id="@+id/my_hstogram1"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:background="@android:color/white"
+                    app:allTextSize="12sp"/>
+
+                <com.hs.samplewidget.myView.HstogramView
+                    android:id="@+id/my_hstogram2"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:background="@android:color/white"
+                    app:allTextSize="12sp"/>
+            </com.hs.samplewidget.myView.DragView>
+
+            <com.hs.samplewidget.myView.HorizontalViewPager.HorizontalInfiniteCycleViewPager
+                android:id="@+id/hicvp"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@android:color/holo_orange_dark"
+                app:icvp_center_page_scale_offset="30dp"
+                app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"
+                app:icvp_max_page_scale="0.95"
+                app:icvp_medium_scaled="false"
+                app:icvp_min_page_scale="0.55"
+                app:icvp_min_page_scale_offset="5dp"
+                app:icvp_scroll_duration="250"/>
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@android:color/white">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+                <com.hs.samplewidget.myView.dbbViewPager.Indicator
+                    android:id="@+id/indicator"
+                    android:layout_width="100dp"
+                    android:layout_height="10dp"
+                    android:layout_alignBottom="@+id/viewPager"
+                    android:layout_centerHorizontal="true"
+                   android:layout_marginBottom="10dp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/viewPager3_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:orientation="vertical">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager3"
+                    android:layout_width="225dp"
+                    android:layout_height="400dp"
+                    android:layout_gravity="center"
+                    android:clipChildren="false"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
