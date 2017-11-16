@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:background="@android:color/holo_orange_dark"
+              android:orientation="vertical">
+
+    <!-- <com.hs.samplewidget.view.PaintView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"/>-->
+
+     <com.hs.samplewidget.myView.ZoomImageView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"/>
+
+    <!--<com.hs.samplewidget.myView.RoundImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="360px"
+        android:layout_height="640px"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic3"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        />-->
+
+
+    <!--android:text="我是过来做测试的，你们看看效果怎么样，不行我再回去改改。"-->
+
+
+</LinearLayout>
