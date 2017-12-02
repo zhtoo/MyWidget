@@ -94,4 +94,17 @@
     </declare-styleable>
     <!--这里是3D效果的ViewPager（end）-->
 
+
+    <!--MyProgressView-->
+    <declare-styleable name="MyProgressView">
+        <attr name="mCircleWidth" format="float"/>
+        <attr name="mProgress" format="float"/>
+        <attr name="mProgressMax" format="float"/>
+        <attr name="startAngle" format="float"/>
+        <attr name="maxAngle" format="float"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="progressColor1" format="color"/>
+    </declare-styleable>
+
+
 </resources>

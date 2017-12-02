@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.hs.samplewidget.RecyclerView.RecyclerViewActivity;
 import com.hs.samplewidget.activity.DemoActivity;
 import com.hs.samplewidget.activity.DownloadAvtivity;
 import com.hs.samplewidget.activity.ViewPagerActivity;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
         activitys.add(HstogramActivity.class);
         list.add("ViewPager将两个View左右拖动");
         activitys.add(ViewPagerActivity.class);
+
+        list.add("RecyclerView添加头布局和脚布局");
+        activitys.add(RecyclerViewActivity.class);
     }
 
     @Override
