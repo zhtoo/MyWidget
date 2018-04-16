@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import com.hs.samplewidget.RecyclerView.RecyclerViewActivity;
 import com.hs.samplewidget.activity.DemoActivity;
 import com.hs.samplewidget.activity.DownloadAvtivity;
+import com.hs.samplewidget.activity.LotteryNumberActivity;
+import com.hs.samplewidget.activity.ProgressActivity;
 import com.hs.samplewidget.activity.ViewPagerActivity;
 import com.hs.samplewidget.activity.HstogramActivity;
 import com.hs.samplewidget.activity.MakeViewPictrue;
@@ -51,9 +53,15 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
         activitys.add(HstogramActivity.class);
         list.add("ViewPager将两个View左右拖动");
         activitys.add(ViewPagerActivity.class);
-
         list.add("RecyclerView添加头布局和脚布局");
         activitys.add(RecyclerViewActivity.class);
+
+
+        list.add("进度条吧");
+        activitys.add(ProgressActivity.class);
+
+        list.add("彩票数字");
+        activitys.add(LotteryNumberActivity.class);
     }
 
     @Override

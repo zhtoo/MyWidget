@@ -107,4 +107,13 @@
     </declare-styleable>
 
 
+
+    <!--LotteryNumberView-->
+    <declare-styleable name="LotteryNumberView">
+        <attr name="mRadius" format="dimension"/>
+        <attr name="mSpacing" format="dimension"/>
+    </declare-styleable>
+
+
+
 </resources>
