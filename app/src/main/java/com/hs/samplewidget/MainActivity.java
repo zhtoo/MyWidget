@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hs.samplewidget.RecyclerView.RecyclerViewActivity;
+import com.hs.samplewidget.activity.CheckViewActivity;
 import com.hs.samplewidget.activity.DemoActivity;
 import com.hs.samplewidget.activity.DownloadAvtivity;
 import com.hs.samplewidget.activity.LotteryNumberActivity;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
 
         list.add("彩票数字");
         activitys.add(LotteryNumberActivity.class);
+        list.add("带有可选属性的View");
+        activitys.add(CheckViewActivity.class);
     }
 
     @Override

@@ -27,6 +27,7 @@
         <activity android:name=".RecyclerView.RecyclerViewActivity"/>
         <activity android:name=".activity.ProgressActivity" />
         <activity android:name=".activity.LotteryNumberActivity" />
+        <activity android:name=".activity.CheckViewActivity" />
 
 
     </application>
