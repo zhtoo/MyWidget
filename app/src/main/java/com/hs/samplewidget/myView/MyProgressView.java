@@ -45,7 +45,7 @@ public class MyProgressView extends View {
     }
 
     public MyProgressView(Context context, AttributeSet attrs) {
-        this(context, null, 0);
+        this(context, attrs, 0);
     }
 
     public MyProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -147,6 +147,11 @@ public class MyProgressView extends View {
         super.onDraw(canvas);
         // 从canvas层面去除绘制时锯齿
         canvas.setDrawFilter(mDrawFilter);
+
+        if (center == 0) {
+            center = getWidth() / 2;
+        }
+
         radius = center - mCircleWidth / 2;
 
         RectF oval = new RectF(center - radius, center - radius, center + radius, center + radius);
