@@ -94,7 +94,6 @@
     </declare-styleable>
     <!--这里是3D效果的ViewPager（end）-->
 
-
     <!--MyProgressView-->
     <declare-styleable name="MyProgressView">
         <attr name="mCircleWidth" format="float"/>
@@ -106,14 +105,22 @@
         <attr name="progressColor1" format="color"/>
     </declare-styleable>
 
-
-
     <!--LotteryNumberView-->
     <declare-styleable name="LotteryNumberView">
         <attr name="mRadius" format="dimension"/>
         <attr name="mSpacing" format="dimension"/>
     </declare-styleable>
 
-
+    <!--MyProgressView-->
+    <declare-styleable name="PieChartView">
+        <!--扇形间隔距离-->
+        <attr name="intervalAngle" format="float"/>
+        <!--中间圆半径-->
+        <attr name="radius" format="dimension"/>
+        <!--扇形的宽度-->
+        <attr name="pieChartWidth" format="dimension"/>
+        <!--扇形点击时宽度-->
+        <attr name="clickWidth" format="dimension"/>
+    </declare-styleable>
 
 </resources>

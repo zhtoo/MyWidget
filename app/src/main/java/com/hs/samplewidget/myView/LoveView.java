@@ -88,17 +88,17 @@ public class LoveView extends View {
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
         if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
             //默认wrap_content为400px
-            setMeasuredDimension(400, 400);
-            centerPointX = 400;
-            centerPointY = 400;
+            setMeasuredDimension(300, 300);
+            centerPointX = 300;
+            centerPointY = 300;
         } else if (widthSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(400, heightSpecSize);
-            centerPointX = 400;
+            setMeasuredDimension(300, heightSpecSize);
+            centerPointX = 300;
             centerPointY = heightSpecSize;
         } else if (heightSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(widthSpecSize, 400);
+            setMeasuredDimension(widthSpecSize, 300);
             centerPointX = widthSpecSize;
-            centerPointY = 400;
+            centerPointY = 300;
         } else {
             centerPointX = widthSpecSize;
             centerPointY = heightSpecSize;
@@ -180,7 +180,7 @@ public class LoveView extends View {
     }
 
     private int MSG_WHAT = 66;
-    private long DELAY_TIME = 1;
+    private long DELAY_TIME = 10;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
