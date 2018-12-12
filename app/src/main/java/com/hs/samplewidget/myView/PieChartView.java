@@ -19,6 +19,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.hs.samplewidget.R;
 
@@ -86,6 +87,8 @@ public class PieChartView extends View {
         //初始化必要参数
         initCofig(context, attrs);
     }
+
+
 
     /**
      * 初始化配置
@@ -229,9 +232,26 @@ public class PieChartView extends View {
             startAngle += (scale + intervalAngle);
         }
 
-        //为L=n（圆心角度数）× π（3.14）× r（半径）/180（角度制）
-        double intervalWidth = intervalAngle * Math.PI * pieChartRadius / 180;
+        //弧长的计算方式：L=n（圆心角度数）× π（3.14）× r（半径）/180（角度制）
+        //double intervalWidth = intervalAngle * Math.PI * pieChartRadius / 180;
+        //两个扇形之间最大的距离：L = 2 * r * sin（θ/2）
+        double intervalWidth = 2 * pieChartRadius * Math.sin(Math.PI * intervalAngle / 360);
         mLinePaint.setStrokeWidth((float) intervalWidth);
+
+        float cutLength = 0;
+
+        for (Params params : mParams) {
+            float scale = totalAngle * params.getScale() / totalScale;
+            float cutAngle = (float) (Math.PI * (scale + intervalAngle) / 360);
+            float cutScale = (float) (Math.PI * scale / 360);
+
+            float length = (float) (pieChartRadius * (Math.cos(cutScale) -
+                                Math.sin(cutScale) / Math.tan(cutAngle)));
+
+            Log.e(TAG, "length: " + length);
+            cutLength =  Math.max(cutLength,length);
+        }
+        Log.e(TAG, "cutLength: " + cutLength);
 
         for (Params params : mParams) {
             float angle = params.getEndAngle() + intervalAngle / 2;
@@ -249,17 +269,17 @@ public class PieChartView extends View {
                 pointX = centerX;
                 pointY = 0;
             } else if (angle > 0 && angle < 90) {
-                pointX = (float) (centerX + center * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY + center * Math.abs(Math.sin(Math.PI * angle / 180)));
+                pointX = (float) (centerX + pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
+                pointY = (float) (centerY + pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
             } else if (angle > 90 && angle < 180) {
-                pointX = (float) (centerX - center * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY + center * Math.abs(Math.sin(Math.PI * angle / 180)));
+                pointX = (float) (centerX - pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
+                pointY = (float) (centerY + pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
             } else if (angle > 180 && angle < 270) {
-                pointX = (float) (centerX - center * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY - center * Math.abs(Math.sin(Math.PI * angle / 180)));
+                pointX = (float) (centerX - pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
+                pointY = (float) (centerY - pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
             } else if (angle > 270 && angle < 360) {
-                pointX = (float) (centerX + center * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY - center * Math.abs(Math.sin(Math.PI * angle / 180)));
+                pointX = (float) (centerX + pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
+                pointY = (float) (centerY - pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
             }
             Path path = new Path();
             path.moveTo(centerX, centerY);
@@ -268,10 +288,13 @@ public class PieChartView extends View {
         }
 
 
-        if (radius > 0) {
-            commonPaint.setColor(0xFFFFFFFF);
-            canvas.drawCircle(centerX, centerY, radius, commonPaint);
-        }
+//        if (radius > 0 ) {
+//            commonPaint.setColor(0xFFFFFFFF);
+//            canvas.drawCircle(centerX, centerY, radius, commonPaint);
+//        }else  if (cutLength > 0 ){
+//            commonPaint.setColor(0xFFFFFFFF);
+//            canvas.drawCircle(centerX, centerY, cutLength, commonPaint);
+//        }
     }
 
     private String des = null;
