@@ -111,16 +111,20 @@
         <attr name="mSpacing" format="dimension"/>
     </declare-styleable>
 
-    <!--MyProgressView-->
+    <!--PieChartView-->
     <declare-styleable name="PieChartView">
         <!--扇形间隔距离-->
         <attr name="intervalAngle" format="float"/>
         <!--中间圆半径-->
-        <attr name="radius" format="dimension"/>
+      <!--  <attr name="centerCircleRadius" format="dimension"/>-->
         <!--扇形的宽度-->
         <attr name="pieChartWidth" format="dimension"/>
-        <!--扇形点击时宽度-->
+        <!--扇形点击时超出的宽度-->
         <attr name="clickWidth" format="dimension"/>
+        <!--间隔线是否等宽-->
+        <attr name="equalInterval" format="boolean"/>
+        <!--是否使用中心圆-->
+        <attr name="useCenterCircle" format="boolean"/>
     </declare-styleable>
 
 </resources>

@@ -23,7 +23,6 @@ import java.util.List;
 
 public class LotteryNumberView extends View {
 
-
     //红球
     private String[] redNumber;
     //篮球

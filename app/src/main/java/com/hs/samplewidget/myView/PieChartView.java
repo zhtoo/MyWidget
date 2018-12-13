@@ -38,9 +38,7 @@ public class PieChartView extends View {
 
     private static final String TAG = "PieChartView";
 
-    private Context context;
-
-    private int wrap_content = 600;//默认的尺寸（px）
+    private int wrap_content = 200;//默认的尺寸（px）
 
     //视图的宽高
     private int viewWidth;
@@ -55,8 +53,9 @@ public class PieChartView extends View {
     private int center;
     private int centerX;
     private int centerY;
-    //中间圆半径
-    private float radius = -1;
+
+
+    private float centerCircleRadius = 0;
     //扇形间隔
     private float intervalAngle = -1; //间隔距离要小于 360/mParams.size()
     //展示的宽度
@@ -72,6 +71,16 @@ public class PieChartView extends View {
     private int optimizedPadding = 2;
     private RectF normalOval;
     private RectF clickOval;
+    private float cutLength = 0;
+    private boolean equalInterval;
+    private boolean useCenterCircle;
+    private float centerSquare;
+    private float radiusSquare;
+    private float pieChartRadiusSquare;
+
+    private float x;
+    private float y;
+    private int clickPosition = -1;
 
     public PieChartView(Context context) {
         this(context, null);
@@ -83,11 +92,9 @@ public class PieChartView extends View {
 
     public PieChartView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
         //初始化必要参数
         initCofig(context, attrs);
     }
-
 
 
     /**
@@ -99,10 +106,12 @@ public class PieChartView extends View {
     private void initCofig(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PieChartView);
-            intervalAngle = typedArray.getFloat(R.styleable.PieChartView_intervalAngle, 2);
-            radius = typedArray.getDimension(R.styleable.PieChartView_radius, -1);
+            intervalAngle = typedArray.getFloat(R.styleable.PieChartView_intervalAngle, 0);
+            //  centerCircleRadius = typedArray.getDimension(R.styleable.PieChartView_centerCircleRadius, -1);
             pieChartWidth = typedArray.getDimension(R.styleable.PieChartView_pieChartWidth, dp2px(30));
             clickWidth = typedArray.getDimension(R.styleable.PieChartView_clickWidth, dp2px(5));
+            equalInterval = typedArray.getBoolean(R.styleable.PieChartView_equalInterval, false);
+            useCenterCircle = typedArray.getBoolean(R.styleable.PieChartView_useCenterCircle, true);
             typedArray.recycle();
         }
 
@@ -113,23 +122,11 @@ public class PieChartView extends View {
             pieChartWidth = dp2px(30);
         }
         if (intervalAngle == -1) {
-            intervalAngle = 2;
+            intervalAngle = 0;
         }
         //初始化画笔
         initPaint();
-        if (mParams.size() == 0) {
-            for (int i = 0; i < 10; i++) {
-                Params params = new Params();
-                params.setDes("我是" + i);
-                params.setScale((float) Math.random() * 1000F + 10);
-                int red = (int) (20 + Math.random() * 200);
-                int green = (int) (20 + Math.random() * 200);
-                int bule = (int) (20 + Math.random() * 200);
-                int color = Color.argb(255, red, green, bule);
-                params.setDrawColor(color);
-                mParams.add(params);
-            }
-        }
+
         mDrawFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     }
 
@@ -140,59 +137,78 @@ public class PieChartView extends View {
         commonPaint = new Paint();
         commonPaint.setAntiAlias(true);//去锯齿
         commonPaint.setStyle(Paint.Style.FILL);//设置样式
-        // commonPaint.setStrokeCap(Paint.Cap.BUTT);//
-//        commonPaint.setStrokeWidth(mCircleWidth);//设置宽度
-//        commonPaint.setColor(backgroundColor);//设置颜色
 
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
         mLinePaint.setStrokeWidth(5);
-        //mLinePaint.setTypeface(Typeface.DEFAULT);
         mLinePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mLinePaint.setStrokeJoin(Paint.Join.ROUND);//圆弧
         mLinePaint.setColor(0xFFFFFFFF);
-
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         /**在这里可以设置数据+获取控件的宽高*/
-        viewWidth = measureMeasureSpec(widthMeasureSpec);
-        viewHeight = measureMeasureSpec(heightMeasureSpec);
         //设置宽高
-        setMeasuredDimension(viewWidth, viewHeight);
+        setMeasuredDimension(
+                measureMeasureSpec(widthMeasureSpec),
+                measureMeasureSpec(heightMeasureSpec));
     }
 
     private int measureMeasureSpec(int measureSpec) {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
-        if (specMode == MeasureSpec.AT_MOST || specMode == MeasureSpec.UNSPECIFIED) {
+        if (specMode == MeasureSpec.AT_MOST) {
+            return wrap_content; //默认wrap_content为自己定义的高度
+        } else if (specMode == MeasureSpec.UNSPECIFIED) {
             return wrap_content; //默认wrap_content为自己定义的高度
         } else {
             return specSize;
         }
     }
 
+
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        // 从canvas层面去除绘制时锯齿
-        canvas.setDrawFilter(mDrawFilter);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        viewWidth = w;
+        viewHeight = h;
+        initData();
+        if (mParams.size() > 0) {
+            onDataChanged();
+        }
+    }
+
+    private void initData() {
+        //计算中心点和 最短边距
         if (centerX == 0) {
             centerX = viewWidth / 2;
         }
         if (centerY == 0) {
             centerY = viewHeight / 2;
         }
-
         center = Math.min(centerX, centerY);
 
-        if (radius == -1) {
-            pieChartRadius = center - clickWidth - optimizedPadding;
-            radius = pieChartRadius - pieChartWidth;
-        } else if (pieChartRadius == -1) {
-            pieChartRadius = radius + pieChartWidth;
+        //扇形半径
+        pieChartRadius = center - clickWidth - optimizedPadding;
+
+        // center = optimizedPadding + clickWidth + pieChartWidth + centerCircleRadius;
+        // pieChartRadius =  pieChartWidth + centerCircleRadius;
+
+        //使用中心圆 计算中间圆半径
+        if (useCenterCircle) {
+            centerCircleRadius = pieChartRadius - pieChartWidth;
+            if (centerCircleRadius <= 0) {
+                centerCircleRadius = 0;
+            }
+        } else {
+            centerCircleRadius = 0;
         }
+
+        centerSquare = center * center;
+        radiusSquare = centerCircleRadius * centerCircleRadius;
+        pieChartRadiusSquare = pieChartRadius * pieChartRadius;
+
+        //初始化默认扇形的绘画 区域
         if (normalOval == null) {
             normalOval = new RectF(
                     centerX - pieChartRadius,
@@ -201,7 +217,7 @@ public class PieChartView extends View {
                     centerY + pieChartRadius
             );
         }
-
+        //初始化点击扇形的绘画 区域
         if (clickOval == null) {
             clickOval = new RectF(
                     centerX - center + optimizedPadding,
@@ -211,153 +227,306 @@ public class PieChartView extends View {
             );
         }
 
+    }
 
+    private void onDataChanged() {
+        //计算总共数值
         float totalScale = 0;
         for (Params params : mParams) {
             totalScale += params.getScale();
         }
-        int totalAngle = (int) (360 - intervalAngle * mParams.size());
 
+        //计算可用的最大角度
+        int totalAngle;
+        if (mParams.size() > 1) {
+            totalAngle = (int) (360 - intervalAngle * mParams.size());
+        } else {
+            totalAngle = 360;
+        }
+
+        if (totalAngle <= 310) {
+            totalAngle = 310;
+            intervalAngle = 50F / mParams.size();
+        }
+
+        //当间隙角度有值的时候才计算
+        if (intervalAngle > 0) {
+            //弧长的计算方式：L=n（圆心角度数）× π（3.14）× r（半径）/180（角度制）
+            //double intervalWidth = intervalAngle * Math.PI * pieChartRadius / 180;
+            //两个扇形之间最大的距离：L = 2 * r * sin（θ/2）
+            double intervalWidth = 2 * pieChartRadius * Math.sin(Math.PI * intervalAngle / 360);
+            mLinePaint.setStrokeWidth((float) intervalWidth);
+        }
+
+        //计算每一个扇形的开始角度和结束角度
         float startAngle = 0;
         for (Params params : mParams) {
-            commonPaint.setColor(params.getDrawColor());
+
             float scale = totalAngle * params.getScale() / totalScale;
             params.setStartAngle(startAngle);
             params.setEndAngle(startAngle + scale);
-            if (des != null && des.equals(params.getDes())) {
-                canvas.drawArc(clickOval, startAngle, scale, true, commonPaint);
-            } else {
-                canvas.drawArc(normalOval, startAngle, scale, true, commonPaint);
-            }
+
             startAngle += (scale + intervalAngle);
-        }
 
-        //弧长的计算方式：L=n（圆心角度数）× π（3.14）× r（半径）/180（角度制）
-        //double intervalWidth = intervalAngle * Math.PI * pieChartRadius / 180;
-        //两个扇形之间最大的距离：L = 2 * r * sin（θ/2）
-        double intervalWidth = 2 * pieChartRadius * Math.sin(Math.PI * intervalAngle / 360);
-        mLinePaint.setStrokeWidth((float) intervalWidth);
+            if (equalInterval) {
 
-        float cutLength = 0;
+                float cutAngle = (float) (Math.PI * (scale + intervalAngle) / 360);
+                float cutScale = (float) (Math.PI * scale / 360);
+                float length = (float) (pieChartRadius * (Math.cos(cutScale)
+                        - Math.sin(cutScale) / Math.tan(cutAngle)));
+                cutLength = Math.max(cutLength, length);
 
-        for (Params params : mParams) {
-            float scale = totalAngle * params.getScale() / totalScale;
-            float cutAngle = (float) (Math.PI * (scale + intervalAngle) / 360);
-            float cutScale = (float) (Math.PI * scale / 360);
-
-            float length = (float) (pieChartRadius * (Math.cos(cutScale) -
-                                Math.sin(cutScale) / Math.tan(cutAngle)));
-
-            Log.e(TAG, "length: " + length);
-            cutLength =  Math.max(cutLength,length);
-        }
-        Log.e(TAG, "cutLength: " + cutLength);
-
-        for (Params params : mParams) {
-            float angle = params.getEndAngle() + intervalAngle / 2;
-            float pointX = 0, pointY = 0;
-            if (angle == 0 || angle == 360) {
-                pointX = centerX * 2;
-                pointY = centerY;
-            } else if (angle == 90) {
-                pointX = centerX;
-                pointY = centerY * 2;
-            } else if (angle == 180) {
-                pointX = 0;
-                pointY = centerY;
-            } else if (angle == 270) {
-                pointX = centerX;
-                pointY = 0;
-            } else if (angle > 0 && angle < 90) {
-                pointX = (float) (centerX + pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY + pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
-            } else if (angle > 90 && angle < 180) {
-                pointX = (float) (centerX - pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY + pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
-            } else if (angle > 180 && angle < 270) {
-                pointX = (float) (centerX - pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY - pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
-            } else if (angle > 270 && angle < 360) {
-                pointX = (float) (centerX + pieChartRadius * Math.abs(Math.cos(Math.PI * angle / 180)));
-                pointY = (float) (centerY - pieChartRadius * Math.abs(Math.sin(Math.PI * angle / 180)));
+                float pointX = computePointX(startAngle - intervalAngle / 2, centerX, pieChartRadius);
+                float pointY = computePointY(startAngle - intervalAngle / 2, centerY, pieChartRadius);
+                params.setPointX(pointX);
+                params.setPointY(pointY);
             }
-            Path path = new Path();
-            path.moveTo(centerX, centerY);
-            path.lineTo(pointX, pointY);
-            canvas.drawPath(path, mLinePaint);
         }
-
-
-//        if (radius > 0 ) {
-//            commonPaint.setColor(0xFFFFFFFF);
-//            canvas.drawCircle(centerX, centerY, radius, commonPaint);
-//        }else  if (cutLength > 0 ){
-//            commonPaint.setColor(0xFFFFFFFF);
-//            canvas.drawCircle(centerX, centerY, cutLength, commonPaint);
-//        }
     }
 
-    private String des = null;
+
+    private float computePointX(float angle, float centerX, float radius) {
+        float pointX;
+        if (angle == 0 || angle == 360) {
+            pointX = centerX + radius;
+        } else if (angle == 90 || angle == 270) {
+            pointX = centerX;
+        } else if (angle == 180) {
+            pointX = 0;
+        } else {
+            pointX = (float) (centerX + radius * Math.cos(Math.PI * angle / 180));
+        }
+        return pointX;
+    }
+
+    private float computePointY(float angle, float centerY, float radius) {
+        float pointY;
+        if (angle == 0 || angle == 360 || angle == 180) {
+            pointY = centerY;
+        } else if (angle == 90) {
+            pointY = centerY + radius;
+        } else if (angle == 270) {
+            pointY = 0;
+        } else {
+            pointY = (float) (centerY + radius * Math.sin(Math.PI * angle / 180));
+        }
+        return pointY;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        // 从canvas层面去除绘制时锯齿
+        canvas.setDrawFilter(mDrawFilter);
+
+        //绘制扇形图
+        int position = 0;
+        for (Params params : mParams) {
+            commonPaint.setColor(params.getDrawColor());
+            if (position == clickPosition) {
+                canvas.drawArc(clickOval, params.getStartAngle(),
+                        params.getEndAngle() - params.getStartAngle(), true, commonPaint);
+            } else {
+                canvas.drawArc(normalOval, params.getStartAngle(),
+                        params.getEndAngle() - params.getStartAngle(),
+                        true, commonPaint);
+            }
+            position++;
+        }
+        //绘制等宽的间隔线
+        if (equalInterval) {
+            for (Params params : mParams) {
+                Path path = new Path();
+                path.moveTo(centerX, centerY);
+                path.lineTo(params.getPointX(), params.getPointY());
+                canvas.drawPath(path, mLinePaint);
+            }
+        }
+        //绘制中心白圆
+        if (useCenterCircle) {
+            if (centerCircleRadius > cutLength) {
+                commonPaint.setColor(0xFFFFFFFF);
+                canvas.drawCircle(centerX, centerY, centerCircleRadius, commonPaint);
+            } else {
+                commonPaint.setColor(0xFFFFFFFF);
+                canvas.drawCircle(centerX, centerY, (0.1F * pieChartRadius + 0.9F * cutLength), commonPaint);
+            }
+//            commonPaint.setColor(0xFFFFFFFF);
+//            canvas.drawCircle(centerX, centerY, centerCircleRadius, commonPaint);
+        }
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        final float x = event.getX();
-        final float y = event.getY();
-        float pointX = x - centerX;
-        float pointY = y - centerY;
-
-        float pointSquare = pointX * pointX + pointY * pointY;
-        float centerSquare = center * center;
-        float radiusSquare = radius * radius;
-        float pieChartRadiusSquare = pieChartRadius * pieChartRadius;
-
-        if (pointSquare < radiusSquare) {
+        if (itemClickListener == null) {
             return super.onTouchEvent(event);
         }
-
-        if (pointSquare <= centerSquare) {
-            double angle = getAngle(pointX, pointY);
-            for (Params mParam : mParams) {
-                //在点击范围
-                if (angle >= mParam.getStartAngle() && angle <= mParam.getEndAngle()) {
-                    if (des == null && pointSquare <= pieChartRadiusSquare) {
-                        des = mParam.getDes();
-                        invalidate();
-                    } else if (des != null && des.equals(mParam.getDes())) {
-                        des = null;
-                        invalidate();
-                    } else if (pointSquare <= pieChartRadiusSquare) {
-                        des = mParam.getDes();
-                        invalidate();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x = event.getX();
+                y = event.getY();
+                return true;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                if (x == event.getX()
+                        && y == event.getY()) {
+                    float clickX = x - centerX;
+                    float clickY = y - centerY;
+                    float pointSquare = clickX * clickX + clickY * clickY;
+                    if (pointSquare < radiusSquare) {
+                        return false;
                     }
-                    break;
+                    if (pointSquare <= centerSquare) {
+                        double angle = getAngle(clickX, clickY);
+                        int position = 0;
+                        for (Params mParam : mParams) {
+                            //在点击范围
+                            if (angle >= mParam.getStartAngle() && angle <= mParam.getEndAngle()) {
+
+                                if (position == clickPosition) {
+                                    clickPosition = -1;
+                                    invalidate();
+                                    if (itemClickListener != null) {
+                                        itemClickListener.onPieChartItemClick(false, position);
+                                    }
+                                } else if (pointSquare <= pieChartRadiusSquare) {
+                                    clickPosition = position;
+                                    invalidate();
+                                    if (itemClickListener != null) {
+                                        itemClickListener.onPieChartItemClick(true, position);
+                                    }
+                                }
+                                break;
+                            }
+                            position++;
+                        }
+                    }
+                    return true;
                 }
-            }
+                break;
         }
         return super.onTouchEvent(event);
     }
 
-    private double getAngle(float pointX, float pointY) {
+    private double getAngle(float clickX, float clickY) {
+
         double angle;
-        if (pointX == 0 && pointY > 0) {
+        if (clickX == 0 && clickY > 0) {
             return 90;
-        } else if (pointX == 0 && pointY < 0) {
+        } else if (clickX == 0 && clickY < 0) {
             return 270;
+        } else if (clickX == 0 && clickY == 0) {
+            return -1;
         }
-        angle = Math.toDegrees(Math.atan(pointY / pointX));
-        if (pointX > 0 && pointY > 0) {//第一象限
-            angle = angle;
-        } else if (pointX < 0 && pointY > 0) {//第二象限
+        angle = Math.toDegrees(Math.atan(clickY / clickX));
+        if (clickX < 0) {//第二、三象限
             angle = angle + 180;
-        } else if (pointX < 0 && pointY < 0) {//第三象限
-            angle = angle + 180;
-        } else if (pointX > 0 && pointY < 0) {//第四象限
+        } else if (clickX > 0 && clickY < 0) {//第四象限
             angle = angle + 360;
         }
         return angle;
+//        if (clickX > 0 && clickY > 0) {//第一象限
+//            return angle;
+//        } else if (clickX < 0 && clickY > 0) {//第二象限
+//            angle = angle + 180;
+//        } else if (clickX < 0 && clickY < 0) {//第三象限
+//            angle = angle + 180;
+//        } else if (clickX > 0 && clickY < 0) {//第四象限
+//            angle = angle + 360;
+//        }
     }
 
-    class Params {
+    public float getCenterCircleRadius() {
+        return centerCircleRadius;
+    }
+
+    public void setCenterCircleRadius(float centerCircleRadius) {
+        this.centerCircleRadius = centerCircleRadius;
+    }
+
+    public float getIntervalAngle() {
+        return intervalAngle;
+    }
+
+    public void setIntervalAngle(float intervalAngle) {
+        this.intervalAngle = intervalAngle;
+    }
+
+    public float getPieChartWidth() {
+        return pieChartWidth;
+    }
+
+    public void setPieChartWidth(float pieChartWidth) {
+        this.pieChartWidth = pieChartWidth;
+    }
+
+    public float getClickWidth() {
+        return clickWidth;
+    }
+
+    public void setClickWidth(float clickWidth) {
+        this.clickWidth = clickWidth;
+    }
+
+    public List<Params> getParams() {
+        return mParams;
+    }
+
+    public void setParams(List<Params> params) {
+        mParams.clear();
+        mParams.addAll(params);
+        clickPosition = -1;
+        onDataChanged();
+        invalidate();
+    }
+
+    public int getOptimizedPadding() {
+        return optimizedPadding;
+    }
+
+    public void setOptimizedPadding(int optimizedPadding) {
+        this.optimizedPadding = optimizedPadding;
+    }
+
+    public boolean isEqualInterval() {
+        return equalInterval;
+    }
+
+    public void setEqualInterval(boolean equalInterval) {
+        this.equalInterval = equalInterval;
+    }
+
+    public boolean isUseCenterCircle() {
+        return useCenterCircle;
+    }
+
+    public void setUseCenterCircle(boolean useCenterCircle) {
+        this.useCenterCircle = useCenterCircle;
+    }
+
+    /**
+     *  dp转px  
+     *  @param context 
+     *  @param val 
+     *  @return      
+     */
+    public int dp2px(float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, getContext().getResources().getDisplayMetrics());
+    }
+
+    private ItemClickListener itemClickListener;
+
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface ItemClickListener {
+        void onPieChartItemClick(boolean isSelected, int position);
+    }
+
+
+    public static class Params {
 
         //描述
         private String des;
@@ -367,6 +536,9 @@ public class PieChartView extends View {
         private int drawColor = Color.RED;
         private float startAngle;
         private float endAngle;
+
+        private float pointX;
+        private float pointY;
 
         public String getDes() {
             return des;
@@ -407,17 +579,22 @@ public class PieChartView extends View {
         public void setEndAngle(float endAngle) {
             this.endAngle = endAngle;
         }
-    }
 
-    /**
-     *  dp转px  
-     *  @param context 
-     *  @param val 
-     *  @return      
-     */
-    public int dp2px(float dpVal) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dpVal, context.getResources().getDisplayMetrics());
+        public float getPointX() {
+            return pointX;
+        }
+
+        public void setPointX(float pointX) {
+            this.pointX = pointX;
+        }
+
+        public float getPointY() {
+            return pointY;
+        }
+
+        public void setPointY(float pointY) {
+            this.pointY = pointY;
+        }
     }
 
 }
