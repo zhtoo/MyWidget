@@ -286,6 +286,8 @@ public class PieChartView extends View {
 
 
     private float computePointX(float angle, float centerX, float radius) {
+
+
         float pointX;
         if (angle == 0 || angle == 360) {
             pointX = centerX + radius;
