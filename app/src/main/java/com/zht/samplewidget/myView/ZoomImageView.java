@@ -14,7 +14,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
+
 
 /**
  * 带有放大圆效果的图片

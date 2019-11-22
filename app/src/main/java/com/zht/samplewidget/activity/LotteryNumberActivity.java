@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 import com.zht.samplewidget.myView.LotteryNumberView;
 
 /**

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 import com.zht.samplewidget.myView.chart.HstogramView;
 
 /**

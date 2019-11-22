@@ -11,7 +11,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
+
 
 /**
  * 作者：zhanghaitao on 2017/11/28 10:06

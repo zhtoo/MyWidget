@@ -11,7 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
+
 
 /**
  * 作者：zhanghaitao on 2017/11/8 16:50

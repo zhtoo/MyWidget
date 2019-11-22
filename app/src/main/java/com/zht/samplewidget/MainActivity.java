@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.zht.samplewidget.PieChart.activity.PielineChartActivity;
-import com.hs.samplewidget.R;
 import com.zht.samplewidget.RecyclerView.RecyclerViewActivity;
 import com.zht.samplewidget.activity.CheckViewActivity;
 import com.zht.samplewidget.activity.DemoActivity;

@@ -18,7 +18,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.hs.samplewidget.R;
+
+import com.zht.samplewidget.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

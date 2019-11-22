@@ -20,7 +20,7 @@ import com.zht.samplewidget.PieChart.PieData;
 import com.zht.samplewidget.PieChart.PieDataSet;
 import com.zht.samplewidget.PieChart.PieEntry;
 import com.zht.samplewidget.PieChart.animation.Easing;
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 
 import java.util.ArrayList;
 

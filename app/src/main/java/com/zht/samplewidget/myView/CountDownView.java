@@ -13,7 +13,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
+
 
 /**
  * HH:MM:SS

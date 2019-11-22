@@ -6,7 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hs.samplewidget.R;
+
+import com.zht.samplewidget.R;
 
 import static com.zht.samplewidget.activity.ViewPager.Utils.setupItem;
 

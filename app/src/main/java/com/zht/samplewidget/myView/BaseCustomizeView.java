@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -17,11 +19,11 @@ public abstract class BaseCustomizeView extends View {
     private PaintFlagsDrawFilter mDrawFilter;//Paint 绘制过滤器
 
     public BaseCustomizeView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public BaseCustomizeView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public BaseCustomizeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -40,6 +42,7 @@ public abstract class BaseCustomizeView extends View {
      * @return 默认宽度，改为抽象方法是为了让继承类必须定义默认值
      */
     public abstract int getDefaultWidth();
+
     /**
      * @return 默认高度，改为抽象方法是为了让继承类必须定义默认值
      */

@@ -21,7 +21,8 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
+
 
 /**
  * Created by zhanghaitao on 2017/5/28.

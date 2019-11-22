@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 import com.zht.samplewidget.myView.Download2View;
 
 /**

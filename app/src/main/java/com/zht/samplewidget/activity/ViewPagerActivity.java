@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 import com.zht.samplewidget.activity.ViewPager.HorizontalPagerAdapter;
 import com.zht.samplewidget.myView.HorizontalViewPager.HorizontalInfiniteCycleViewPager;
 import com.zht.samplewidget.myView.chart.HstogramView;

@@ -20,7 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hs.samplewidget.R;
+
+import com.zht.samplewidget.R;
 
 import java.util.Arrays;
 import java.util.HashMap;

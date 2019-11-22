@@ -2,10 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#f6f6f6">
 
     <com.zht.samplewidget.myView.chart.LineChartView
+        android:id="@+id/lineChartView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="180dp"
+        android:background="#FFF"
+        android:padding="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" />
 
 </LinearLayout>

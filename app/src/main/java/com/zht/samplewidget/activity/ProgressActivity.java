@@ -12,7 +12,7 @@ import android.text.style.StyleSpan;
 import android.view.View;
 
 import com.zht.samplewidget.PieChart.ColorTemplate;
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 import com.zht.samplewidget.myView.chart.PieChartView;
 
 import java.util.ArrayList;

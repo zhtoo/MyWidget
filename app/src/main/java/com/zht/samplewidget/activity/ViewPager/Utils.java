@@ -2,7 +2,7 @@ package com.zht.samplewidget.activity.ViewPager;
 
 import android.view.View;
 
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 import com.zht.samplewidget.myView.chart.HstogramView;
 
 /**

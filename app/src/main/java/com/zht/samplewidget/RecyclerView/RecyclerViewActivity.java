@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.zht.samplewidget.MyItemDecoration;
-import com.hs.samplewidget.R;
+import com.zht.samplewidget.R;
 
 /**
  * 作者：zhanghaitao on 2017/11/22 09:13
