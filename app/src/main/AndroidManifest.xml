@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.hs.samplewidget">
+          package="com.zht.samplewidget">
 
     <!-- 写入SDcard的权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,6 +28,9 @@
         <activity android:name=".activity.ProgressActivity" />
         <activity android:name=".activity.LotteryNumberActivity" />
         <activity android:name=".activity.CheckViewActivity" />
+        <activity android:name=".PieChart.activity.PielineChartActivity" />
+        <activity android:name=".activity.DropDownActivity" />
+        <activity android:name=".activity.LineChartActivity" />
 
 
     </application>

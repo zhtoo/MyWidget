@@ -19,6 +19,13 @@ android {
     }
 }
 
+
+repositories {
+    flatDir {
+        dirs './libs'
+    }
+}
+
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -30,5 +37,5 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-
+    api(name: 'ASViewpager', ext: 'aar')
 }

@@ -28,11 +28,10 @@
                 android:id="@+id/item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
                 android:orientation="vertical">
 
 
-                <com.hs.samplewidget.myView.LotteryNumberView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.zht.samplewidget.myView.LotteryNumberView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mLotteryNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

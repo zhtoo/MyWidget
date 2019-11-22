@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <com.hs.samplewidget.myView.checked.CheckLinearLayout
+    <com.zht.samplewidget.myView.checked.CheckLinearLayout
         android:id="@+id/cll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +21,6 @@
             android:text="你好"/>
 
 
-    </com.hs.samplewidget.myView.checked.CheckLinearLayout>
+    </com.zht.samplewidget.myView.checked.CheckLinearLayout>
 
 </LinearLayout>

@@ -6,15 +6,15 @@
               android:background="@android:color/holo_orange_dark"
               android:orientation="vertical">
 
-    <!-- <com.hs.samplewidget.view.PaintView
+    <!-- <PaintView
          android:layout_width="match_parent"
          android:layout_height="match_parent"/>-->
 
-     <com.hs.samplewidget.myView.ZoomImageView
+     <com.zht.samplewidget.myView.ZoomImageView
          android:layout_width="match_parent"
          android:layout_height="match_parent"/>
 
-    <!--<com.hs.samplewidget.myView.RoundImageView
+    <!--<RoundImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
         android:layout_width="360px"

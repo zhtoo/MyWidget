@@ -127,4 +127,17 @@
         <attr name="useCenterCircle" format="boolean"/>
     </declare-styleable>
 
+
+    <declare-styleable name="DropDownMenu">
+        <attr name="ddtextSelectedColor" format="color"/>
+        <attr name="ddtextUnselectedColor" format="color"/>
+        <attr name="ddmenuBackgroundColor" format="color"/>
+        <attr name="ddmaskColor" format="color"/>
+        <attr name="ddneedSetSlectedColor" format="boolean"/>
+        <attr name="ddmenuTextSize" format="dimension"/>
+        <attr name="ddmenuMaxHeight" format="dimension"/>
+        <attr name="ddmenuSelectedIcon" format="reference"/>
+        <attr name="ddmenuUnselectedIcon" format="reference"/>
+    </declare-styleable>
+
 </resources>

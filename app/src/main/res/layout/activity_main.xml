@@ -8,7 +8,7 @@
     android:background="#990000ff"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.hs.samplewidget.MainActivity">
+    tools:context="com.hs.samplewidget.com.zht.samplewidget.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recyclerview"

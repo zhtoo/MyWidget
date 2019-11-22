@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.hs.samplewidget.myView.Download2View
+    <com.zht.samplewidget.myView.Download2View
         android:id="@+id/download2_view"
         android:background="#990000ff"
         android:layout_width="wrap_content"

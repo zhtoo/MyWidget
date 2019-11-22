@@ -16,27 +16,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.hs.samplewidget.myView.DragView
+            <com.zht.samplewidget.myView.DragView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:visibility="gone">
 
-                <com.hs.samplewidget.myView.HstogramView
+                <com.zht.samplewidget.myView.chart.HstogramView
                     android:id="@+id/my_hstogram1"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
                     android:background="@android:color/white"
                     app:allTextSize="12sp"/>
 
-                <com.hs.samplewidget.myView.HstogramView
+                <com.zht.samplewidget.myView.chart.HstogramView
                     android:id="@+id/my_hstogram2"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
                     android:background="@android:color/white"
                     app:allTextSize="12sp"/>
-            </com.hs.samplewidget.myView.DragView>
+            </com.zht.samplewidget.myView.DragView>
 
-            <com.hs.samplewidget.myView.HorizontalViewPager.HorizontalInfiniteCycleViewPager
+            <com.zht.samplewidget.myView.HorizontalViewPager.HorizontalInfiniteCycleViewPager
                 android:id="@+id/hicvp"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
 
-                <com.hs.samplewidget.myView.dbbViewPager.Indicator
+                <com.zht.samplewidget.myView.dbbViewPager.Indicator
                     android:id="@+id/indicator"
                     android:layout_width="100dp"
                     android:layout_height="10dp"
