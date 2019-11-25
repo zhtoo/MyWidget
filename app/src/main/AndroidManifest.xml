@@ -31,6 +31,7 @@
         <activity android:name=".PieChart.activity.PielineChartActivity" />
         <activity android:name=".activity.DropDownActivity" />
         <activity android:name=".activity.LineChartActivity" />
+        <activity android:name=".activity.AutoLayoutActivity" />
 
 
     </application>

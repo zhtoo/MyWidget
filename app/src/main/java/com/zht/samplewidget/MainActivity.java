@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.zht.samplewidget.PieChart.activity.PielineChartActivity;
 import com.zht.samplewidget.RecyclerView.RecyclerViewActivity;
+import com.zht.samplewidget.activity.AutoLayoutActivity;
 import com.zht.samplewidget.activity.CheckViewActivity;
 import com.zht.samplewidget.activity.DemoActivity;
 import com.zht.samplewidget.activity.DownloadAvtivity;
@@ -29,20 +30,20 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
     public static final String TAG = "MainActivity";
 
     private RecyclerView mRecyclerView;
-    private List<String> list =new ArrayList<>();
-    private List<Class> activitys =new ArrayList<>();
+    private List<String> list = new ArrayList<>();
+    private List<Class> activitys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView =(RecyclerView) findViewById(R.id.main_recyclerview);
+        mRecyclerView = (RecyclerView) findViewById(R.id.main_recyclerview);
         initData();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new MyAdapter(this,list));
+        mRecyclerView.setAdapter(new MyAdapter(this, list));
         //添加分割线
         mRecyclerView.addItemDecoration(new MyItemDecoration(this, MyItemDecoration.VERTICAL_LIST));
-        MyAdapter adapter =(MyAdapter) mRecyclerView.getAdapter();
+        MyAdapter adapter = (MyAdapter) mRecyclerView.getAdapter();
         adapter.setOnItemClickListener(this);
     }
 
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
         list.add("折线图View");
         activitys.add(LineChartActivity.class);
 
+        list.add("自动排版布局");
+        activitys.add(AutoLayoutActivity.class);
+
         list.add("下拉选择");
         activitys.add(DropDownActivity.class);
     }
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
     @Override
     public void onItemClick(int postion) {
         Intent intent = new Intent();
-        intent.setClass(this,activitys.get(postion));
+        intent.setClass(this, activitys.get(postion));
         startActivity(intent);
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!--圆角-->
+    <corners
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="12.5dp"
+        android:topLeftRadius="12.5dp"
+        android:topRightRadius="12.5dp" />
+
+    <!--渐变色-->
+    <gradient />
+
+    <!--内部边距-->
+    <padding />
+
+    <!--图形的大小-->
+    <size android:height="25dp" />
+
+    <!--内部填充色-->
+    <solid android:color="#0DFC4A5B" />
+
+
+</shape>

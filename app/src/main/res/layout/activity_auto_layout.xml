@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zht.samplewidget.myView.AutoLayoutView
+        android:id="@+id/AutoLayoutView"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="王者内训师" />
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="偶像外表实力内在" />
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="于是就找解决方案，很显然最好的方案就是监听动画结束" />
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="解决办法：主要利用" />
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="士大夫" />
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="古代中国对于社会上的士" />
+
+        <TextView
+            style="@style/autoLayoutText"
+            android:text="政治是绝大多数“士大夫”人生的第一要务" />
+
+    </com.zht.samplewidget.myView.AutoLayoutView>
+
+
+</LinearLayout>
