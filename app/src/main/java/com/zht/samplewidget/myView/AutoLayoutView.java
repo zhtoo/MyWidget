@@ -1,6 +1,7 @@
 package com.zht.samplewidget.myView;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 public class AutoLayoutView extends ViewGroup {
 
     private final String TAG = "AutoLayoutView";
+
     private List<ChildViewPosition> childViewPositions;
 
     public AutoLayoutView(Context context) {
@@ -45,62 +47,83 @@ public class AutoLayoutView extends ViewGroup {
                 final int height = child.getMeasuredHeight()
                         + child.getPaddingTop() + child.getPaddingBottom();
 
+                MarginLayoutParams lp = null;
 
-                MarginLayoutParams lp =(MarginLayoutParams) child.getLayoutParams();
+                int leftMargin = 0;
+                int rightMargin = 0;
+                int topMargin = 0;
+                int bottomMargin = 0;
 
+                if (child.getLayoutParams() instanceof MarginLayoutParams) {
+                    lp = (MarginLayoutParams) child.getLayoutParams();
+                    leftMargin = lp.leftMargin;
+                    rightMargin = lp.rightMargin;
+                    topMargin = lp.topMargin;
+                    bottomMargin = lp.bottomMargin;
+                }
 
-                if (width >= viewWidth) {
+                //是否需要换行
+                boolean beyondWidth =
+                        ((width +  leftMargin +  rightMargin) >= viewWidth) ||
+                                ((currentWidth + width +  leftMargin /*+ lp.rightMargin*/) >= viewWidth);
+                if (beyondWidth) {
                     currentWidth = 0;
                     if (i != 0) {
                         ChildViewPosition childViewPosition = childViewPositions.get(i - 1);
-                        currentHeight += childViewPosition.bottom - childViewPosition.top;
+                        MarginLayoutParams preChildLp = null;
+                        int preBottomMargin = 0;
+                        if (child.getLayoutParams() instanceof MarginLayoutParams) {
+                            preBottomMargin = lp.bottomMargin;
+                        }
+                        currentHeight = childViewPosition.bottom + preBottomMargin;
                     }
-                    ChildViewPosition viewPosition = new ChildViewPosition();
-                    viewPosition.left = currentWidth;
-                    viewPosition.top = currentHeight;
-                    viewPosition.right = viewWidth;
-                    viewPosition.bottom = currentHeight + height;
+                    ChildViewPosition viewPosition = getChildViewPosition(currentHeight, currentWidth, width, height, leftMargin, topMargin);
+                    checkChildWidth(viewWidth, child, rightMargin, viewPosition);
                     childViewPositions.add(viewPosition);
-                    currentHeight += height;
-                } else if (currentWidth + width < viewWidth) {
-                    ChildViewPosition viewPosition = new ChildViewPosition();
-                    viewPosition.left = currentWidth;
-                    viewPosition.top = currentHeight;
-                    viewPosition.right = currentWidth + width;
-                    viewPosition.bottom = currentHeight + height;
-                    childViewPositions.add(viewPosition);
-                    currentWidth += width;
+                    currentHeight = viewPosition.bottom + bottomMargin;
                 } else {
-                    currentWidth = 0;
-                    ChildViewPosition childViewPosition = childViewPositions.get(i - 1);
-                    currentHeight += childViewPosition.bottom - childViewPosition.top;
-                    ChildViewPosition viewPosition = new ChildViewPosition();
-                    viewPosition.left = currentWidth;
-                    viewPosition.top = currentHeight;
-                    viewPosition.right = currentWidth + width;
-                    viewPosition.bottom = currentHeight + height;
+                    ChildViewPosition viewPosition = getChildViewPosition(currentHeight, currentWidth, width, height, leftMargin, topMargin);
+                    checkChildWidth(viewWidth, child, rightMargin, viewPosition);
                     childViewPositions.add(viewPosition);
-                    currentHeight += height;
+                    currentWidth = viewPosition.right + rightMargin;
+
+                    if (i == getChildCount() - 1) {
+                        currentHeight = viewPosition.bottom + bottomMargin;
+                    }
                 }
             }
         }
-        ChildViewPosition childViewPosition = childViewPositions.get(childViewPositions.size() - 1);
-        if (childViewPosition.left == 0) {
-            currentHeight += (childViewPosition.bottom-childViewPosition.top);
-        }
-
-
         setMeasuredDimension(viewWidth, currentHeight);
+    }
+
+    private void checkChildWidth(int viewWidth, View child, int rightMargin, ChildViewPosition viewPosition) {
+        if ((viewPosition.right + rightMargin) > viewWidth) {
+            viewPosition.right = viewWidth - rightMargin;
+            child.measure(getMeasureSpec(viewPosition.right - viewPosition.left),
+                    getMeasureSpec(viewPosition.bottom - viewPosition.top));
+        }
+    }
+
+    @NonNull
+    private ChildViewPosition getChildViewPosition(int currentHeight, int currentWidth, int width, int height, int leftMargin, int topMargin) {
+        ChildViewPosition viewPosition = new ChildViewPosition();
+        viewPosition.left = currentWidth + leftMargin;
+        viewPosition.top = currentHeight + topMargin;
+        viewPosition.right = viewPosition.left + width;
+        viewPosition.bottom = viewPosition.top + height;
+        return viewPosition;
+    }
+
+    public static int getMeasureSpec(int specSize) {
+        return MeasureSpec.makeMeasureSpec(specSize, MeasureSpec.EXACTLY);
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         for (int i = 0; i < getChildCount(); i++) {
             final View child = getChildAt(i);
-
             if (child.getVisibility() != GONE) {
                 ChildViewPosition viewPosition = childViewPositions.get(i);
-
                 child.layout(
                         viewPosition.left,
                         viewPosition.top,
