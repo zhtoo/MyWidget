@@ -1,14 +1,13 @@
 package com.zht.samplewidget.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.zht.samplewidget.R;
-import com.zht.samplewidget.myView.chart.LineChartBean;
+import com.zht.samplewidget.myView.chart.LineChartParams;
 import com.zht.samplewidget.myView.chart.LineChartView;
 
 import java.util.ArrayList;
@@ -33,62 +32,94 @@ public class LineChartActivity extends AppCompatActivity {
         lineChartView = findViewById(R.id.lineChartView);
 
 
+        // handler.sendEmptyMessageDelayed(1000 ,2000);
+    }
+//
+//    Handler handler = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//
+//        }
+//    };
 
-        /**
-         * setContentView
-         * initCofig
-         * findViewById
-         * setParams
-         * onMeasure
-         * onMeasure
-         * onDraw
-         */
-        LineChartBean   lineChartBean = new LineChartBean();
-        lineChartBean.setyAxis(new LineChartBean.YAxisBean());
-        lineChartBean.setxAxis(new LineChartBean.XAxisBean());
-        lineChartBean.setSeries(new ArrayList<LineChartBean.SeriesBean>());
+    String[] oneDate = {"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
+    Integer[] oneData1 = {0, 0, 0, 0, 0, 0, 0};
+    Integer[] oneData2 = {0, 0, 0, 0, 0, 0, 0};
+    Integer[] oneData3 = {0, 0, 0, 0, 0, 0, 0};
 
-        LineChartBean.XAxisBean xAxisBean = lineChartBean.getxAxis();
+    public void one(View view) {
+//        for (int i = 0; i < oneDate.length; i++) {
+//            oneData1[i]= (int) (Math.random()*500);
+//            oneData2[i]= (int) (Math.random()*500);
+//            oneData3[i]= (int) (Math.random()*500);
+//        }
+
+        createData(oneDate, oneData1, oneData2, oneData3);
+    }
+
+    String[] twoDate = {
+            "12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07",
+            "12-05", "12-06", "12-07", "12-08", "12-09", "12-06", "12-07",
+            "12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07",
+            "12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07",
+            "12-01", "12-02"};
+    Integer[] twoData1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    Integer[] twoData2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    Integer[] twoData3 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    public void two(View view) {
+//        for (int i = 0; i < twoDate.length; i++) {
+//            twoData1[i]= (int) (Math.random()*500);
+//            twoData2[i]= (int) (Math.random()*500);
+//            twoData3[i]= (int) (Math.random()*500);
+//        }
+
+        createData(twoDate, twoData1, twoData2, twoData3);
+    }
+
+    String[] thirdDate = {"2018-11", "2018-12", "2019-01", "2019-02"};
+    Integer[] thirdData1 = {0, 0, 0, 0};
+    Integer[] thirdData2 = {0, 0, 0, 0};
+    Integer[] thirdData3 = {0, 0, 0, 0};
+
+    public void third(View view) {
+//        for (int i = 0; i < thirdDate.length; i++) {
+//            thirdData1[i]= (int) (Math.random()*500);
+//            thirdData2[i]= (int) (Math.random()*500);
+//            thirdData3[i]= (int) (Math.random()*500);
+//        }
+        createData(thirdDate, thirdData1, thirdData2, thirdData3);
+    }
+
+
+    int[] colors = {0xFFFFB000, 0xFF3379F8, 0xFFFC4A5B};
+
+    private void createData(
+            String[] data, Integer[]... integers
+    ) {
+        LineChartParams lineChartBean = new LineChartParams();
+        lineChartBean.setyAxis(new LineChartParams.YAxisBean());
+        lineChartBean.setxAxis(new LineChartParams.XAxisBean());
+        lineChartBean.setSeries(new ArrayList<LineChartParams.SeriesBean>());
+
+        LineChartParams.XAxisBean xAxisBean = lineChartBean.getxAxis();
         xAxisBean.setDrawColor(0xFF555555);
         xAxisBean.setData(new ArrayList<String>());
         xAxisBean.getData().addAll(Arrays
-                .asList(new String[]{
-                        "周一", "周二", "周三", "周四", "周五", "周六", "周日"
-                }));
+                .asList(data));
 
-        List<LineChartBean.SeriesBean> series = lineChartBean.getSeries();
-        LineChartBean.SeriesBean seriesBean1 = new LineChartBean.SeriesBean();
-        seriesBean1.setDrawColor(0xFFFFB000);
-        seriesBean1.setData(Arrays.asList(new Integer[]{
-                150, 232, 201, 154, 190, 330, 410}));
+        List<LineChartParams.SeriesBean> series = lineChartBean.getSeries();
+        for (int i = 0; i < integers.length; i++) {
+            LineChartParams.SeriesBean seriesBean = new LineChartParams.SeriesBean();
+            seriesBean.setDrawColor(colors[i]);
+            seriesBean.setData(Arrays.asList(integers[i]));
+            series.add(seriesBean);
+        }
 
-        LineChartBean.SeriesBean seriesBean2 = new LineChartBean.SeriesBean();
-        seriesBean2.setDrawColor(0xFF3379F8);
-        seriesBean2.setData(Arrays.asList(new Integer[]{
-                320, 332, 301, 334, 390, 330, 320}));
-
-        LineChartBean.SeriesBean seriesBean3 = new LineChartBean.SeriesBean();
-        seriesBean3.setDrawColor(0xFFFC4A5B);
-        seriesBean3.setData(Arrays.asList(new Integer[]{
-                820, 932, 901, 934, 1290, 1330, 1320}));
-        series.add(seriesBean1);
-        series.add(seriesBean2);
-        series.add(seriesBean3);
-
-        LineChartBean.YAxisBean yAxisBean = lineChartBean.getyAxis();
+        LineChartParams.YAxisBean yAxisBean = lineChartBean.getyAxis();
         yAxisBean.setDrawColor(0xFFCCCCCC);
         lineChartView.setParams(lineChartBean);
-
-       // handler.sendEmptyMessageDelayed(1000 ,2000);
     }
-
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-
-        }
-    };
-
 
 
 }

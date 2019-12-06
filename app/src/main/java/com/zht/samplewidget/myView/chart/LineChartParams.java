@@ -1,11 +1,13 @@
 package com.zht.samplewidget.myView.chart;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
  * Created by ZhangHaitao on 2019/11/19
  */
-public class LineChartBean {
+public class LineChartParams {
 
     private XAxisBean xAxis;
     private YAxisBean yAxis;
@@ -124,6 +126,12 @@ public class LineChartBean {
         public void setData(List<Integer> data) {
             this.data = data;
         }
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
 }

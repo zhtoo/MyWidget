@@ -38,4 +38,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     api(name: 'ASViewpager', ext: 'aar')
+
+    api 'com.google.code.gson:gson:2.7'
 }

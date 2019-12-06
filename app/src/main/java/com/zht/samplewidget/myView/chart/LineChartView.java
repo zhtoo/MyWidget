@@ -1,5 +1,6 @@
 package com.zht.samplewidget.myView.chart;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,11 +13,14 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
+
 
 import com.zht.samplewidget.myView.BaseCustomizeView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -30,7 +34,7 @@ public class LineChartView extends BaseCustomizeView {
     private static final String TAG = "LineChartView";
 
     //折线图数据
-    private LineChartBean params;
+    private LineChartParams params;
 
     //默认Y轴5等分
     private int mEqual = 5;
@@ -47,7 +51,8 @@ public class LineChartView extends BaseCustomizeView {
     private int viewWidth;
     private int viewHeight;
     private Rect drawRange;//绘制范围
-    private int[] monthSamplingPoint = {0, 4, 9, 14, 19, 24};
+    private List<Integer> monthSamplingPoint =
+            Arrays.asList(new Integer[]{0, 4, 9, 14, 19, 24});
 
     private float xAxisRange;//可变
     private float yAxisRange;//可变化的
@@ -154,11 +159,17 @@ public class LineChartView extends BaseCustomizeView {
         }
     }
 
-    public void setParams(LineChartBean lineChartBean) {
-        params = lineChartBean;
+    public void setParams(LineChartParams lineChartBean) {
 
+        if (lineChartAnimator != null) {
+            lineChartAnimator.cancel();
+            lineChartAnimator = null;
+        }
+
+        params = lineChartBean;
+        mXAxisEqual = 0;
         List<Integer> yAxitList = new ArrayList<>();
-        for (LineChartBean.SeriesBean seriesBean : params.getSeries()) {
+        for (LineChartParams.SeriesBean seriesBean : params.getSeries()) {
             yAxitList.addAll(seriesBean.getData());
             mXAxisEqual = Math.max(mXAxisEqual, seriesBean.getData().size());
         }
@@ -177,8 +188,8 @@ public class LineChartView extends BaseCustomizeView {
                 zeroPoint.x + dp2px(6) + getFontWidth(mTextPaint, s) / 2);
         lineChartEndX = (int) (drawRange.right - dp2px(2) - getFontWidth(mTextPaint, s) / 2);
 
-        mAnimatorTarget = zeroPoint.x;
-        needAnimation = true;
+
+        needAnimation = false;
 
         invalidate();
     }
@@ -191,22 +202,14 @@ public class LineChartView extends BaseCustomizeView {
             }
         });
         int maxValue = yAxitList.get(yAxitList.size() - 1);
-        if (maxValue < 10) {
-            maxValue = 10;
-        } else {
-            int digits = 0;
-            while (maxValue >= 100) {
-                maxValue = maxValue / 10;
-                digits++;
-            }
-            if (maxValue % 5 != 0) {
-                maxValue = (maxValue / 5 + 1) * 5;
-            }
-            if (digits != 0) {
-                maxValue = (int) (maxValue * Math.pow(10, digits));
-            }
+
+        if (maxValue == 0) {
+            return 50;
+        } else if (maxValue % 50 == 0) {
+            return maxValue;
         }
-        return maxValue;
+        int multiple = maxValue / 50;
+        return (multiple + 1) * 50;
     }
 
     @Override
@@ -227,27 +230,38 @@ public class LineChartView extends BaseCustomizeView {
     }
 
     private void drawSimulationAnimator(Canvas canvas) {
-        startAnimator();
-
+        if (lineChartAnimator == null) {
+            //开启动画
+            startAnimator();
+        }
+        //计算y轴  高度/单位
         double unit = (zeroPoint.y - drawRange.top - mLeaveBlank) / (double) yMaxValue;
         if (params == null || params.getSeries() == null || params.getSeries().size() == 0) {
             return;
         }
-        if (mXAxisEqual == 0 || mXAxisEqual == 1) {//单个数据不绘画
+        //单个数据不绘画
+        if (mXAxisEqual == 0 || mXAxisEqual == 1) {
             return;
         }
-
+        //计算x轴 间隔
         double mSpacing = (lineChartEndX - lineChartStartX) / (mXAxisEqual - 1);
 
-        for (LineChartBean.SeriesBean series : params.getSeries()) {
+        //循环绘制 数据
+        for (LineChartParams.SeriesBean series : params.getSeries()) {
             lineChartPaint.setColor(series.getDrawColor());
             Path path = new Path();
 
+            //计算当前绘制的位置
             int position = (int) ((mAnimatorTarget - lineChartStartX) / mSpacing);
+
             double remainder = ((mAnimatorTarget - lineChartStartX)) % mSpacing;
 
+            //position最大值为最长数据的长度
+            //在此限制
             if (position <= series.getData().size()) {
-                for (int i = 0; i <= position; i++) {
+
+                //绘制position之前的点
+                for (int i = 0; i < position; i++) {
                     if (i == 0) {
                         path.moveTo((float) (lineChartStartX + i * mSpacing),
                                 (float) (zeroPoint.y - unit * series.getData().get(i)));
@@ -261,7 +275,8 @@ public class LineChartView extends BaseCustomizeView {
                     path.moveTo((float) (lineChartStartX),
                             (float) (zeroPoint.y - unit * series.getData().get(0)));
                 }
-                if (mAnimatorTarget % mSpacing != 0) {
+                //绘制position之后的点
+                if (remainder != 0) {
                     if (position + 1 < series.getData().size()) {
                         int startPoint = (int) (unit * series.getData().get(position));
                         int endPoint = (int) (unit * series.getData().get(position + 1));
@@ -279,19 +294,44 @@ public class LineChartView extends BaseCustomizeView {
     }
 
     private void startAnimator() {
-        if (lineChartAnimator == null) {
-            lineChartAnimator = ValueAnimator.ofInt(lineChartStartX, lineChartEndX);
-            lineChartAnimator.setDuration(500);
-            lineChartAnimator.setTarget(lineChartEndX);
-            lineChartAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mAnimatorTarget = (int) animation.getAnimatedValue();
-                    invalidate();
-                }
-            });
-            lineChartAnimator.start();
-        }
+
+        lineChartAnimator = ValueAnimator.ofInt(lineChartStartX, lineChartEndX);
+        lineChartAnimator.setDuration(500);
+        lineChartAnimator.setTarget(lineChartEndX);
+        lineChartAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                mAnimatorTarget = (int) animation.getAnimatedValue();
+                Log.e(TAG, "onAnimationUpdate: " + mAnimatorTarget);
+                invalidate();
+            }
+        });
+        lineChartAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                lineChartAnimator = null;
+                needAnimation = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        lineChartAnimator.start();
+
     }
 
     private void drawLineCharts(Canvas canvas) {
@@ -305,7 +345,7 @@ public class LineChartView extends BaseCustomizeView {
 
         double mSpacing = (lineChartEndX - lineChartStartX) / (mXAxisEqual - 1);
 
-        for (LineChartBean.SeriesBean series : params.getSeries()) {
+        for (LineChartParams.SeriesBean series : params.getSeries()) {
             lineChartPaint.setColor(series.getDrawColor());
             Path path = new Path();
             for (int i = 0; i < series.getData().size(); i++) {
@@ -333,6 +373,7 @@ public class LineChartView extends BaseCustomizeView {
                 mDate[7 - i - 1] = sdf.format(date);
             }
             double mSpacing = (lineChartEndX - lineChartStartX) / (mDate.length - 1);
+            mTextPaint.setColor(0xFFCCCCCC);
             //绘制日期
             for (int i = 0; i < mDate.length; i++) {
                 canvas.drawText(mDate[i],
@@ -344,14 +385,28 @@ public class LineChartView extends BaseCustomizeView {
             int drawColor = params.getxAxis().getDrawColor();
             List<String> data = params.getxAxis().getData();
             double mSpacing = (lineChartEndX - lineChartStartX) / (data.size() - 1);
-            //绘制日期
             mTextPaint.setColor(drawColor);
-            for (int i = 0; i < data.size(); i++) {
-                canvas.drawText(data.get(i),
-                        (float) (lineChartStartX + i * mSpacing - getFontWidth(mTextPaint, data.get(i)) / 2),
-                        zeroPoint.y + xAxisRange / 2 + getFontBaseLine(mTextPaint),
-                        mTextPaint);
+            //绘制日期
+
+            if (data.size() > 26) {
+                for (int i = 0; i < data.size(); i++) {
+                    if (monthSamplingPoint.contains(i)
+                            || (i + 1) == data.size()) {
+                        canvas.drawText(data.get(i),
+                                (float) (lineChartStartX + i * mSpacing - getFontWidth(mTextPaint, data.get(i)) / 2),
+                                zeroPoint.y + xAxisRange / 2 + getFontBaseLine(mTextPaint),
+                                mTextPaint);
+                    }
+                }
+            } else {
+                for (int i = 0; i < data.size(); i++) {
+                    canvas.drawText(data.get(i),
+                            (float) (lineChartStartX + i * mSpacing - getFontWidth(mTextPaint, data.get(i)) / 2),
+                            zeroPoint.y + xAxisRange / 2 + getFontBaseLine(mTextPaint),
+                            mTextPaint);
+                }
             }
+
 
         }
     }
@@ -365,6 +420,8 @@ public class LineChartView extends BaseCustomizeView {
         if (params != null) {
             int drawColor = params.getyAxis().getDrawColor();
             mTextPaint.setColor(drawColor);
+        } else {
+            mTextPaint.setColor(0xFFCCCCCC);
         }
         double mSpacing = (zeroPoint.y - drawRange.top - mLeaveBlank) / mEqual;
         double mTickMarkHeight = drawRange.top + mLeaveBlank;

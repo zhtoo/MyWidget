@@ -2,19 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#f6f6f6"
     android:gravity="center"
-    android:background="#f6f6f6">
+    android:orientation="vertical">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:onClick="one"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="7天" />
+
+        <TextView
+            android:onClick="two"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="30天" />
+
+        <TextView
+            android:onClick="third"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="3个月" />
+
+
+    </LinearLayout>
 
     <com.zht.samplewidget.myView.chart.LineChartView
         android:id="@+id/lineChartView"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="#FFF"
-        android:padding="0dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp" />
-
+        android:background="#FFF"
+        android:padding="0dp" />
 
 
 </LinearLayout>
