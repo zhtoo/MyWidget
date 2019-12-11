@@ -4,17 +4,19 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
-
+import android.view.MotionEvent;
 
 import com.zht.samplewidget.myView.BaseCustomizeView;
 
@@ -63,7 +65,16 @@ public class LineChartView extends BaseCustomizeView {
 
     private int mAnimatorTarget;
     private boolean needAnimation;
+    private boolean showRemind;
     private ValueAnimator lineChartAnimator;
+    private double mSpacing;
+    private double unit;
+    private RectF remindRect;
+    private TextPaint remindTextPaint;
+    private Paint remindPaint;
+    private float remindWidth;
+    private float remindHeight;
+
 
     @Override
     public int getDefaultWidth() {
@@ -116,7 +127,7 @@ public class LineChartView extends BaseCustomizeView {
         //画折线画笔
         lineChartPaint = new Paint();
         lineChartPaint.setAntiAlias(true);//防锯齿
-        xy_axisPaint.setFilterBitmap(true);
+        lineChartPaint.setFilterBitmap(true);
         lineChartPaint.setStyle(Paint.Style.STROKE);
         lineChartPaint.setStrokeWidth(2);//2个像素点
         lineChartPaint.setStrokeJoin(Paint.Join.BEVEL);//直线
@@ -132,6 +143,20 @@ public class LineChartView extends BaseCustomizeView {
         //绘制虚线效果  //DottedLine 虚线
         PathEffect effects = new DashPathEffect(new float[]{1, 2, 4, 8}, 1);
         tickMarkPaint.setPathEffect(effects);
+
+        //画圆角矩形
+        remindPaint = new Paint();
+        remindPaint.setAntiAlias(true);//防止边缘的锯齿，
+        remindPaint.setFilterBitmap(true);//对位图进行滤波处理
+        remindPaint.setStrokeWidth(2);//2个像素点
+        remindPaint.setColor(0x88000000);
+        remindPaint.setStyle(Paint.Style.FILL);//描边
+        remindPaint.setStrokeCap(Paint.Cap.ROUND);// 圆形线帽
+
+        remindTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        remindTextPaint.density = getContext().getResources().getDisplayMetrics().density;
+        remindTextPaint.setTextSize(sp2px(12));
+        remindTextPaint.setColor(0xFFFFFFFF);
     }
 
     @Override
@@ -153,68 +178,14 @@ public class LineChartView extends BaseCustomizeView {
             zeroPoint.y = (int) (drawRange.bottom - xAxisRange);
 
             lineChartStartX = (int) (
-                    zeroPoint.x + dp2px(6) + getFontWidth(mTextPaint, "00.00") / 2);
+                    zeroPoint.x + dp2px(6) +
+                            getFontWidth(mTextPaint, "00.00") / 2);
             lineChartEndX = (int) (drawRange.right - dp2px(2) - getFontWidth(mTextPaint, "00.00") / 2);
-
         }
-    }
-
-    public void setParams(LineChartParams lineChartBean) {
-
-        if (lineChartAnimator != null) {
-            lineChartAnimator.cancel();
-            lineChartAnimator = null;
-        }
-
-        params = lineChartBean;
-        mXAxisEqual = 0;
-        List<Integer> yAxitList = new ArrayList<>();
-        for (LineChartParams.SeriesBean seriesBean : params.getSeries()) {
-            yAxitList.addAll(seriesBean.getData());
-            mXAxisEqual = Math.max(mXAxisEqual, seriesBean.getData().size());
-        }
-        yMaxValue = getMaxValue(yAxitList);
-
-        xAxisRange = getFontHeight(mTextPaint) + dp2px(4);
-        yAxisRange = getFontWidth(mTextPaint, String.valueOf(yMaxValue))
-                + dp2px(2);
-
-        zeroPoint.x = (int) (drawRange.left + yAxisRange);
-        zeroPoint.y = (int) (drawRange.bottom - xAxisRange);
-
-        String s = params.getxAxis().getData().get(0);
-
-        lineChartStartX = (int) (
-                zeroPoint.x + dp2px(6) + getFontWidth(mTextPaint, s) / 2);
-        lineChartEndX = (int) (drawRange.right - dp2px(2) - getFontWidth(mTextPaint, s) / 2);
-
-
-        needAnimation = false;
-
-        invalidate();
-    }
-
-    private static int getMaxValue(List<Integer> yAxitList) {
-        Collections.sort(yAxitList, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
-            }
-        });
-        int maxValue = yAxitList.get(yAxitList.size() - 1);
-
-        if (maxValue == 0) {
-            return 50;
-        } else if (maxValue % 50 == 0) {
-            return maxValue;
-        }
-        int multiple = maxValue / 50;
-        return (multiple + 1) * 50;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        Log.e(TAG, "onDraw");
         super.onDraw(canvas);
         drawYAxis(canvas);//绘制Y轴
         drawXAxis(canvas);//绘制X轴
@@ -227,6 +198,10 @@ public class LineChartView extends BaseCustomizeView {
         } else {
             drawLineCharts(canvas);//绘制折线
         }
+        //绘制点击后的提示区域
+        if (showRemind) {
+            drawRemind(canvas);
+        }
     }
 
     private void drawSimulationAnimator(Canvas canvas) {
@@ -234,8 +209,6 @@ public class LineChartView extends BaseCustomizeView {
             //开启动画
             startAnimator();
         }
-        //计算y轴  高度/单位
-        double unit = (zeroPoint.y - drawRange.top - mLeaveBlank) / (double) yMaxValue;
         if (params == null || params.getSeries() == null || params.getSeries().size() == 0) {
             return;
         }
@@ -243,12 +216,10 @@ public class LineChartView extends BaseCustomizeView {
         if (mXAxisEqual == 0 || mXAxisEqual == 1) {
             return;
         }
-        //计算x轴 间隔
-        double mSpacing = (lineChartEndX - lineChartStartX) / (mXAxisEqual - 1);
-
         //循环绘制 数据
         for (LineChartParams.SeriesBean series : params.getSeries()) {
             lineChartPaint.setColor(series.getDrawColor());
+            List<Point> drawPoint = series.getDrawPoint();
             Path path = new Path();
 
             //计算当前绘制的位置
@@ -263,11 +234,11 @@ public class LineChartView extends BaseCustomizeView {
                 //绘制position之前的点
                 for (int i = 0; i < position; i++) {
                     if (i == 0) {
-                        path.moveTo((float) (lineChartStartX + i * mSpacing),
-                                (float) (zeroPoint.y - unit * series.getData().get(i)));
+                        path.moveTo(drawPoint.get(i).x,
+                                drawPoint.get(i).y);
                     } else {
-                        path.lineTo((float) (lineChartStartX + i * mSpacing),
-                                (float) (zeroPoint.y - unit * series.getData().get(i)));
+                        path.lineTo(drawPoint.get(i).x,
+                                drawPoint.get(i).y);
                     }
                 }
 
@@ -335,26 +306,23 @@ public class LineChartView extends BaseCustomizeView {
     }
 
     private void drawLineCharts(Canvas canvas) {
-        double unit = (zeroPoint.y - drawRange.top - mLeaveBlank) / (double) yMaxValue;
         if (params == null || params.getSeries() == null || params.getSeries().size() == 0) {
             return;
         }
         if (mXAxisEqual == 0 || mXAxisEqual == 1) {//单个数据不绘画
             return;
         }
-
-        double mSpacing = (lineChartEndX - lineChartStartX) / (mXAxisEqual - 1);
-
         for (LineChartParams.SeriesBean series : params.getSeries()) {
             lineChartPaint.setColor(series.getDrawColor());
+            List<Point> drawPoint = series.getDrawPoint();
             Path path = new Path();
             for (int i = 0; i < series.getData().size(); i++) {
                 if (i == 0) {
-                    path.moveTo((float) (lineChartStartX + i * mSpacing),
-                            (float) (zeroPoint.y - unit * series.getData().get(i)));
+                    path.moveTo(drawPoint.get(i).x,
+                            drawPoint.get(i).y);
                 } else {
-                    path.lineTo((float) (lineChartStartX + i * mSpacing),
-                            (float) (zeroPoint.y - unit * series.getData().get(i)));
+                    path.lineTo(drawPoint.get(i).x,
+                            drawPoint.get(i).y);
                 }
             }
             canvas.drawPath(path, lineChartPaint);
@@ -384,38 +352,28 @@ public class LineChartView extends BaseCustomizeView {
         } else {
             int drawColor = params.getxAxis().getDrawColor();
             List<String> data = params.getxAxis().getData();
-            double mSpacing = (lineChartEndX - lineChartStartX) / (data.size() - 1);
+            List<Point> drawPoint = params.getxAxis().getDrawPoint();
             mTextPaint.setColor(drawColor);
             //绘制日期
-
             if (data.size() > 26) {
                 for (int i = 0; i < data.size(); i++) {
                     if (monthSamplingPoint.contains(i)
                             || (i + 1) == data.size()) {
-                        canvas.drawText(data.get(i),
-                                (float) (lineChartStartX + i * mSpacing - getFontWidth(mTextPaint, data.get(i)) / 2),
-                                zeroPoint.y + xAxisRange / 2 + getFontBaseLine(mTextPaint),
+                        canvas.drawText(data.get(i), drawPoint.get(i).x, drawPoint.get(i).y,
                                 mTextPaint);
                     }
                 }
             } else {
                 for (int i = 0; i < data.size(); i++) {
                     canvas.drawText(data.get(i),
-                            (float) (lineChartStartX + i * mSpacing - getFontWidth(mTextPaint, data.get(i)) / 2),
-                            zeroPoint.y + xAxisRange / 2 + getFontBaseLine(mTextPaint),
+                            drawPoint.get(i).x,
+                            drawPoint.get(i).y,
                             mTextPaint);
                 }
             }
-
-
         }
     }
 
-    /**
-     * 绘制Y轴刻度线
-     *
-     * @param canvas
-     */
     private void drawYAxisTickMark(Canvas canvas) {
         if (params != null) {
             int drawColor = params.getyAxis().getDrawColor();
@@ -462,6 +420,257 @@ public class LineChartView extends BaseCustomizeView {
         canvas.drawLine(zeroPoint.x, zeroPoint.y,
                 drawRange.right, zeroPoint.y,
                 xy_axisPaint);
+    }
+
+
+    private void drawRemind(Canvas canvas) {
+        if (remindRect == null) {
+            return;
+        }
+        //画圆角矩形
+        remindPaint = new Paint();
+        remindPaint.setAntiAlias(true);//防止边缘的锯齿，
+        remindPaint.setFilterBitmap(true);//对位图进行滤波处理
+        remindPaint.setStrokeWidth(2);//2个像素点
+        remindPaint.setColor(0x88000000);
+        remindPaint.setStyle(Paint.Style.FILL);//描边
+        remindPaint.setStrokeCap(Paint.Cap.ROUND);// 圆形线帽
+
+        remindTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        remindTextPaint.density = getContext().getResources().getDisplayMetrics().density;
+        remindTextPaint.setTextSize(sp2px(12));
+        remindTextPaint.setColor(0xFFFFFFFF);
+
+        //第二个参数是x半径，第三个参数是y半径
+        canvas.drawRoundRect(remindRect, 10, 10, remindPaint);
+
+        Point point = params.getxAxis().getDrawPoint().get(remindPosition);
+        String s = params.getxAxis().getData().get(remindPosition);
+        canvas.drawLine(point.x + getFontWidth(mTextPaint, s) / 2, drawRange.top,
+                point.x + getFontWidth(mTextPaint, s) / 2, zeroPoint.y,
+                xy_axisPaint);
+
+        if (remindPosition > -1 && remindPosition < params.getxAxis().getData().size()) {
+            canvas.drawText(params.getxAxis().getData().get(remindPosition),
+                    remindRect.left + dp2px(5),
+                    remindRect.top + dp2px(5) +
+                            getFontHeight(remindTextPaint) / 2 +
+                            getFontBaseLine(remindTextPaint),
+                    remindTextPaint);
+        }
+
+        float tempHeight = remindRect.top +
+                getFontHeight(remindTextPaint) + dp2px(5F);
+
+        for (LineChartParams.SeriesBean series : params.getSeries()) {
+            String name = series.getName();
+            name += ":" + series.getData().get(remindPosition);
+            remindPaint.setColor(series.getDrawColor());
+            canvas.drawCircle(remindRect.left + dp2px(5) + dp2px(4.5F),
+                    tempHeight + dp2px(5) +
+                            getFontHeight(remindTextPaint) / 2,
+                    dp2px(4.5F), remindPaint);
+            canvas.drawText(name,
+                    remindRect.left + dp2px(5) + dp2px(11),
+                    tempHeight + dp2px(5) +
+                            getFontHeight(remindTextPaint) / 2 +
+                            getFontBaseLine(remindTextPaint),
+                    remindTextPaint);
+            tempHeight += getFontHeight(remindTextPaint) + dp2px(5F);
+
+
+            Point seriesPoint = series.getDrawPoint().get(remindPosition);
+            canvas.drawCircle(seriesPoint.x, seriesPoint.y, dp2px(3F),
+                    remindPaint);
+            remindPaint.setColor(0xFFFFFFFF);
+            canvas.drawCircle(seriesPoint.x, seriesPoint.y, dp2px(2F),
+                    remindPaint);
+        }
+    }
+
+    private int remindPosition = 0;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        final float x = event.getX();
+        final float y = event.getY();
+        if (x < zeroPoint.x || x > drawRange.right ||
+                y < drawRange.top || y > zeroPoint.y) {
+            if (showRemind == true) {
+                showRemind = false;
+                remindPosition = 0;
+                invalidate();
+            }
+            return super.onTouchEvent(event);
+        }
+        if (remindRect == null) {
+            return super.onTouchEvent(event);
+        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+                getTouchPosition(x);
+                int remindX = (int) (lineChartStartX + remindPosition * mSpacing);
+                if ((remindX - remindWidth - dp2px(20)) > 0) {
+                    remindRect.left = remindX - remindWidth - dp2px(20);
+                } else {
+                    remindRect.left = remindX + dp2px(20);
+                }
+                if ((y - remindHeight - dp2px(20)) > 0) {
+                    remindRect.top = y - remindHeight - dp2px(20);
+                } else {
+                    remindRect.top = y + dp2px(20);
+                }
+                //边界值处理，防止提示框超出绘制范围
+                if (remindRect.left < drawRange.left) {
+                    remindRect.left = drawRange.left;
+                }
+                if ((remindRect.left + remindWidth) > drawRange.right) {
+                    remindRect.left = drawRange.right - remindWidth;
+                }
+                if ((remindRect.top + remindHeight) > drawRange.bottom) {
+                    remindRect.top = drawRange.bottom - remindHeight;
+                }
+                if (remindRect.top < drawRange.top) {
+                    remindRect.top = drawRange.top;
+                }
+                if ((remindRect.top + remindHeight) > drawRange.bottom) {
+                    remindRect.top = drawRange.bottom - remindHeight;
+                }
+                remindRect.right = remindRect.left + remindWidth;
+                remindRect.bottom = remindRect.top + remindHeight;
+                showRemind = true;
+                invalidate();
+                break;
+        }
+        return true;
+
+    }
+
+    private void getTouchPosition(float x) {
+        int position = (int) ((x - lineChartStartX) / mSpacing);
+        double index = (x - lineChartStartX) % mSpacing;
+        if (index > (mSpacing / 2)) {
+            position++;
+        }
+
+        if (position >= params.getxAxis().getData().size()) {
+            position = params.getxAxis().getData().size() - 1;
+        }
+
+        remindPosition = position;
+    }
+
+
+    public void setParams(LineChartParams lineChartBean) {
+        if (lineChartAnimator != null) {
+            lineChartAnimator.cancel();
+            lineChartAnimator = null;
+        }
+
+        params = lineChartBean;
+        mXAxisEqual = 0;
+        List<Integer> yAxitList = new ArrayList<>();
+        for (LineChartParams.SeriesBean seriesBean : params.getSeries()) {
+            yAxitList.addAll(seriesBean.getData());
+            mXAxisEqual = Math.max(mXAxisEqual, seriesBean.getData().size());
+        }
+        yMaxValue = getMaxValue(yAxitList);
+
+        xAxisRange = getFontHeight(mTextPaint) + dp2px(4);
+        yAxisRange = getFontWidth(mTextPaint, String.valueOf(yMaxValue))
+                + dp2px(2);
+
+        zeroPoint.x = (int) (drawRange.left + yAxisRange);
+        zeroPoint.y = (int) (drawRange.bottom - xAxisRange);
+
+        List<String> data = params.getxAxis().getData();
+        String startStr;
+        String endStr;
+        if (data != null && data.size() > 0) {
+            startStr = data.get(0);
+            endStr = data.get(data.size() - 1);
+        } else {
+            throw new IllegalArgumentException("The date list can't be null");
+        }
+        lineChartStartX = (int) (
+                zeroPoint.x + dp2px(6) + getFontWidth(mTextPaint, startStr) / 2);
+        lineChartEndX = (int) (drawRange.right - dp2px(2) -
+                getFontWidth(mTextPaint, endStr) / 2);
+
+        needAnimation = false;
+
+        //计算x轴 间隔
+        mSpacing = 0;
+        if (mXAxisEqual > 1) {
+            mSpacing = (lineChartEndX - lineChartStartX) / (mXAxisEqual - 1);
+        }
+        LineChartParams.XAxisBean xAxisBean = params.getxAxis();
+        xAxisBean.setDrawPoint(new ArrayList<Point>());
+        int xAxisTextHeight = (int) (zeroPoint.y + xAxisRange / 2 + getFontBaseLine(mTextPaint));
+        for (int i = 0; i < data.size(); i++) {
+            Point point = new Point();
+            point.x = (int) (lineChartStartX + i * mSpacing
+                    - getFontWidth(mTextPaint, data.get(i)) / 2);
+            point.y = xAxisTextHeight;
+            xAxisBean.getDrawPoint().add(point);
+        }
+
+        //计算y轴高度/单位
+        unit = 0;
+        if (yMaxValue > 0) {
+            unit = (zeroPoint.y - drawRange.top - mLeaveBlank) / (double) yMaxValue;
+        }
+        for (LineChartParams.SeriesBean series : params.getSeries()) {
+            series.setDrawPoint(new ArrayList<Point>());
+            for (int i = 0; i < series.getData().size(); i++) {
+                Point point = new Point();
+                point.x = (int) (lineChartStartX + i * mSpacing);
+                point.y = (int) (zeroPoint.y - unit * series.getData().get(i));
+                series.getDrawPoint().add(point);
+            }
+        }
+
+        showRemind = false;
+        remindRect = new RectF();
+        remindWidth = 0;
+        remindHeight = getFontHeight(remindTextPaint) + dp2px(5F);
+
+        for (String datum : params.getxAxis().getData()) {
+            remindWidth = Math.max(remindWidth, getFontWidth(remindTextPaint, datum + ":" + yMaxValue));
+        }
+        for (LineChartParams.SeriesBean series : params.getSeries()) {
+            remindWidth = Math.max(remindWidth,
+                    getFontWidth(remindTextPaint, series.getName() + ":" + yMaxValue));
+        }
+        remindWidth += dp2px(19F);
+
+        for (int i = 0; i < params.getSeries().size(); i++) {
+            remindHeight += getFontHeight(remindTextPaint) + dp2px(5F);
+        }
+        remindHeight += dp2px(5F);
+
+        invalidate();
+    }
+
+
+    private static int getMaxValue(List<Integer> yAxitList) {
+        Collections.sort(yAxitList, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+        int maxValue = yAxitList.get(yAxitList.size() - 1);
+
+        if (maxValue == 0) {
+            return 50;
+        } else if (maxValue % 50 == 0) {
+            return maxValue;
+        }
+        int multiple = maxValue / 50;
+        return (multiple + 1) * 50;
     }
 
 

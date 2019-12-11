@@ -1,6 +1,6 @@
 package com.zht.samplewidget.myView.chart;
 
-import com.google.gson.Gson;
+import android.graphics.Point;
 
 import java.util.List;
 
@@ -39,9 +39,19 @@ public class LineChartParams {
 
     public static class XAxisBean {
 
-        private  int drawColor;
+        private int drawColor;
         private String unit;
         private List<String> data;
+        private List<Point> drawPoint;
+        private Point remindPoint;
+
+        public Point getRemindPoint() {
+            return remindPoint;
+        }
+
+        public void setRemindPoint(Point remindPoint) {
+            this.remindPoint = remindPoint;
+        }
 
         public int getDrawColor() {
             return drawColor;
@@ -66,10 +76,18 @@ public class LineChartParams {
         public void setData(List<String> data) {
             this.data = data;
         }
+
+        public List<Point> getDrawPoint() {
+            return drawPoint;
+        }
+
+        public void setDrawPoint(List<Point> drawPoint) {
+            this.drawPoint = drawPoint;
+        }
     }
 
     public static class YAxisBean {
-        private  int drawColor;
+        private int drawColor;
         private String unit;
         private List<Integer> data;
 
@@ -100,8 +118,10 @@ public class LineChartParams {
 
     public static class SeriesBean {
         private String name;
-        private  int drawColor;
+        private int drawColor;
+        private Point remindPoint;
         private List<Integer> data;
+        private List<Point> drawPoint;
 
         public String getName() {
             return name;
@@ -126,12 +146,22 @@ public class LineChartParams {
         public void setData(List<Integer> data) {
             this.data = data;
         }
-    }
 
-    @Override
-    public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
+        public List<Point> getDrawPoint() {
+            return drawPoint;
+        }
+
+        public void setDrawPoint(List<Point> drawPoint) {
+            this.drawPoint = drawPoint;
+        }
+
+        public Point getRemindPoint() {
+            return remindPoint;
+        }
+
+        public void setRemindPoint(Point remindPoint) {
+            this.remindPoint = remindPoint;
+        }
     }
 
 }
