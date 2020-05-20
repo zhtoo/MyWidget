@@ -288,7 +288,8 @@ public class DownloadView extends View {
                 center, arrowCoordinate, mPaint);
         //当箭头的坐标达到绘制小球的位置时，绘制小球
         if (arrowCoordinate <= (center + mCircleWidth)) {
-            canvas.drawCircle(center, center - mCircleWidth, mCircleWidth / 2, mLaunchBallPaint);
+            canvas.drawCircle(center, center - mCircleWidth,
+                    mCircleWidth / 2, mLaunchBallPaint);
         }
     }
 

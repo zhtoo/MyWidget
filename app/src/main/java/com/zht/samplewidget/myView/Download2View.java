@@ -305,7 +305,9 @@ public class Download2View extends View {
 
                 mAnimatorValue = (float) animation.getAnimatedValue();
                 if (mAnimatorValue == endValue) {
-                    progressAnimator.cancel();
+                    if(progressAnimator!=null){
+                        progressAnimator.cancel();
+                    }
                 }
             }
         });
