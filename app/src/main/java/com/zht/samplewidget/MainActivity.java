@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
 import com.zht.samplewidget.PieChart.activity.PielineChartActivity;
 import com.zht.samplewidget.RecyclerView.RecyclerViewActivity;
@@ -19,6 +20,7 @@ import com.zht.samplewidget.activity.ProgressActivity;
 import com.zht.samplewidget.activity.ViewPagerActivity;
 import com.zht.samplewidget.activity.HstogramActivity;
 import com.zht.samplewidget.activity.MakeViewPictrue;
+import com.zht.samplewidget.demo.imageView.ImageViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
     }
 
     private void initData() {
+        list.add("自定义ImageView");
+        activitys.add(ImageViewActivity.class);
         list.add("自己练习的demo");
         activitys.add(DemoActivity.class);
         list.add("下载动画View");

@@ -32,6 +32,7 @@
         <activity android:name=".activity.DropDownActivity" />
         <activity android:name=".activity.LineChartActivity" />
         <activity android:name=".activity.AutoLayoutActivity" />
+        <activity android:name=".demo.imageView.ImageViewActivity" />
 
 
     </application>

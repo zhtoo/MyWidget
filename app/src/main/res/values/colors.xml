@@ -10,9 +10,6 @@
 
     <color name="white">#FFFFFF</color>
 
-
-
-
     <color name="drop_down_selected">#7B1FA2</color>
     <color name="drop_down_unselected">#111111</color>
     <color name="hint_gray">#ffe6e6e6</color>

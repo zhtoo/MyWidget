@@ -24,7 +24,9 @@ import com.zht.samplewidget.R;
 
 import java.util.ArrayList;
 
-public class PielineChartActivity extends AppCompatActivity implements OnSeekBarChangeListener,
+public class PielineChartActivity
+        extends AppCompatActivity
+        implements OnSeekBarChangeListener,
         OnChartValueSelectedListener {
 
     protected final String[] parties = new String[] {

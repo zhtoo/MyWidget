@@ -25,10 +25,12 @@
     </declare-styleable>
 
     <declare-styleable name="RoundImageView">
-        <attr name="riv_border_width" format="dimension"/>
-        <attr name="riv_border_color" format="color"/>
-        <attr name="riv_border_overlay" format="boolean"/>
-        <attr name="riv_fill_color" format="color"/>
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+        <attr name="riv_border_overlay" format="boolean" />
+        <attr name="riv_fill_color" format="color" />
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_use_special_border" format="boolean" />
     </declare-styleable>
 
 

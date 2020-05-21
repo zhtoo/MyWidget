@@ -1,4 +1,4 @@
-package com.zht.samplewidget.activity.demo;
+package com.zht.samplewidget.activity.test;
 
 import android.os.Bundle;
 import android.os.Handler;

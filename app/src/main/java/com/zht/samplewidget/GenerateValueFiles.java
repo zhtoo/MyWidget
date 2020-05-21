@@ -1,4 +1,4 @@
-package com.zht;
+package com.zht.samplewidget;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +9,9 @@ import java.io.PrintWriter;
  * 作者：zhanghaitao on 2017/8/18 17:39
  * 邮箱：820159571@qq.com
  * 自动生成屏幕适配的XML文件
+ * 这种方案已经废弃
  */
-
+@Deprecated
 public class GenerateValueFiles {
 
     private int baseW;
