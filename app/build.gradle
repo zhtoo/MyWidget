@@ -5,7 +5,7 @@ android {
     
     defaultConfig {
         applicationId "com.hs.samplewidget"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -37,7 +37,6 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-    api(name: 'ASViewpager', ext: 'aar')
-
     api 'com.google.code.gson:gson:2.7'
+    implementation project(path: ':cardview')
 }

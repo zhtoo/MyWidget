@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zht.cardview.CustomCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="5dp"
+        android:layout_margin="10dp"
+        app:shadowEndColor="#03e62f31"
+        app:shadowStartColor="#33e62f31">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="你好！"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="20sp" />
+
+    </com.zht.cardview.CustomCardView>
+
+</LinearLayout>

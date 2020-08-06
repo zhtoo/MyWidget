@@ -6,7 +6,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,7 +60,6 @@
             app:riv_corner_radius="50dp"
             app:riv_fill_color="@android:color/holo_blue_dark" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +92,6 @@
             app:riv_fill_color="@android:color/holo_blue_dark"
             app:riv_use_special_border="true" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -116,8 +113,6 @@
             android:layout_height="100dp"
             android:background="@drawable/bg_round_rect_stroke_50"
             android:src="@mipmap/default_avatar" />
-
     </LinearLayout>
-
 
 </LinearLayout>

@@ -1,1 +1,1 @@
-include ':app', ':expandablelistview', ':tablayoutdemo', ':dimen'
+include ':app', ':expandablelistview', ':tablayoutdemo', ':dimen', ':cardview'

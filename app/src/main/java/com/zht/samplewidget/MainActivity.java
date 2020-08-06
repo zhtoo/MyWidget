@@ -7,10 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
+import com.zht.cardview.CustomCardView;
 import com.zht.samplewidget.PieChart.activity.PielineChartActivity;
 import com.zht.samplewidget.RecyclerView.RecyclerViewActivity;
 import com.zht.samplewidget.activity.AutoLayoutActivity;
 import com.zht.samplewidget.activity.CheckViewActivity;
+import com.zht.samplewidget.activity.CustomCardViewAvtivity;
 import com.zht.samplewidget.activity.DemoActivity;
 import com.zht.samplewidget.activity.DownloadAvtivity;
 import com.zht.samplewidget.activity.DropDownActivity;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.onItemC
     private void initData() {
         list.add("自定义ImageView");
         activitys.add(ImageViewActivity.class);
+        list.add("自定义CardView");
+        activitys.add(CustomCardViewAvtivity.class);
         list.add("自己练习的demo");
         activitys.add(DemoActivity.class);
         list.add("下载动画View");
